@@ -16,8 +16,8 @@ namespace Hospital_Web.Models
         public string Especialidade { get; set; }
 
         // Navigation properties
-        public virtual Funcionario Funcionario { get; set; }
-        public virtual ICollection<Consulta> Consultas { get; set; }
-        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
+        public virtual Funcionario? Funcionario { get; set; }
+        public virtual ICollection<Consulta>? Consultas { get; set; }
+        public virtual ICollection<RegistoClinico>? RegistosClinicos { get; set; }
     }
 }

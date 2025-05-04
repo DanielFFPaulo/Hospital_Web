@@ -42,8 +42,8 @@ namespace Hospital_Web.Models
         public string NIF { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Consulta> Consultas { get; set; }
-        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
-        public virtual ICollection<UtenteQuarto> UtentesQuartos { get; set; }
+        public virtual ICollection<Consulta>? Consultas { get; set; }
+        public virtual ICollection<RegistoClinico>? RegistosClinicos { get; set; }
+        public virtual ICollection<UtenteQuarto>? UtentesQuartos { get; set; }
     }
 }

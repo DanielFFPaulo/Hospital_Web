@@ -1,17 +1,17 @@
 ﻿using Hospital_Web.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Web.Models
 {
+    [PrimaryKey(nameof(Funcionario), nameof(Sala))]
     public class LimpezaSala
     {
-        [Key]
         [Column(Order = 0)]
         public int Funcionario { get; set; }
 
-        [Key]
         [Column(Order = 1)]
         public int Sala { get; set; }
 

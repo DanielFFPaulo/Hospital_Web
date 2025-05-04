@@ -1,16 +1,15 @@
 ﻿using Hospital_Web.Models;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Web.Models
 {
+    [PrimaryKey(nameof(Utente), nameof(Quarto))]    
     public class UtenteQuarto
     {
-        [Key]
         [Column(Order = 0)]
         public int Utente { get; set; }
-
-        [Key]
         [Column(Order = 1)]
         public int Quarto { get; set; }
 

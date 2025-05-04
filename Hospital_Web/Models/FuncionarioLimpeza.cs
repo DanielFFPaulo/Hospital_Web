@@ -16,6 +16,6 @@ namespace Hospital_Web.Models
         public string Turno { get; set; }
 
         // Navigation properties
-        public virtual Funcionario Funcionario { get; set; }
+        public virtual Funcionario? Funcionario { get; set; }
     }
 }

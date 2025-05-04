@@ -7,16 +7,11 @@ namespace Hospital_Web.Models
 {
     public class RegistoClinico
     {
-        [Key]
-        [Column(Order = 0)]
         public int Utente { get; set; }
 
-        [Key]
-        [Column(Order = 1)]
         public int Medico { get; set; }
 
         [Key]
-        [Column(Order = 2)]
         public int Episodio { get; set; }
 
         [DataType(DataType.Date)]
