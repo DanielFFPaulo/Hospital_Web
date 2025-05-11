@@ -36,6 +36,6 @@ namespace Hospital_Web.Models
         [ForeignKey("Gabinete")]
         public virtual Gabinete GabineteNavigation { get; set; }
 
-        public virtual ICollection<RegistoClinico>? RegistosClinicos { get; set; }
+        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
     }
 }

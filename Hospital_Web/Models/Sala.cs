@@ -18,6 +18,6 @@ namespace Hospital_Web.Models
         public string Numero { get; set; }
 
         // Navigation properties
-        public virtual ICollection<LimpezaSala>? LimpezasSalas { get; set; }
+        public virtual ICollection<LimpezaSala> LimpezasSalas { get; set; }
     }
 }

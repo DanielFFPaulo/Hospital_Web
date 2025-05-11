@@ -18,6 +18,6 @@ namespace Hospital_Web.Models
         public bool Ocupado { get; set; }
 
         // Navigation properties
-        public virtual ICollection<UtenteQuarto>? UtentesQuartos { get; set; }
+        public virtual ICollection<UtenteQuarto> UtentesQuartos { get; set; }
     }
 }

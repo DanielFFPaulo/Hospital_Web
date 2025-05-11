@@ -38,9 +38,9 @@ namespace Hospital_Web.Models
         public string NIF { get; set; }
 
         // Navigation properties
-        public virtual Medico? Medico { get; set; }
-        public virtual FuncionarioLimpeza? FuncionarioLimpeza { get; set; }
-        public virtual ICollection<LimpezaSala>? LimpezasSalas { get; set; }
+        public virtual Medico Medico { get; set; }
+        public virtual FuncionarioLimpeza FuncionarioLimpeza { get; set; }
+        public virtual ICollection<LimpezaSala> LimpezasSalas { get; set; }
     }
 }
 

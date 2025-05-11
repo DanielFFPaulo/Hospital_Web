@@ -16,6 +16,6 @@ namespace Hospital_Web.Models
         public bool Disponivel { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Consulta>? Consultas { get; set; }
+        public virtual ICollection<Consulta> Consultas { get; set; }
     }
 }
