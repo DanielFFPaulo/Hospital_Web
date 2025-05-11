@@ -1,21 +1,19 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Web.Models
 {
-    public class Gabinete
+    public class Gabinete : Sala
     {
-        [Key]
-        [Display(Name = "Identificador")]
-        public int N_Identificador { get; set; }
-
+        [Required]
+        [StringLength(200)]
         public string Descricao { get; set; }
 
+        [StringLength(500)]
         public string Equipamento { get; set; }
 
         public bool Disponivel { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Consulta> Consultas { get; set; }
+        public virtual ICollection<Consulta> Consultas { get; set; } = [];
     }
 }

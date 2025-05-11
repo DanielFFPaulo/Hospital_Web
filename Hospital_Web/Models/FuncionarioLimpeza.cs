@@ -1,21 +1,24 @@
-﻿using Hospital_Web.Models;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Web.Models
 {
-    public class FuncionarioLimpeza
+    public class FuncionarioLimpeza : Pessoa
     {
-        [Key]
-        [ForeignKey("Funcionario")]
-        [Display(Name = "ID Funcionário")]
-        public int ID_Funcionario { get; set; }
-
-        [StringLength(50)]
+        [Required]
+        [StringLength(20)]
         public string Turno { get; set; }
 
-        // Navigation properties
-        public virtual Funcionario Funcionario { get; set; }
+        [StringLength(20)]
+        public string Tamanho_Uniforme { get; set; }
+
+        [DataType(DataType.Date)]
+        public DateTime Data_de_contratacao { get; set; }
+
+        [StringLength(500)]
+        public string Certificacoes { get; set; }
+
+        // Navigation property
+        public virtual ICollection<LimpezaSala> LimpezasDeSala { get; set; } = [];
     }
+
 }

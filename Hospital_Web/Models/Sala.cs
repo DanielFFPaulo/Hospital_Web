@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Web.Models
 {
@@ -8,16 +7,17 @@ namespace Hospital_Web.Models
         [Key]
         public int ID { get; set; }
 
-        [StringLength(50)]
+        [Required]
+        [StringLength(10)]
         public string Bloco { get; set; }
 
-        [StringLength(10)]
-        public string Andar { get; set; }
+        public int Andar { get; set; }
 
-        [StringLength(10)]
-        public string Numero { get; set; }
+        public int Numero { get; set; }
 
-        // Navigation properties
-        public virtual ICollection<LimpezaSala> LimpezasSalas { get; set; }
+        // Navigation property for limpezas
+        public virtual ICollection<LimpezaSala> LimpezasDeSala { get; set; } = [];
+
+        // Discriminator property will be added automatically by EF Core
     }
 }

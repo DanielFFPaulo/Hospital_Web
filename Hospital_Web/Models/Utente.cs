@@ -1,49 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Web.Models
 {
-    public class Utente
+    public class Utente : Pessoa
     {
-        [Key]
-        [Display(Name = "Número de Processo")]
-        public int N_Processo { get; set; }
+        [StringLength(200)]
+        public string Estado_clinico { get; set; }
+        [StringLength(10)]
+        public string Grupo_Sanguineo { get; set; }
 
-        [Required]
+        [StringLength(200)]
+        public string Alergias { get; set; }
+
         [StringLength(100)]
-        public string Nome { get; set; }
+        public string Seguro_de_Saude { get; set; }
 
-        public int? Idade { get; set; }
-
-        [Display(Name = "Data de Nascimento")]
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? Data_Nascimento { get; set; }
+        public DateTime Data_de_Registo { get; set; }
 
-        [StringLength(255)]
-        public string Morada { get; set; }
+        // Foreign key for Medico Associado
+        public int? Medico_Associado_Id { get; set; }
 
-        [Display(Name = "Estado Clínico")]
-        public string Estado_Clinico { get; set; }
-
-        [StringLength(15)]
-        public string Telefone1 { get; set; }
-
-        [StringLength(15)]
-        public string Telefone2 { get; set; }
-
-        [StringLength(100)]
-        [EmailAddress]
-        public string Email { get; set; }
-
-        [StringLength(15)]
-        public string NIF { get; set; }
+        [ForeignKey("Medico_Associado_Id")]
+        public virtual Medico? MedicoAssociado { get; set; }
 
         // Navigation properties
-        public virtual ICollection<Consulta> Consultas { get; set; }
-        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
-        public virtual ICollection<UtenteQuarto> UtentesQuartos { get; set; }
+        public virtual ICollection<Consulta> Consultas { get; set; } = [];
+        public virtual ICollection<Internamento> Internamentos { get; set; } = [];
     }
 }

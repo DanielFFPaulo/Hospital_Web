@@ -1,23 +1,22 @@
-﻿using Hospital_Web.Models;
-using System.Collections.Generic;
+﻿using Humanizer.Localisation;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Web.Models
 {
-    public class Medico
+    public class Medico : Pessoa
     {
-        [Key]
-        [ForeignKey("Funcionario")]
-        [Display(Name = "ID Médico")]
-        public int ID_Medico { get; set; }
-
+        [Required]
         [StringLength(100)]
         public string Especialidade { get; set; }
 
-        // Navigation properties
-        public virtual Funcionario Funcionario { get; set; }
-        public virtual ICollection<Consulta> Consultas { get; set; }
-        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
+        public int Numero_de_ordem { get; set; }
+
+        public int Anos_de_experiencia { get; set; }
+
+        // Navigation property
+        public virtual ICollection<Consulta> Consultas { get; set; } = [];
+
+        // Navigation property for Utentes assigned to this Medico
+        public virtual ICollection<Utente> UtentesAssociados { get; set; } = [];
     }
 }

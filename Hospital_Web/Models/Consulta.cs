@@ -1,5 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Humanizer.Localisation;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace Hospital_Web.Models
 {
@@ -7,35 +8,36 @@ namespace Hospital_Web.Models
     {
         [Key]
         public int Episodio { get; set; }
-
         [DataType(DataType.Date)]
-        [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime? Data { get; set; }
+        public DateTime Data { get; set; }
 
         [DataType(DataType.Time)]
-        [DisplayFormat(DataFormatString = "{0:HH:mm}", ApplyFormatInEditMode = true)]
-        public TimeSpan? Hora { get; set; }
+        public TimeSpan Hora { get; set; }
 
-        public string Descricao { get; set; }
+        [StringLength(500)]
+        public string Diagnostico { get; set; }
 
-        [Display(Name = "Médico")]
-        public int ID_Medico { get; set; }
+        [StringLength(500)]
+        public string Tratamento { get; set; }
 
-        [Display(Name = "Utente")]
-        public int ID_Utente { get; set; }
+        [StringLength(1000)]
+        public string Observacoes { get; set; }
 
-        public int Gabinete { get; set; }
+        // Foreign keys
+        public int Medico_Id { get; set; }
 
-        // Navigation properties
-        [ForeignKey("ID_Medico")]
-        public virtual Medico Medico { get; set; }
+        [ForeignKey("Medico_Id")]
+        public virtual Medico? Medico { get; set; }
 
-        [ForeignKey("ID_Utente")]
-        public virtual Utente Utente { get; set; }
+        public int Utente_Id { get; set; }
 
-        [ForeignKey("Gabinete")]
-        public virtual Gabinete GabineteNavigation { get; set; }
+        [ForeignKey("Utente_Id")]
+        public virtual Utente? Utente { get; set; }
 
-        public virtual ICollection<RegistoClinico> RegistosClinicos { get; set; }
+        public int Gabinete_Id { get; set; }
+
+        [ForeignKey("Gabinete_Id")]
+        public virtual Gabinete? Gabinete { get; set; }
     }
+
 }
