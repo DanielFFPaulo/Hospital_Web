@@ -54,7 +54,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Descricao,Tipo,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
+        public async Task<IActionResult> Create([Bind("Descricao,Tipo,Capacidade,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Descricao,Tipo,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
+        public async Task<IActionResult> Edit(int id, [Bind("Descricao,Tipo,Capacidade,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
         {
             if (id != quartosInternagem.ID)
             {

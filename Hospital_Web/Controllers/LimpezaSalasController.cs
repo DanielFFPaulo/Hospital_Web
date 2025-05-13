@@ -49,8 +49,8 @@ namespace Hospital_Web.Controllers
         // GET: LimpezaSalas/Create
         public IActionResult Create()
         {
-            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "Nome");
-            ViewData["Sala_Id"] = new SelectList(_context.Set<Sala>(), "ID", "Bloco");
+            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "NIF");
+            ViewData["Sala_Id"] = new SelectList(_context.Sala, "ID", "Bloco");
             return View();
         }
 
@@ -67,8 +67,8 @@ namespace Hospital_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "Nome", limpezaSala.Funcionario_Id);
-            ViewData["Sala_Id"] = new SelectList(_context.Set<Sala>(), "ID", "Bloco", limpezaSala.Sala_Id);
+            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "NIF", limpezaSala.Funcionario_Id);
+            ViewData["Sala_Id"] = new SelectList(_context.Sala, "ID", "Bloco", limpezaSala.Sala_Id);
             return View(limpezaSala);
         }
 
@@ -85,8 +85,8 @@ namespace Hospital_Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "Nome", limpezaSala.Funcionario_Id);
-            ViewData["Sala_Id"] = new SelectList(_context.Set<Sala>(), "ID", "Bloco", limpezaSala.Sala_Id);
+            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "NIF", limpezaSala.Funcionario_Id);
+            ViewData["Sala_Id"] = new SelectList(_context.Sala, "ID", "Bloco", limpezaSala.Sala_Id);
             return View(limpezaSala);
         }
 
@@ -122,8 +122,8 @@ namespace Hospital_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "Nome", limpezaSala.Funcionario_Id);
-            ViewData["Sala_Id"] = new SelectList(_context.Set<Sala>(), "ID", "Bloco", limpezaSala.Sala_Id);
+            ViewData["Funcionario_Id"] = new SelectList(_context.FuncionarioLimpeza, "N_Processo", "NIF", limpezaSala.Funcionario_Id);
+            ViewData["Sala_Id"] = new SelectList(_context.Sala, "ID", "Bloco", limpezaSala.Sala_Id);
             return View(limpezaSala);
         }
 

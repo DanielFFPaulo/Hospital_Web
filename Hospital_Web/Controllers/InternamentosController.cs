@@ -50,9 +50,9 @@ namespace Hospital_Web.Controllers
         // GET: Internamentos/Create
         public IActionResult Create()
         {
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Episodio");
-            ViewData["Quarto_Id"] = new SelectList(_context.Set<QuartosInternagem>(), "ID", "Bloco");
-            ViewData["Utente_Id"] = new SelectList(_context.Set<Utente>(), "N_Processo", "Nome");
+            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico");
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco");
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF");
             return View();
         }
 
@@ -69,9 +69,9 @@ namespace Hospital_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Episodio", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.Set<QuartosInternagem>(), "ID", "Bloco", internamento.Quarto_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Set<Utente>(), "N_Processo", "Nome", internamento.Utente_Id);
+            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
 
@@ -88,9 +88,9 @@ namespace Hospital_Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Episodio", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.Set<QuartosInternagem>(), "ID", "Bloco", internamento.Quarto_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Set<Utente>(), "N_Processo", "Nome", internamento.Utente_Id);
+            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
 
@@ -126,9 +126,9 @@ namespace Hospital_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Episodio", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.Set<QuartosInternagem>(), "ID", "Bloco", internamento.Quarto_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Set<Utente>(), "N_Processo", "Nome", internamento.Utente_Id);
+            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
 

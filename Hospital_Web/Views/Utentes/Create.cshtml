@@ -14,17 +14,20 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Estado_clinico" class="control-label"></label>
-                <input asp-for="Estado_clinico" class="form-control" />
+                <textarea asp-for="Estado_clinico" class="form-control"></textarea>
                 <span asp-validation-for="Estado_clinico" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Grupo_Sanguineo" class="control-label"></label>
-                <input asp-for="Grupo_Sanguineo" class="form-control" />
+                <select asp-for="Grupo_Sanguineo" class="form-control"
+                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Utente.GrupoSanguineo>()">
+                    <option value="">-- Selecione --</option>
+                </select>
                 <span asp-validation-for="Grupo_Sanguineo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Alergias" class="control-label"></label>
-                <input asp-for="Alergias" class="form-control" />
+                <textarea asp-for="Alergias" class="form-control"></textarea>
                 <span asp-validation-for="Alergias" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -62,14 +65,14 @@
                 <span asp-validation-for="Morada" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Telefone1" class="control-label"></label>
-                <input asp-for="Telefone1" class="form-control" />
-                <span asp-validation-for="Telefone1" class="text-danger"></span>
+                <label asp-for="Telemovel" class="control-label"></label>
+                <input asp-for="Telemovel" class="form-control" />
+                <span asp-validation-for="Telemovel" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Telefone2" class="control-label"></label>
-                <input asp-for="Telefone2" class="form-control" />
-                <span asp-validation-for="Telefone2" class="text-danger"></span>
+                <label asp-for="TelemovelAlt" class="control-label"></label>
+                <input asp-for="TelemovelAlt" class="form-control" />
+                <span asp-validation-for="TelemovelAlt" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
@@ -82,9 +85,9 @@
                 <span asp-validation-for="NIF" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cod_postal" class="control-label"></label>
-                <input asp-for="Cod_postal" class="form-control" />
-                <span asp-validation-for="Cod_postal" class="text-danger"></span>
+                <label asp-for="Cod_Postal" class="control-label"></label>
+                <input asp-for="Cod_Postal" class="form-control" />
+                <span asp-validation-for="Cod_Postal" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Localidade" class="control-label"></label>
