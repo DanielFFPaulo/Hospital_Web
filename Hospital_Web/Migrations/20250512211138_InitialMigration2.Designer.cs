@@ -4,6 +4,7 @@ using Hospital_Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Web.Migrations
 {
     [DbContext(typeof(Hospital_WebContext))]
-    partial class Hospital_WebContextModelSnapshot : ModelSnapshot
+    [Migration("20250512211138_InitialMigration2")]
+    partial class InitialMigration2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,6 +57,7 @@ namespace Hospital_Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Observacoes")
+                        .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
@@ -137,10 +141,12 @@ namespace Hospital_Web.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Produto2")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Produto3")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
@@ -164,9 +170,10 @@ namespace Hospital_Web.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("N_Processo"));
 
-                    b.Property<string>("Cod_Postal")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<string>("Cod_postal")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<DateTime>("Data_de_Nascimento")
                         .HasColumnType("datetime2");
@@ -180,30 +187,34 @@ namespace Hospital_Web.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Localidade")
+                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Morada")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("NIF")
                         .IsRequired()
-                        .HasMaxLength(9)
-                        .HasColumnType("nvarchar(9)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Telemovel")
-                        .HasMaxLength(18)
-                        .HasColumnType("nvarchar(18)");
+                    b.Property<string>("Telefone1")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<string>("TelemovelAlt")
-                        .HasMaxLength(18)
-                        .HasColumnType("nvarchar(18)");
+                    b.Property<string>("Telefone2")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.HasKey("N_Processo");
 
@@ -225,8 +236,8 @@ namespace Hospital_Web.Migrations
 
                     b.Property<string>("Bloco")
                         .IsRequired()
-                        .HasMaxLength(1)
-                        .HasColumnType("nvarchar(1)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("Discriminator")
                         .IsRequired()
@@ -290,12 +301,15 @@ namespace Hospital_Web.Migrations
                     b.Property<DateTime>("Data_de_contratacao")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("Tamanho_Uniforme")
+                    b.Property<string>("Tamanho_Uniforme")
+                        .IsRequired()
                         .HasMaxLength(20)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<int>("Turno")
-                        .HasColumnType("int");
+                    b.Property<string>("Turno")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.ToTable("FuncionarioLimpeza");
                 });
@@ -305,7 +319,6 @@ namespace Hospital_Web.Migrations
                     b.HasBaseType("Hospital_Web.Models.Pessoa");
 
                     b.Property<int>("Anos_de_experiencia")
-                        .HasMaxLength(100)
                         .HasColumnType("int");
 
                     b.Property<string>("Especialidade")
@@ -313,10 +326,8 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("Numero_de_ordem")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<int>("Numero_de_ordem")
+                        .HasColumnType("int");
 
                     b.ToTable("Medico");
                 });
@@ -326,6 +337,7 @@ namespace Hospital_Web.Migrations
                     b.HasBaseType("Hospital_Web.Models.Pessoa");
 
                     b.Property<string>("Alergias")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -337,9 +349,10 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Grupo_Sanguineo")
+                    b.Property<string>("Grupo_Sanguineo")
+                        .IsRequired()
                         .HasMaxLength(10)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int?>("Medico_Associado_Id")
                         .HasColumnType("int");
@@ -384,17 +397,15 @@ namespace Hospital_Web.Migrations
                 {
                     b.HasBaseType("Hospital_Web.Models.Sala");
 
-                    b.Property<int>("Capacidade")
-                        .HasColumnType("int");
-
                     b.Property<string>("Descricao")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<int>("Tipo")
+                    b.Property<string>("Tipo")
+                        .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("int");
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasDiscriminator().HasValue("QuartosInternagem");
                 });

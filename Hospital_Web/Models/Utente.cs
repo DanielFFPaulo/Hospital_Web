@@ -5,21 +5,84 @@ namespace Hospital_Web.Models
 {
     public class Utente : Pessoa
     {
-        [StringLength(200)]
-        public string Estado_clinico { get; set; }
-        [StringLength(10)]
-        public string Grupo_Sanguineo { get; set; }
+        /// <summary>
+        /// Grupo sanguineo do Utente
+        /// </summary>
+        public enum GrupoSanguineo
+        {
+            [Display(Name = "A+")]
+            A_Positivo,
 
-        [StringLength(200)]
-        public string Alergias { get; set; }
+            [Display(Name = "A−")]
+            A_Negativo,
 
+            [Display(Name = "B+")]
+            B_Positivo,
+
+            [Display(Name = "B−")]
+            B_Negativo,
+
+            [Display(Name = "AB+")]
+            AB_Positivo,
+
+            [Display(Name = "AB−")]
+            AB_Negativo,
+
+            [Display(Name = "O+")]
+            O_Positivo,
+
+            [Display(Name = "O−")]
+            O_Negativo
+        }
+
+
+        /// <summary>
+        /// Estado clínico do Utente.
+        /// </summary>
+
+        [Display(Name = "Estado clínico")]
+        [DataType(DataType.MultilineText)]
+        [DisplayFormat(NullDisplayText = "Sem estado clínico")]
+        [UIHint("TextArea")]
+        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        public string Estado_clinico { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Tipo sanguíneo do Utente.
+        /// </summary>
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Display(Name = "Tipo sanguineo")]
+        public GrupoSanguineo Grupo_Sanguineo { get; set; }
+
+        /// <summary>
+        /// Alergias do Utente.
+        /// </summary>
+        [StringLength(200)]
+        [Display(Name = "Alergias")]
+        [DataType(DataType.MultilineText)]
+        [DisplayFormat(NullDisplayText = "Sem alergias")]
+        [UIHint("TextArea")]
+        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contém caracteres inválidos.")]
+        public string? Alergias { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Nome do seguro do utente.
+        /// </summary>
         [StringLength(100)]
-        public string Seguro_de_Saude { get; set; }
+        public string Seguro_de_Saude { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Data de registo do Utente.
+        /// </summary>
         [DataType(DataType.Date)]
-        public DateTime Data_de_Registo { get; set; }
+        public DateTime Data_de_Registo { get; set; } = DateTime.Now;
 
         // Foreign key for Medico Associado
+
+        /// <summary>
+        /// Identificador do médico associado ao Utente. (Opcional)
+        /// </summary>
         public int? Medico_Associado_Id { get; set; }
 
         [ForeignKey("Medico_Associado_Id")]

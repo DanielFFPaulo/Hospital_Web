@@ -5,12 +5,32 @@ namespace Hospital_Web.Models
 {
     public class Medico : Pessoa
     {
-        [Required]
+        /// <summary>
+        /// Especialidade do médico.
+        /// </summary>
+        [Required(ErrorMessage = "A {0} é obrigatoria")]
         [StringLength(100)]
-        public string Especialidade { get; set; }
+        public string Especialidade { get; set; } = string.Empty;
 
-        public int Numero_de_ordem { get; set; }
 
+        /// <summary>
+        ///     Número de Ordem do médico.
+        /// </summary>
+
+        [Required(ErrorMessage = "A {0} é obrigatoria")]
+        [StringLength(100)]
+        [Display(Name = "Número de Ordem")]
+        [RegularExpression(@"^[0-9]{1,10}$", ErrorMessage = "O {0} deve conter apenas números.")]
+        [DisplayFormat(NullDisplayText = "HC-")]
+        public string Numero_de_ordem { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Número de anos de experiência do médico.
+        /// </summary>
+        [Required(ErrorMessage = "Os {0} devem ser definidos")]
+        [Display(Name = "Anos de experiência")]
+        [RegularExpression(@"^[0-9]{1,2}$", ErrorMessage = "O {0} deve conter apenas números.")]
+        [Range(0, 99, ErrorMessage = "O {0} deve estar entre {1} e {2}")]
         public int Anos_de_experiencia { get; set; }
 
         // Navigation property

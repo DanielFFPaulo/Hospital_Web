@@ -48,8 +48,12 @@ namespace Hospital_Web.Controllers
         // GET: Utilizadores/Create
         public IActionResult Create()
         {
+            var utilizador = new Utilizador
+            {
+                Data_Criacao_Conta = DateTime.Now
+            };
             ViewData["Pessoa_Id"] = new SelectList(_context.Pessoa, "N_Processo", "Nome");
-            return View();
+            return View(utilizador);
         }
 
         // POST: Utilizadores/Create

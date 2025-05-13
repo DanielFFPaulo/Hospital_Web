@@ -40,13 +40,13 @@
                 @Html.DisplayFor(modelItem => item.Data_Hora_Saida)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Utente.Nome)
+                @Html.DisplayFor(modelItem => item.Utente.NIF)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Quarto.Bloco)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Consulta.Episodio)
+                @Html.DisplayFor(modelItem => item.Consulta.Diagnostico)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
