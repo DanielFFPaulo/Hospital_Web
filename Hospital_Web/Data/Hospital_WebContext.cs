@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Hospital_Web.Data
 {
-    public class Hospital_WebContext : DbContext
+    public class Hospital_WebContext : IdentityDbContext<ApplicationUser>
     {
         public Hospital_WebContext (DbContextOptions<Hospital_WebContext> options)
             : base(options)

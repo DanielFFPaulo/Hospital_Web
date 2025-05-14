@@ -1,8 +1,11 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Hospital_Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Web.Controllers;
+
+[AllowAnonymous]
 
 public class HomeController : Controller
 {
