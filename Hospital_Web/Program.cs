@@ -7,8 +7,6 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Hospital_Web.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<Hospital_WebContext>(options =>
@@ -16,13 +14,6 @@ builder.Services.AddDbContext<Hospital_WebContext>(options =>
 
 
 //adicionado
-builder.Services.AddAuthorization(options =>
-{
-    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-        .RequireAuthenticatedUser()
-        .Build();
-});
-
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.SignIn.RequireConfirmedAccount = false)
@@ -66,10 +57,7 @@ builder.Services.AddScoped<TokenService>();
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-//adicionado
 builder.Services.AddRazorPages();
-builder.Services.AddTransient<IEmailSender, DummyEmailSender>();
-
 
 var app = builder.Build();
 
