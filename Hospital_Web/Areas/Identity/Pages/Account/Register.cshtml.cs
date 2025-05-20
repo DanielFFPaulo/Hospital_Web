@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+ï»¿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
@@ -104,32 +104,32 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
 
-            [Required(ErrorMessage = "A categoria é obrigatória")]
+            [Required(ErrorMessage = "A categoria Ã© obrigatÃ³ria")]
             [Display(Name = "Categoria")]
             public string Categoria { get; set; }
 
             [Display(Name = "Especialidade")]
             public string? Especialidade { get; set; }
 
-            [Display(Name = "Número de Ordem")]
+            [Display(Name = "NÃºmero de Ordem")]
             public string? NumeroDeOrdem { get; set; }
 
-            [Display(Name = "Anos de Experiência")]
+            [Display(Name = "Anos de ExperiÃªncia")]
             public int? AnosDeExperiencia { get; set; }
 
-            [Display(Name = "Estado clínico")]
+            [Display(Name = "Estado clÃ­nico")]
             public string? EstadoClinico { get; set; }
 
-            [Display(Name = "Grupo sanguíneo")]
+            [Display(Name = "Grupo sanguÃ­neo")]
             public string? GrupoSanguineo { get; set; }
 
             [Display(Name = "Alergias")]
             public string? Alergias { get; set; }
 
-            [Display(Name = "Seguro de Saúde")]
+            [Display(Name = "Seguro de SaÃºde")]
             public string? SeguroDeSaude { get; set; }
 
-            [Display(Name = "Médico Associado (opcional)")]
+            [Display(Name = "MÃ©dico Associado (opcional)")]
             public int? MedicoAssociadoId { get; set; }
 
             [Display(Name = "Turno")]
@@ -138,20 +138,20 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             [Display(Name = "Tamanho do uniforme")]
             public string? TamanhoUniforme { get; set; }
 
-            [Display(Name = "Data de contratação")]
+            [Display(Name = "Data de contrataÃ§Ã£o")]
             [DataType(DataType.Date)]
             public DateTime? DataContratacao { get; set; }
 
-            [Display(Name = "Certificações")]
+            [Display(Name = "CertificaÃ§Ãµes")]
             public string? Certificacoes { get; set; }
 
             [Display(Name = "Departamento")]
             public string? Departamento { get; set; }
 
-            [Display(Name = "Função Principal")]
+            [Display(Name = "FunÃ§Ã£o Principal")]
             public string? Funcao { get; set; }
 
-            [Display(Name = "Data de Início de Funções")]
+            [Display(Name = "Data de InÃ­cio de FunÃ§Ãµes")]
             [DataType(DataType.Date)]
             public DateTime? DataInicio { get; set; }
 
@@ -178,7 +178,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
-                if (Input.Categoria.ToUpper() == "MÉDICO")
+                if (Input.Categoria.ToUpper() == "MÃ‰DICO")
                 {
                     var medico = new Medico
                     {
@@ -194,13 +194,13 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
                 else if (Input.Categoria.ToUpper() == "UTENTE")
                 {
-                    // Enum.TryParse para converter o grupo sanguíneo
+                    // Enum.TryParse para converter o grupo sanguÃ­neo
                     bool grupoValido = Enum.TryParse<Utente.GrupoSanguineo>(Input.GrupoSanguineo?.Replace("+", "_Positivo").Replace("-", "_Negativo").Replace(" ", "_"), out var grupo);
 
                     var utente = new Utente
                     {
                         Email = Input.Email,
-                        Estado_clinico = Input.EstadoClinico ?? "Sem estado clínico",
+                        Estado_clinico = Input.EstadoClinico ?? "Sem estado clÃ­nico",
                         Grupo_Sanguineo = grupoValido ? grupo : Utente.GrupoSanguineo.O_Positivo,
                         Alergias = Input.Alergias,
                         Seguro_de_Saude = Input.SeguroDeSaude ?? string.Empty,
