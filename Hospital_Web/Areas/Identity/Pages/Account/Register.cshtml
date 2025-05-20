@@ -34,10 +34,122 @@
                     <option>Enfermeiro</option>
                     <option>Empregado de Limpeza</option>
                     <option>Administrador</option>
+                    <option>Utente</option>
                 </select>
                 <label asp-for="Input.Categoria">Categoria</label>
                 <span asp-validation-for="Input.Categoria" class="text-danger"></span>
             </div>
+            <div id="medico-extra" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Especialidade" class="form-control" placeholder="Especialidade" />
+                    <label asp-for="Input.Especialidade"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.NumeroDeOrdem" class="form-control" placeholder="Número de Ordem" />
+                    <label asp-for="Input.NumeroDeOrdem"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.AnosDeExperiencia" type="number" class="form-control" placeholder="Anos de experiência" />
+                    <label asp-for="Input.AnosDeExperiencia"></label>
+                </div>
+            </div>
+
+            <div id="utente-extra" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.EstadoClinico" class="form-control" placeholder="Estado clínico" />
+                    <label asp-for="Input.EstadoClinico"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.GrupoSanguineo" class="form-control">
+                        <option value="">-- Selecione o grupo sanguíneo --</option>
+                        <option value="A_Positivo">A+</option>
+                        <option value="A_Negativo">A−</option>
+                        <option value="B_Positivo">B+</option>
+                        <option value="B_Negativo">B−</option>
+                        <option value="AB_Positivo">AB+</option>
+                        <option value="AB_Negativo">AB−</option>
+                        <option value="O_Positivo">O+</option>
+                        <option value="O_Negativo">O−</option>
+                    </select>
+                    <label asp-for="Input.GrupoSanguineo"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Alergias" class="form-control" placeholder="Alergias" />
+                    <label asp-for="Input.Alergias"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.SeguroDeSaude" class="form-control" placeholder="Seguro de Saúde" />
+                    <label asp-for="Input.SeguroDeSaude"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.MedicoAssociadoId" class="form-control" placeholder="ID do Médico Associado (opcional)" />
+                    <label asp-for="Input.MedicoAssociadoId"></label>
+                </div>
+            </div>
+
+            <div id="limpeza-extra" style="display:none;">
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.Turno" class="form-control">
+                        <option value="">-- Selecione o turno --</option>
+                        <option value="Manha">Manhã</option>
+                        <option value="Tarde">Tarde</option>
+                        <option value="Noite">Noite</option>
+                    </select>
+                    <label asp-for="Input.Turno"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <select asp-for="Input.TamanhoUniforme" class="form-control">
+                        <option value="">-- Selecione o tamanho --</option>
+                        <option value="XS">XS</option>
+                        <option value="S">S</option>
+                        <option value="M">M</option>
+                        <option value="L">L</option>
+                        <option value="XL">XL</option>
+                        <option value="XXL">XXL</option>
+                        <option value="XXXL">XXXL</option>
+                    </select>
+                    <label asp-for="Input.TamanhoUniforme"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.DataContratacao" type="date" class="form-control" />
+                    <label asp-for="Input.DataContratacao"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <textarea asp-for="Input.Certificacoes" class="form-control" placeholder="Certificações"></textarea>
+                    <label asp-for="Input.Certificacoes"></label>
+                </div>
+            </div>
+
+            <div id="admin-extra" style="display:none;">
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Departamento" class="form-control" placeholder="Departamento" />
+                    <label asp-for="Input.Departamento"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.Funcao" class="form-control" placeholder="Função" />
+                    <label asp-for="Input.Funcao"></label>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input asp-for="Input.DataInicio" type="date" class="form-control" placeholder="Data de Início" />
+                    <label asp-for="Input.DataInicio"></label>
+                </div>
+            </div>
+
+
+
+
+
 
             <button id="registerSubmit" type="submit" class="w-100 btn btn-lg btn-primary">Register</button>
         </form>
@@ -76,4 +188,20 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+    <script>
+        const categoria = document.getElementById("Input_Categoria");
+
+        function toggleExtraFields() {
+            const value = categoria.value.toUpperCase();
+
+            document.getElementById("medico-extra").style.display = value === "MÉDICO" ? "block" : "none";
+            document.getElementById("utente-extra").style.display = value === "UTENTE" ? "block" : "none";
+            document.getElementById("limpeza-extra").style.display = value === "EMPREGADO DE LIMPEZA" ? "block" : "none";
+            document.getElementById("admin-extra").style.display = value === "ADMINISTRADOR" ? "block" : "none";
+        }
+
+        categoria.addEventListener("change", toggleExtraFields);
+        window.addEventListener("DOMContentLoaded", toggleExtraFields);
+    </script>
 }
+

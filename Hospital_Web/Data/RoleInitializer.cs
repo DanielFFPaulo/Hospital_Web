@@ -1,6 +1,22 @@
-﻿ namespace Hospital_Web.Data
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace Hospital_Web.Data
 {
-    public class RoleInitializer
+    public static class RoleInitializer
     {
+        private static readonly string[] roles = new[] { "MÉDICO", "ENFERMEIRO", "ADMINISTRADOR", "EMPREGADO DE LIMPEZA", "UTENTE" };
+
+        public static async Task SeedRolesAsync(IServiceProvider serviceProvider)
+        {
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+
+            foreach (var role in roles)
+            {
+                if (!await roleManager.RoleExistsAsync(role))
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
+            }
+        }
     }
 }
