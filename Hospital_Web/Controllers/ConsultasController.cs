@@ -14,10 +14,11 @@ namespace Hospital_Web.Controllers
     {
         private readonly Hospital_WebContext _context;
 
-        public ConsultasController(Hospital_WebContext context)
+        public ConsultasController(Hospital_WebContext db)
         {
-            _context = context;
+            _context = db;
         }
+
 
         // GET: Consultas
         public async Task<IActionResult> Index()
