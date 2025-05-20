@@ -1,17 +1,24 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Identity;
 using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Hospital_Web.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+
+
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddControllersWithViews();
+
+
 builder.Services.AddDbContext<Hospital_WebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Hospital_WebContext") ?? throw new InvalidOperationException("Connection string 'Hospital_WebContext' not found.")));
+
 
 
 //adicionado
@@ -65,15 +72,20 @@ builder.Services.AddSingleton<IEmailSender, DummyEmailSender>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+
 if (!app.Environment.IsDevelopment())
+
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
+
+
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 
 
 app.UseRouting();
@@ -88,5 +100,11 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await RoleInitializer.SeedRolesAsync(services);
+}
 
 app.Run();

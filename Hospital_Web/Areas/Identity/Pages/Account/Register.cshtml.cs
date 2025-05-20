@@ -1,4 +1,4 @@
-// Licensed to the .NET Foundation under one or more agreements.
+﻿// Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
@@ -19,6 +19,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.EntityFrameworkCore;
+using Hospital_Web.Data;
 
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
@@ -30,13 +32,15 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<ApplicationUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly Hospital_WebContext _context;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
             IUserStore<ApplicationUser> userStore,
             SignInManager<ApplicationUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            Hospital_WebContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +48,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -98,6 +103,60 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required(ErrorMessage = "A categoria é obrigatória")]
+            [Display(Name = "Categoria")]
+            public string Categoria { get; set; }
+
+            [Display(Name = "Especialidade")]
+            public string? Especialidade { get; set; }
+
+            [Display(Name = "Número de Ordem")]
+            public string? NumeroDeOrdem { get; set; }
+
+            [Display(Name = "Anos de Experiência")]
+            public int? AnosDeExperiencia { get; set; }
+
+            [Display(Name = "Estado clínico")]
+            public string? EstadoClinico { get; set; }
+
+            [Display(Name = "Grupo sanguíneo")]
+            public string? GrupoSanguineo { get; set; }
+
+            [Display(Name = "Alergias")]
+            public string? Alergias { get; set; }
+
+            [Display(Name = "Seguro de Saúde")]
+            public string? SeguroDeSaude { get; set; }
+
+            [Display(Name = "Médico Associado (opcional)")]
+            public int? MedicoAssociadoId { get; set; }
+
+            [Display(Name = "Turno")]
+            public string? Turno { get; set; }
+
+            [Display(Name = "Tamanho do uniforme")]
+            public string? TamanhoUniforme { get; set; }
+
+            [Display(Name = "Data de contratação")]
+            [DataType(DataType.Date)]
+            public DateTime? DataContratacao { get; set; }
+
+            [Display(Name = "Certificações")]
+            public string? Certificacoes { get; set; }
+
+            [Display(Name = "Departamento")]
+            public string? Departamento { get; set; }
+
+            [Display(Name = "Função Principal")]
+            public string? Funcao { get; set; }
+
+            [Display(Name = "Data de Início de Funções")]
+            [DataType(DataType.Date)]
+            public DateTime? DataInicio { get; set; }
+
+
+
         }
 
 
@@ -119,9 +178,84 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                if (Input.Categoria.ToUpper() == "MÉDICO")
+                {
+                    var medico = new Medico
+                    {
+                        Email = Input.Email,
+                        Especialidade = Input.Especialidade,
+                        Numero_de_ordem = Input.NumeroDeOrdem,
+                        Anos_de_experiencia = Input.AnosDeExperiencia ?? 0
+                    };
+
+                    _context.Medico.Add(medico);
+                    await _context.SaveChangesAsync();
+                }
+
+                else if (Input.Categoria.ToUpper() == "UTENTE")
+                {
+                    // Enum.TryParse para converter o grupo sanguíneo
+                    bool grupoValido = Enum.TryParse<Utente.GrupoSanguineo>(Input.GrupoSanguineo?.Replace("+", "_Positivo").Replace("-", "_Negativo").Replace(" ", "_"), out var grupo);
+
+                    var utente = new Utente
+                    {
+                        Email = Input.Email,
+                        Estado_clinico = Input.EstadoClinico ?? "Sem estado clínico",
+                        Grupo_Sanguineo = grupoValido ? grupo : Utente.GrupoSanguineo.O_Positivo,
+                        Alergias = Input.Alergias,
+                        Seguro_de_Saude = Input.SeguroDeSaude ?? string.Empty,
+                        Medico_Associado_Id = Input.MedicoAssociadoId
+                    };
+
+                    _context.Utente.Add(utente);
+                    await _context.SaveChangesAsync();
+                }
+
+                else if (Input.Categoria.ToUpper() == "EMPREGADO DE LIMPEZA")
+                {
+                    bool turnoValido = Enum.TryParse<FuncionarioLimpeza.Turnos>(Input.Turno, out var turno);
+                    bool uniformeValido = Enum.TryParse<FuncionarioLimpeza.Uniformes>(Input.TamanhoUniforme, out var uniforme);
+
+                    var funcionario = new FuncionarioLimpeza
+                    {
+                        Email = Input.Email,
+                        Turno = turnoValido ? turno : FuncionarioLimpeza.Turnos.Manha,
+                        Tamanho_Uniforme = uniformeValido ? uniforme : FuncionarioLimpeza.Uniformes.M,
+                        Data_de_contratacao = Input.DataContratacao ?? DateTime.Now,
+                        Certificacoes = Input.Certificacoes ?? string.Empty
+                    };
+
+                    _context.FuncionarioLimpeza.Add(funcionario);
+                    await _context.SaveChangesAsync();
+                }
+
+                else if (Input.Categoria.ToUpper() == "ADMINISTRADOR")
+                {
+                    var admin = new Administrador
+                    {
+                        Email = Input.Email,
+                        Departamento = Input.Departamento,
+                        Funcao = Input.Funcao,
+                        Data_de_Nascimento = DateTime.Now, // preencher conforme o teu modelo base
+                        DataInicio = Input.DataInicio ?? DateTime.Now
+                    };
+
+                    _context.Administrador.Add(admin);
+                    await _context.SaveChangesAsync();
+                }
+
+
+
+
+
+
+
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    // Atribuir a Role (categoria)
+                    await _userManager.AddToRoleAsync(user, Input.Categoria);
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
