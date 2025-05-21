@@ -1,10 +1,49 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using static Hospital_Web.Models.Utente;
 
 namespace Hospital_Web.Models
 {
     public class Pessoa
     {
+
+        /// <summary>
+        /// Grupo sanguineo do Utente
+        /// </summary>
+        public enum GrupoSanguineo
+        {
+            [Display(Name = "A+")]
+            A_Positivo,
+
+            [Display(Name = "A−")]
+            A_Negativo,
+
+            [Display(Name = "B+")]
+            B_Positivo,
+
+            [Display(Name = "B−")]
+            B_Negativo,
+
+            [Display(Name = "AB+")]
+            AB_Positivo,
+
+            [Display(Name = "AB−")]
+            AB_Negativo,
+
+            [Display(Name = "O+")]
+            O_Positivo,
+
+            [Display(Name = "O−")]
+            O_Negativo
+        }
+        public enum Sexo
+        {
+            Masculino,
+            Feminino
+        }
+
+
+
         [Key]
         public int N_Processo { get; set; }
 
@@ -20,15 +59,28 @@ namespace Hospital_Web.Models
 
 
 
-
         /// <summary>
-        /// Idade da pessoa
+        /// Idade da pessoa (calculada a partir da Data de Nascimento)
         /// </summary>
+        [NotMapped]
         [Display(Name = "Idade")]
-        [Range(0, 120, ErrorMessage = "A {0} deve estar entre {1} e {2}")]
-        [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
-        [RegularExpression(@"^[0-9]{1,3}$", ErrorMessage = "A {0} deve conter apenas números.")]
-        public int Idade { get; set; }
+        public int Idade
+        {
+            get
+            {
+                var today = DateTime.Today;
+                var age = today.Year - DataDeNascimento.Year;
+
+                // Adjust if the birthday hasn't occurred yet this year
+                if (DataDeNascimento.Date > today.AddYears(-age)) age--;
+
+                return age;
+            }
+        }
+
+
+
+
 
 
 
@@ -43,11 +95,12 @@ namespace Hospital_Web.Models
         [Display(Name = "Data de Nascimento")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
-        public DateTime Data_de_Nascimento { get; set; }
+        public DateTime DataDeNascimento { get; set; }
 
 
-
-
+        [Display(Name = "Sexo")]
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        public Sexo sexo { get; set; }
 
 
         /// <summary>
@@ -58,7 +111,12 @@ namespace Hospital_Web.Models
         public string? Morada { get; set; }
 
 
-
+        /// <summary>
+        /// Tipo sanguíneo do Utente.
+        /// </summary>
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Display(Name = "Tipo sanguineo")]
+        public GrupoSanguineo Grupo_Sanguineo { get; set; }
 
 
 

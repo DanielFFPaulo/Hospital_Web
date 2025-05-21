@@ -5,35 +5,6 @@ namespace Hospital_Web.Models
 {
     public class Utente : Pessoa
     {
-        /// <summary>
-        /// Grupo sanguineo do Utente
-        /// </summary>
-        public enum GrupoSanguineo
-        {
-            [Display(Name = "A+")]
-            A_Positivo,
-
-            [Display(Name = "A−")]
-            A_Negativo,
-
-            [Display(Name = "B+")]
-            B_Positivo,
-
-            [Display(Name = "B−")]
-            B_Negativo,
-
-            [Display(Name = "AB+")]
-            AB_Positivo,
-
-            [Display(Name = "AB−")]
-            AB_Negativo,
-
-            [Display(Name = "O+")]
-            O_Positivo,
-
-            [Display(Name = "O−")]
-            O_Negativo
-        }
 
 
         /// <summary>
@@ -48,12 +19,7 @@ namespace Hospital_Web.Models
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Estado_clinico { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Tipo sanguíneo do Utente.
-        /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        [Display(Name = "Tipo sanguineo")]
-        public GrupoSanguineo Grupo_Sanguineo { get; set; }
+
 
         /// <summary>
         /// Alergias do Utente.

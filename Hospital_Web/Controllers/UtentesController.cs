@@ -57,7 +57,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Create([Bind("Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
         {
             if (ModelState.IsValid)
             {
@@ -91,7 +91,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Edit(int id, [Bind("Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
         {
             if (id != utente.N_Processo)
             {
