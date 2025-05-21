@@ -14,6 +14,7 @@ builder.Services.AddDbContext<Hospital_WebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Hospital_WebContext") ?? throw new InvalidOperationException("Connection string 'Hospital_WebContext' not found.")));
 
 
+
 //adicionado
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -63,6 +64,14 @@ builder.Services.AddRazorPages();
 builder.Services.AddSingleton<IEmailSender, DummyEmailSender>();
 
 var app = builder.Build();
+
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
