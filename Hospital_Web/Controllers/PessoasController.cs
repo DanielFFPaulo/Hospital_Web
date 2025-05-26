@@ -13,10 +13,12 @@ namespace Hospital_Web.Controllers
     public class PessoasController : Controller
     {
         private readonly Hospital_WebContext _context;
+        private readonly IEmailSender _emailSender;
 
         public PessoasController(Hospital_WebContext context)
         {
             _context = context;
+            _emailSender = emailSender;
         }
 
         // GET: Pessoas
@@ -60,10 +62,24 @@ namespace Hospital_Web.Controllers
             {
                 _context.Add(pessoa);
                 await _context.SaveChangesAsync();
+
+                // Enviar email de confirmação
+                var subject = "Bem-vindo ao Hospital";
+                var body = $@"
+            <h3>Olá {pessoa.Nome},</h3>
+            <p>A sua conta foi criada com sucesso no nosso sistema.</p>
+            <p>Se precisar de ajuda, contacte-nos.</p>
+        ";
+
+                await _emailSender.SendEmailAsync(pessoa.Email, subject, body);
+
                 return RedirectToAction(nameof(Index));
             }
             return View(pessoa);
         }
+
+
+
 
         // GET: Pessoas/Edit/5
         public async Task<IActionResult> Edit(int? id)

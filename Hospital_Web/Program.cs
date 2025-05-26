@@ -6,7 +6,8 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Hospital_Web.Services;
 using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
+using Hospital_Web.Controllers;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,7 +68,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddSingleton<IEmailSender, DummyEmailSender>();
+//enviar email 
+
+builder.Services.AddTransient<Ferramentas>();
 
 var app = builder.Build();
 
@@ -103,7 +106,6 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await RoleInitializer.SeedRolesAsync(services);
 }
 
 app.Run();
