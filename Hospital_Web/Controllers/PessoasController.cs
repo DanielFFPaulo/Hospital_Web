@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
+using Hospital_Web.Services;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_Web.Controllers
 {
@@ -14,11 +11,16 @@ namespace Hospital_Web.Controllers
     {
         private readonly Hospital_WebContext _context;
         private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public PessoasController(Hospital_WebContext context)
+        public PessoasController(
+          Hospital_WebContext context,
+          IEmailSender emailSender,
+          UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _emailSender = emailSender;
+            _userManager = userManager;
         }
 
         // GET: Pessoas
@@ -31,16 +33,12 @@ namespace Hospital_Web.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var pessoa = await _context.Pessoa
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
             if (pessoa == null)
-            {
                 return NotFound();
-            }
 
             return View(pessoa);
         }
@@ -52,8 +50,6 @@ namespace Hospital_Web.Controllers
         }
 
         // POST: Pessoas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
@@ -63,51 +59,64 @@ namespace Hospital_Web.Controllers
                 _context.Add(pessoa);
                 await _context.SaveChangesAsync();
 
-                // Enviar email de confirmação
-                var subject = "Bem-vindo ao Hospital";
-                var body = $@"
-            <h3>Olá {pessoa.Nome},</h3>
-            <p>A sua conta foi criada com sucesso no nosso sistema.</p>
-            <p>Se precisar de ajuda, contacte-nos.</p>
-        ";
+                var user = new ApplicationUser
+                {
+                    UserName = pessoa.Email,
+                    Email = pessoa.Email,
+                    DeveAlterarSenha = true
+                };
 
-                await _emailSender.SendEmailAsync(pessoa.Email, subject, body);
+                string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
+
+                var result = await _userManager.CreateAsync(user, senhaTemporaria);
+
+                if (result.Succeeded)
+                {
+                    await _emailSender.SendEmailAsync(
+                        pessoa.Email,
+                        "Bem-vindo ao Portal do Hospital",
+                        $@"
+                        <p>Olá {pessoa.Nome},</p>
+                        <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
+                        <p><strong>Credenciais de acesso:</strong><br>
+                        Email: {pessoa.Email}<br>
+                        Senha: {senhaTemporaria}</p>
+                        <p>Por favor, altere a sua senha após o primeiro login.</p>"
+                    );
+                }
+                else
+                {
+                    foreach (var error in result.Errors)
+                        ModelState.AddModelError("", error.Description);
+                    return View(pessoa);
+                }
 
                 return RedirectToAction(nameof(Index));
             }
+
             return View(pessoa);
         }
-
-
-
 
         // GET: Pessoas/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var pessoa = await _context.Pessoa.FindAsync(id);
             if (pessoa == null)
-            {
                 return NotFound();
-            }
+
             return View(pessoa);
         }
 
         // POST: Pessoas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
         {
             if (id != pessoa.N_Processo)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -119,16 +128,14 @@ namespace Hospital_Web.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!PessoaExists(pessoa.N_Processo))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
+
                 return RedirectToAction(nameof(Index));
             }
+
             return View(pessoa);
         }
 
@@ -136,16 +143,12 @@ namespace Hospital_Web.Controllers
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var pessoa = await _context.Pessoa
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
             if (pessoa == null)
-            {
                 return NotFound();
-            }
 
             return View(pessoa);
         }
@@ -157,9 +160,7 @@ namespace Hospital_Web.Controllers
         {
             var pessoa = await _context.Pessoa.FindAsync(id);
             if (pessoa != null)
-            {
                 _context.Pessoa.Remove(pessoa);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
