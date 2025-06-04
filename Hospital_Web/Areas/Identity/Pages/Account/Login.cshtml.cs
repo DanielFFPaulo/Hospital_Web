@@ -134,7 +134,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                         return RedirectToPage("/Account/ForceChangePassword");
                     }
 
-                    return LocalRedirect(returnUrl);
+                    return Redirect("/Consultas");
                 }
 
 

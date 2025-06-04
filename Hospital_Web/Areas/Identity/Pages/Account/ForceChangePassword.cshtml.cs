@@ -51,7 +51,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 user.DeveAlterarSenha = false;
                 await _userManager.UpdateAsync(user);
                 await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("Index", "Home");
+                return Redirect("/Consultas");
             }
 
             foreach (var error in result.Errors)

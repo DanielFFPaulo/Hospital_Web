@@ -51,6 +51,7 @@ public class ResendEmailConfirmationModel : PageModel
             ModelState.AddModelError(string.Empty, "Erro ao redefinir a password.");
             return Page();
         }
+        
 
         // Enviar email com as novas credenciais
         var mensagem = $@"

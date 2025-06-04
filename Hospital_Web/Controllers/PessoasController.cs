@@ -54,48 +54,61 @@ namespace Hospital_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(pessoa);
+
+            // Criar o utilizador primeiro
+            var user = new ApplicationUser
             {
-                _context.Add(pessoa);
+                UserName = pessoa.Email,
+                Email = pessoa.Email,
+                DeveAlterarSenha = true
+            };
+
+            string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            var result = await _userManager.CreateAsync(user, senhaTemporaria);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                return View(pessoa);
+            }
+
+            // Se chegou aqui, o utilizador foi criado. Inicia transação para garantir integridade.
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                _context.Pessoa.Add(pessoa);
                 await _context.SaveChangesAsync();
 
-                var user = new ApplicationUser
-                {
-                    UserName = pessoa.Email,
-                    Email = pessoa.Email,
-                    DeveAlterarSenha = true
-                };
+                await transaction.CommitAsync();
 
-                string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
-
-                var result = await _userManager.CreateAsync(user, senhaTemporaria);
-
-                if (result.Succeeded)
-                {
-                    await _emailSender.SendEmailAsync(
-                        pessoa.Email,
-                        "Bem-vindo ao Portal do Hospital",
-                        $@"
-                        <p>Olá {pessoa.Nome},</p>
-                        <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
-                        <p><strong>Credenciais de acesso:</strong><br>
-                        Email: {pessoa.Email}<br>
-                        Senha: {senhaTemporaria}</p>
-                        <p>Por favor, altere a sua senha após o primeiro login.</p>"
-                    );
-                }
-                else
-                {
-                    foreach (var error in result.Errors)
-                        ModelState.AddModelError("", error.Description);
-                    return View(pessoa);
-                }
+                await _emailSender.SendEmailAsync(
+                    pessoa.Email,
+                    "Bem-vindo ao Portal do Hospital",
+                    $@"
+            <p>Olá {pessoa.Nome},</p>
+            <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
+            <p><strong>Credenciais de acesso:</strong><br>
+            Email: {pessoa.Email}<br>
+            Senha: {senhaTemporaria}</p>
+            <p>Por favor, altere a sua senha após o primeiro login.</p>");
 
                 return RedirectToAction(nameof(Index));
             }
+            catch
+            {
+                // Se der erro ao criar Pessoa, remove o utilizador e faz rollback
+                await _userManager.DeleteAsync(user);
+                await transaction.RollbackAsync();
 
-            return View(pessoa);
+                ModelState.AddModelError("", "Erro ao criar a pessoa. Nenhum dado foi gravado.");
+                return View(pessoa);
+            }
         }
+
 
         // GET: Pessoas/Edit/5
         public async Task<IActionResult> Edit(int? id)
@@ -110,34 +123,6 @@ namespace Hospital_Web.Controllers
             return View(pessoa);
         }
 
-        // POST: Pessoas/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
-        {
-            if (id != pessoa.N_Processo)
-                return NotFound();
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pessoa);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PessoaExists(pessoa.N_Processo))
-                        return NotFound();
-                    else
-                        throw;
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(pessoa);
-        }
 
         // GET: Pessoas/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -159,16 +144,21 @@ namespace Hospital_Web.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var pessoa = await _context.Pessoa.FindAsync(id);
+
             if (pessoa != null)
+            {
+                // 🧹 Apagar também o utilizador do Identity (caso exista)
+                var user = await _userManager.FindByEmailAsync(pessoa.Email);
+                if (user != null)
+                {
+                    await _userManager.DeleteAsync(user);
+                }
+
                 _context.Pessoa.Remove(pessoa);
+                await _context.SaveChangesAsync();
+            }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool PessoaExists(int id)
-        {
-            return _context.Pessoa.Any(e => e.N_Processo == id);
         }
     }
 }

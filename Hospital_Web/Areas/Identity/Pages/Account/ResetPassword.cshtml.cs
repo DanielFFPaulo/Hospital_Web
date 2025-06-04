@@ -64,7 +64,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
 
             if (result.Succeeded)
-                return RedirectToPage("./ResetPasswordConfirmation");
+                return Redirect("/Consultas");
 
             foreach (var error in result.Errors)
                 ModelState.AddModelError(string.Empty, error.Description);
