@@ -20,10 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Utentes
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            var hospital_WebContext = _context.Utente.Include(u => u.MedicoAssociado);
-            return View(await hospital_WebContext.ToListAsync());
+            if (_context.Utente == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Utente'  is null.");
+            }
+
+            var utentes = from u in _context.Utente
+                          select u;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                utentes = utentes.Where(u => u.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await utentes.ToListAsync());
         }
 
         // GET: Utentes/Details/5
@@ -48,7 +60,16 @@ namespace Hospital_Web.Controllers
         // GET: Utentes/Create
         public IActionResult Create()
         {
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF");
+            ViewData["Medico_Associado_Id"] = new SelectList(
+                _context.Medico
+                    .Select(m => new {
+                        N_Processo = m.N_Processo,
+                        DisplayValue = "OM" + m.Numero_de_ordem + " - " + m.Nome
+                    }),
+                "N_Processo",
+                "DisplayValue"
+            );
+
             return View();
         }
 
@@ -57,7 +78,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Create([Bind("Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
         {
             if (ModelState.IsValid)
             {
@@ -65,7 +86,17 @@ namespace Hospital_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            ViewData["Medico_Associado_Id"] = new SelectList(
+                _context.Medico
+                    .Select(m => new {
+                        N_Processo = m.N_Processo,
+                        DisplayValue = "OM" + m.Numero_de_ordem + " - " + m.Nome
+                    }),
+                "N_Processo",
+                "DisplayValue",
+                utente.Medico_Associado_Id
+            );
+
             return View(utente);
         }
 
@@ -82,7 +113,7 @@ namespace Hospital_Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico.Select(m => new { N_Processo = m.N_Processo, DisplayValue = "OM" + m.Numero_de_ordem + " - " + m.Nome }), "N_Processo", "DisplayValue");
             return View(utente);
         }
 
@@ -91,7 +122,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Edit(int id, [Bind("Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
         {
             if (id != utente.N_Processo)
             {
@@ -118,7 +149,7 @@ namespace Hospital_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico.Select(m => new { N_Processo = m.N_Processo, DisplayValue = "OM-" + m.Numero_de_ordem + " - " + m.Nome }), "N_Processo", "DisplayValue");
             return View(utente);
         }
 

@@ -50,8 +50,16 @@ namespace Hospital_Web.Controllers
         // GET: Internamentos/Create
         public IActionResult Create()
         {
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico");
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco");
+            ViewData["Consulta_Id"] = new SelectList(
+                _context.Consulta
+                    .Select(c => new {
+                        c.Episodio,
+                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                    }),
+                "Episodio",
+                "DisplayText"
+            );
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new {ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2")}), "ID", "DisplayText");
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF");
             return View();
         }
@@ -69,8 +77,18 @@ namespace Hospital_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Consulta_Id"] = new SelectList(
+                _context.Consulta
+                    .Select(c => new {
+                        c.Episodio,
+                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                    }),
+                "Episodio",
+                "DisplayText",
+                internamento.Consulta_Id
+            );
+
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
@@ -88,8 +106,17 @@ namespace Hospital_Web.Controllers
             {
                 return NotFound();
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Consulta_Id"] = new SelectList(
+                _context.Consulta
+                    .Select(c => new {
+                        c.Episodio,
+                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                    }),
+                "Episodio",
+                "DisplayText",
+                internamento.Consulta_Id
+            );
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
@@ -126,8 +153,17 @@ namespace Hospital_Web.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Consulta_Id"] = new SelectList(_context.Consulta, "Episodio", "Diagnostico", internamento.Consulta_Id);
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem, "ID", "Bloco", internamento.Quarto_Id);
+            ViewData["Consulta_Id"] = new SelectList(
+                _context.Consulta
+                    .Select(c => new {
+                        c.Episodio,
+                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                    }),
+                "Episodio",
+                "DisplayText",
+                internamento.Consulta_Id
+            );
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }

@@ -20,9 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: FuncionarioLimpezas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.FuncionarioLimpeza.ToListAsync());
+            if (_context.FuncionarioLimpeza == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.FuncionarioLimpeza'  is null.");
+            }
+
+            var funcLimpeza = from fl in _context.FuncionarioLimpeza
+                              select fl;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                funcLimpeza = funcLimpeza.Where(fl => fl.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await funcLimpeza.ToListAsync());
         }
 
         // GET: FuncionarioLimpezas/Details/5
@@ -54,7 +67,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Create([Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +99,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
         {
             if (id != funcionarioLimpeza.N_Processo)
             {

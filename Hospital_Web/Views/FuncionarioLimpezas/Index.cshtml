@@ -9,6 +9,13 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-controller="FuncionarioLimpezas" asp-action="Index" method="get">
+    <p>
+        <label>Nome: <input type="text" name="SearchString" /></label>
+        <input type="submit" value="Filter" />
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
@@ -31,10 +38,16 @@
                 @Html.DisplayNameFor(model => model.Idade)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Data_de_Nascimento)
+                @Html.DisplayNameFor(model => model.DataDeNascimento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.sexo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Morada)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grupo_Sanguineo)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Telemovel)
@@ -75,14 +88,20 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nome)
             </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Idade)
+                </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Idade)
+                @Html.DisplayFor(modelItem => item.DataDeNascimento)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Data_de_Nascimento)
+                @Html.DisplayFor(modelItem => item.sexo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Morada)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grupo_Sanguineo)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Telemovel)
