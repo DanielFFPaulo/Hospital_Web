@@ -2,17 +2,16 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Hospital_Web.Services; // onde está EmailService ou IEmailSender
-using Microsoft.AspNetCore.Identity.UI.Services; // se usares IEmailSender
+
 
 public class AdministradorController : Controller
 {
+    private readonly Hospital_Web.Services.IEmailSender _emailSender;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IEmailSender _emailSender; // ou EmailService, se não usares IEmailSender
 
     public AdministradorController(
         UserManager<ApplicationUser> userManager,
-        IEmailSender emailSender // ou EmailService
-    )
+        Hospital_Web.Services.IEmailSender emailSender)
     {
         _userManager = userManager;
         _emailSender = emailSender;
@@ -42,7 +41,7 @@ public class AdministradorController : Controller
                 <p>As suas credenciais são:</p>
                 <p><strong>Email:</strong> {email}</p>
                 <p><strong>Password:</strong> {password}</p>
-                <p><a href='https://teusite.com/login'>Clique aqui para iniciar sessão</a></p>
+                <p><a href='https://localhost:7140/Identity/Account/Login'>Clique aqui para iniciar sessão</a></p>
             ";
 
             await _emailSender.SendEmailAsync(email, subject, body);

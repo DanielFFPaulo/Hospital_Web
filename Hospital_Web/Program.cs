@@ -29,6 +29,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddEntityFrameworkStores<Hospital_WebContext>()
     .AddDefaultTokenProviders();
 
+
 //adicionado
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
@@ -67,6 +68,7 @@ builder.Services.AddScoped<TokenService>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
+
 
 // ENVIO EMAIL
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));

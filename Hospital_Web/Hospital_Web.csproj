@@ -31,11 +31,14 @@
     <Compile Remove="Controllers\API\AdministracaoController.cs" />
     <Compile Remove="Data\RoleInitializer.cs" />
     <Compile Remove="Models\Administrador.cs" />
-    <Compile Remove="Services\SmtpEmailSender.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Remove="Areas\Identity\Pages\Account\Register.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\ResendEmailConfirmationConfirmation.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
