@@ -36,12 +36,14 @@ namespace Hospital_Web.Models
         /// Nome do seguro do utente.
         /// </summary>
         [StringLength(100)]
+        [Display(Name = "Seguro de Saúde")]
         public string Seguro_de_Saude { get; set; } = string.Empty;
 
         /// <summary>
         /// Data de registo do Utente.
         /// </summary>
         [DataType(DataType.Date)]
+        [Display(Name = "Data de registo")]
         public DateTime Data_de_Registo { get; set; } = DateTime.Now;
 
         // Foreign key for Medico Associado
@@ -49,6 +51,7 @@ namespace Hospital_Web.Models
         /// <summary>
         /// Identificador do médico associado ao Utente. (Opcional)
         /// </summary>
+        [Display(Name = "Médico Associado")]
         public int? Medico_Associado_Id { get; set; }
 
         [ForeignKey("Medico_Associado_Id")]

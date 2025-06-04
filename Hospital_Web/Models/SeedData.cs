@@ -106,7 +106,7 @@ public static class SeedData
                 new Medico
                 {
                     Especialidade = "Neurologia",
-                    Numero_de_ordem = "HT-20083421",
+                    Numero_de_ordem = "20083421",
                     Anos_de_experiencia = 15,
 
                     Nome = "Inês Moura",
@@ -124,7 +124,7 @@ public static class SeedData
                 new Medico
                 {
                     Especialidade = "Ortopedia",
-                    Numero_de_ordem = "HT-18827412",
+                    Numero_de_ordem = "18827412",
                     Anos_de_experiencia = 8,
             
                     Nome = "Luís Martins",
@@ -143,7 +143,7 @@ public static class SeedData
                 new Medico
                 {
                     Especialidade = "Cardiologia",
-                    Numero_de_ordem = "HT-19204053",
+                    Numero_de_ordem = "19204053",
                     Anos_de_experiencia = 10,
 
 
@@ -364,9 +364,9 @@ public static class SeedData
                         {
                             Data = DateTime.Parse("2025-04-16"),
                             Hora = TimeSpan.Parse("10:00"),
-                            Diagnostico = "",
-                            Tratamento= "",
-                            Observacoes = "",
+                            Diagnostico = "Hipertensão arterial controlada",
+                            Tratamento = "Prescrição de medicação anti-hipertensiva e recomendações de dieta",
+                            Observacoes = "Paciente aconselhado a medir a pressão arterial diariamente e retornar em 2 semanas",
                             Utente_Id = newestUtente.N_Processo,
                             Utente = newestUtente,
                             Medico_Id = newestMedico.N_Processo,

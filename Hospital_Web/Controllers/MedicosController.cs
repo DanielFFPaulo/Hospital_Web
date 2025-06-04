@@ -20,9 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Medicos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Medico.ToListAsync());
+            if (_context.Medico == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Medico'  is null.");
+            }
+
+            var medicos = from m in _context.Medico
+                          select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                medicos = medicos.Where(m => m.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await medicos.ToListAsync());
         }
 
         // GET: Medicos/Details/5
