@@ -49,6 +49,5 @@ namespace Hospital_Web.Data
         public DbSet<Hospital_Web.Models.Sala> Sala { get; set; } = default!;
         public DbSet<Hospital_Web.Models.Utente> Utente { get; set; } = default!;
         public DbSet<Hospital_Web.Models.Utilizador> Utilizador { get; set; } = default!;
-        public DbSet<Administrador> Administrador { get; set; }
     }
 }
