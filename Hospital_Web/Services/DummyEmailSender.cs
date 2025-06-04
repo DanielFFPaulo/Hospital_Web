@@ -5,14 +5,13 @@ namespace Hospital_Web.Services
 {
     public class DummyEmailSender : IEmailSender
     {
-        public Task SendEmailAsync(string email, string subject, string htmlMessage)
+        public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Apenas simula envio de email (para testes)
-            Console.WriteLine($"Email para: {email}");
-            Console.WriteLine($"Assunto: {subject}");
-            Console.WriteLine($"Mensagem: {htmlMessage}");
+            // Apenas simula envio — NÃO ENVIA NADA
+            Console.WriteLine($"Simulado envio para {email}: {subject}");
             return Task.CompletedTask;
         }
+
     }
 }
 

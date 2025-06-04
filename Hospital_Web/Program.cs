@@ -5,8 +5,9 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Hospital_Web.Services;
-using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -67,7 +68,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
-builder.Services.AddSingleton<IEmailSender, DummyEmailSender>();
+// ENVIO EMAIL
+builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+builder.Services.AddTransient<Hospital_Web.Services.IEmailSender, Hospital_Web.Services.SmtpEmailSender>();
 
 var app = builder.Build();
 
@@ -88,7 +91,6 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
-
 
 
 app.UseHttpsRedirection();
@@ -112,7 +114,7 @@ app.MapRazorPages();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await RoleInitializer.SeedRolesAsync(services);
+
 }
 
 app.Run();
