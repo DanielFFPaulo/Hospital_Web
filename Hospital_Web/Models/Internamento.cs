@@ -44,6 +44,12 @@ namespace Hospital_Web.Models
         [Display(Name = "Quarto")]
         public int Quarto_Id { get; set; }
 
+        /// <summary>
+        ///     
+        /// Descrição do Quarto onde o Utente está internado.
+
+
+
         [ForeignKey("Quarto_Id")]
         public virtual QuartosInternagem? Quarto { get; set; }
 
@@ -53,6 +59,7 @@ namespace Hospital_Web.Models
 
         [ForeignKey("Consulta_Id")]
         public virtual Consulta? Consulta { get; set; }
+
     }
 
 }

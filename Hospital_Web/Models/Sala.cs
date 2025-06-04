@@ -24,6 +24,8 @@ namespace Hospital_Web.Models
         [Required(ErrorMessage = "É necessário definir o {0}")]
         public int Numero { get; set; }
 
+        public string SalaDefiner => $"{Bloco}{Andar}{Numero.ToString("D2")}";
+
         // Navigation property for limpezas
         public virtual ICollection<LimpezaSala> LimpezasDeSala { get; set; } = [];
 
