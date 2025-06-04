@@ -20,9 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Pessoas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Pessoa.ToListAsync());
+            if (_context.Pessoa == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Pessoa'  is null.");
+            }
+
+            var pessoas = from p in _context.Pessoa
+                         select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pessoas = pessoas.Where(s => s.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await pessoas.ToListAsync());
         }
 
         // GET: Pessoas/Details/5

@@ -20,9 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: FuncionarioLimpezas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.FuncionarioLimpeza.ToListAsync());
+            if (_context.FuncionarioLimpeza == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.FuncionarioLimpeza'  is null.");
+            }
+
+            var funcLimpeza = from fl in _context.FuncionarioLimpeza
+                              select fl;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                funcLimpeza = funcLimpeza.Where(fl => fl.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await funcLimpeza.ToListAsync());
         }
 
         // GET: FuncionarioLimpezas/Details/5
