@@ -34,6 +34,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
         public void OnGet() { }
 
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
