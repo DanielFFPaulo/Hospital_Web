@@ -68,6 +68,7 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
 
+
 // ENVIO EMAIL
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<Hospital_Web.Services.IEmailSender, Hospital_Web.Services.SmtpEmailSender>();

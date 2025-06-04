@@ -25,9 +25,13 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         private readonly ILogger<LoginModel> _logger;
 
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager,
+            ILogger<LoginModel> logger)
         {
             _signInManager = signInManager;
+            _userManager = userManager;
             _logger = logger;
         }
 
@@ -118,8 +122,22 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+
+                    var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                    if (user != null && user.DeveAlterarSenha)
+                    {
+                        // Autentica o utilizador antes de redirecionar
+                        await _signInManager.SignInAsync(user, isPersistent: Input.RememberMe);
+
+                        // Redireciona para a página obrigatória de alteração de password
+                        return RedirectToPage("/Account/ForceChangePassword");
+                    }
+
                     return LocalRedirect(returnUrl);
                 }
+
+
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });

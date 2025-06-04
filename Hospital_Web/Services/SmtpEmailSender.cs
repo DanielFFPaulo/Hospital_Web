@@ -21,7 +21,7 @@ namespace Hospital_Web.Services
         public async Task SendEmailAsync(string email, string subject, string message)
         {
             var emailMessage = new MimeMessage();
-            emailMessage.From.Add(new MailboxAddress("Hospital", "lusobites.contact@gmail.com"));
+            emailMessage.From.Add(new MailboxAddress(_settings.FromName, _settings.FromEmail));
             emailMessage.To.Add(MailboxAddress.Parse(email));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart("html") { Text = message };
