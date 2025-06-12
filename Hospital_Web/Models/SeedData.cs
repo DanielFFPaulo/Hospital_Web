@@ -37,13 +37,13 @@ public static class SeedData
                     Localidade = "Lisboa",
                     sexo = Pessoa.Sexo.Masculino,
                     DataDeNascimento = DateTime.Parse("1990-04-16"),
-                    Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Positivo
+                    Grupo_Sanguineo = Utente.GrupoSanguineo.O_Positivo
                 },
 
                 new Utente
                 {
                     Estado_clinico = "Paciente com queixas de dores de cabeça frequentes e insónia.",
-                    Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Negativo,
+                    Grupo_Sanguineo = Utente.GrupoSanguineo.A_Positivo,
                     Alergias = "Pólen",
                     Seguro_de_Saude = "Multicare",
                     Nome = "Maria Ferreira",
@@ -61,7 +61,7 @@ public static class SeedData
                 new Utente
                 {
                     Estado_clinico = "Relatou dores abdominais persistentes há mais de uma semana.",
-                    Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Positivo,
+                    Grupo_Sanguineo = Utente.GrupoSanguineo.B_Positivo,
                     Alergias = "Nenhuma conhecida",
                     Seguro_de_Saude = "Médis",
                     Nome = "Carlos Gomes",
@@ -79,7 +79,7 @@ public static class SeedData
                 new Utente
                 {
                     Estado_clinico = "Paciente com asma moderada, em tratamento controlado.",
-                    Grupo_Sanguineo = Pessoa.GrupoSanguineo.AB_Positivo,
+                    Grupo_Sanguineo = Utente.GrupoSanguineo.AB_Positivo,
                     Alergias = "Poeira, Ácaros",
                     Seguro_de_Saude = "AdvanceCare",
                     Nome = "Ana Costa",
