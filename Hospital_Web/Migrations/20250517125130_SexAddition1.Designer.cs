@@ -4,6 +4,7 @@ using Hospital_Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Web.Migrations
 {
     [DbContext(typeof(Hospital_WebContext))]
-    partial class Hospital_WebContextModelSnapshot : ModelSnapshot
+    [Migration("20250517125130_SexAddition1")]
+    partial class SexAddition1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,9 +37,6 @@ namespace Hospital_Web.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("DeveAlterarSenha")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -44,17 +44,11 @@ namespace Hospital_Web.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("FuncionarioLimpezaId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("MedicoId")
-                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -83,14 +77,7 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
-                    b.Property<int?>("UtenteId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("FuncionarioLimpezaId");
-
-                    b.HasIndex("MedicoId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -99,8 +86,6 @@ namespace Hospital_Web.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
-
-                    b.HasIndex("UtenteId");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -174,10 +159,10 @@ namespace Hospital_Web.Migrations
                     b.Property<int?>("Consulta_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DataHoraEntrada")
+                    b.Property<DateTime>("Data_Hora_Entrada")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("DataHoraSaida")
+                    b.Property<DateTime?>("Data_Hora_Saida")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Quarto_Id")
@@ -251,7 +236,7 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("DataDeNascimento")
+                    b.Property<DateTime>("Data_de_Nascimento")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -259,7 +244,7 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Grupo_Sanguineo")
+                    b.Property<int>("Idade")
                         .HasColumnType("int");
 
                     b.Property<string>("Localidade")
@@ -553,6 +538,9 @@ namespace Hospital_Web.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Grupo_Sanguineo")
+                        .HasColumnType("int");
+
                     b.Property<int?>("Medico_Associado_Id")
                         .HasColumnType("int");
 
@@ -608,27 +596,6 @@ namespace Hospital_Web.Migrations
                         .HasColumnType("int");
 
                     b.HasDiscriminator().HasValue("QuartosInternagem");
-                });
-
-            modelBuilder.Entity("Hospital_Web.Models.ApplicationUser", b =>
-                {
-                    b.HasOne("Hospital_Web.Models.FuncionarioLimpeza", "FuncionarioLimpeza")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioLimpezaId");
-
-                    b.HasOne("Hospital_Web.Models.Medico", "Medico")
-                        .WithMany()
-                        .HasForeignKey("MedicoId");
-
-                    b.HasOne("Hospital_Web.Models.Utente", "Utente")
-                        .WithMany()
-                        .HasForeignKey("UtenteId");
-
-                    b.Navigation("FuncionarioLimpeza");
-
-                    b.Navigation("Medico");
-
-                    b.Navigation("Utente");
                 });
 
             modelBuilder.Entity("Hospital_Web.Models.Consulta", b =>

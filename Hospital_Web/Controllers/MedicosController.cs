@@ -25,9 +25,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Medicos
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Medico.ToListAsync());
+            if (_context.Medico == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Medico'  is null.");
+            }
+
+            var medicos = from m in _context.Medico
+                          select m;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                medicos = medicos.Where(m => m.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await medicos.ToListAsync());
         }
 
         // GET: Medicos/Details/5
@@ -59,7 +72,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Medico medico)
         {
             if (!ModelState.IsValid)
                 return View(medico);
@@ -138,7 +151,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Medico medico)
+        public async Task<IActionResult> Edit(int id, [Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Medico medico)
         {
             if (id != medico.N_Processo)
             {

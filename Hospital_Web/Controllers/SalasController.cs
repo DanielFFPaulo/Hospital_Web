@@ -20,9 +20,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Salas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Sala.ToListAsync());
+            if (_context.Sala == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Sala'  is null.");
+            }
+
+            var sala = from s in _context.Sala
+                          select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                sala = sala.Where(s => s.Bloco!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await sala.ToListAsync());
         }
 
         // GET: Salas/Details/5

@@ -24,9 +24,22 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Pessoas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString)
         {
-            return View(await _context.Pessoa.ToListAsync());
+            if (_context.Pessoa == null)
+            {
+                return Problem("Entity set 'Hospital_WebContext.Pessoa'  is null.");
+            }
+
+            var pessoas = from p in _context.Pessoa
+                         select p;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pessoas = pessoas.Where(s => s.Nome!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            return View(await pessoas.ToListAsync());
         }
 
         // GET: Pessoas/Details/5
@@ -52,7 +65,7 @@ namespace Hospital_Web.Controllers
         // POST: Pessoas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
+        public async Task<IActionResult> Create([Bind("N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
         {
             if (!ModelState.IsValid)
                 return View(pessoa);
@@ -75,7 +88,35 @@ namespace Hospital_Web.Controllers
                 return NotFound();
 
             return View(pessoa);
-        }
+       }
+        // POST: Pessoas/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
+        {
+            if (id != pessoa.N_Processo)
+                return NotFound();
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(pessoa);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PessoaExists(pessoa.N_Processo))
+                        return NotFound();
+                    else
+                        throw;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(pessoa);
+      
 
 
         // GET: Pessoas/Delete/5

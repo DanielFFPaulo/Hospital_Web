@@ -18,7 +18,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Data e hora de entrada")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime Data_Hora_Entrada { get; set; }
+        public DateTime DataHoraEntrada { get; set; }
 
         /// <summary>
         /// Data e hora de saída do Utente do internamento.
@@ -26,7 +26,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.DateTime)]
         [Display(Name = "Data e hora de saída")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}", ApplyFormatInEditMode = true)]
-        public DateTime? Data_Hora_Saida { get; set; }
+        public DateTime? DataHoraSaida { get; set; }
 
 
 
