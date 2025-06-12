@@ -8,10 +8,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Hospital_Web.Migrations
+namespace Hospital_Web.Migrations.ApplicationDb
 {
-    [DbContext(typeof(Hospital_WebContext))]
-    partial class Hospital_WebContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -44,17 +44,11 @@ namespace Hospital_Web.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("FuncionarioLimpezaId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int?>("MedicoId")
-                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -88,10 +82,6 @@ namespace Hospital_Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("FuncionarioLimpezaId");
-
-                    b.HasIndex("MedicoId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -121,17 +111,11 @@ namespace Hospital_Web.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<int?>("GabineteID")
-                        .HasColumnType("int");
-
                     b.Property<int>("Gabinete_Id")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Hora")
                         .HasColumnType("time");
-
-                    b.Property<int?>("MedicoN_Processo")
-                        .HasColumnType("int");
 
                     b.Property<int>("Medico_Id")
                         .HasColumnType("int");
@@ -150,11 +134,7 @@ namespace Hospital_Web.Migrations
 
                     b.HasKey("Episodio");
 
-                    b.HasIndex("GabineteID");
-
                     b.HasIndex("Gabinete_Id");
-
-                    b.HasIndex("MedicoN_Processo");
 
                     b.HasIndex("Medico_Id");
 
@@ -386,6 +366,14 @@ namespace Hospital_Web.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "a",
+                            Name = "admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -411,6 +399,76 @@ namespace Hospital_Web.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetRoleClaims", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("IdentityUser");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "admin",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "STATIC-CONCURRENCY-STAMP-5678",
+                            Email = "admin@mail.pt",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "ADMIN@MAIL.PT",
+                            NormalizedUserName = "ADMIN@MAIL.PT",
+                            PasswordHash = "AQAAAAIAAYagAAAAEJRAyJ3o3op6t8rxDtx+xUHAk0QEBrwldcG7zIylR2tnJDKTNf9jf+tGeKuzChiDrg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "STATIC-SECURITY-STAMP-1234",
+                            TwoFactorEnabled = false,
+                            UserName = "admin@mail.pt"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -473,6 +531,13 @@ namespace Hospital_Web.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "admin",
+                            RoleId = "a"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -612,51 +677,31 @@ namespace Hospital_Web.Migrations
 
             modelBuilder.Entity("Hospital_Web.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Hospital_Web.Models.FuncionarioLimpeza", "FuncionarioLimpeza")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioLimpezaId");
-
-                    b.HasOne("Hospital_Web.Models.Medico", "Medico")
-                        .WithMany()
-                        .HasForeignKey("MedicoId");
-
                     b.HasOne("Hospital_Web.Models.Utente", "Utente")
                         .WithMany()
                         .HasForeignKey("UtenteId");
-
-                    b.Navigation("FuncionarioLimpeza");
-
-                    b.Navigation("Medico");
 
                     b.Navigation("Utente");
                 });
 
             modelBuilder.Entity("Hospital_Web.Models.Consulta", b =>
                 {
-                    b.HasOne("Hospital_Web.Models.Gabinete", null)
-                        .WithMany("Consultas")
-                        .HasForeignKey("GabineteID");
-
                     b.HasOne("Hospital_Web.Models.Gabinete", "Gabinete")
-                        .WithMany()
+                        .WithMany("Consultas")
                         .HasForeignKey("Gabinete_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Hospital_Web.Models.Medico", null)
-                        .WithMany("Consultas")
-                        .HasForeignKey("MedicoN_Processo");
-
                     b.HasOne("Hospital_Web.Models.Medico", "Medico")
-                        .WithMany()
+                        .WithMany("Consultas")
                         .HasForeignKey("Medico_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Hospital_Web.Models.Utente", "Utente")
                         .WithMany("Consultas")
                         .HasForeignKey("Utente_Id")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Gabinete");

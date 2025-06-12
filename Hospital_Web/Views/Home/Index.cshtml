@@ -2,6 +2,17 @@
     ViewData["Title"] = "Painel Principal";
 }
 
+@using Microsoft.AspNetCore.Identity
+@using Hospital_Web.Models
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    bool isUtente = user?.UtenteId != null;
+    bool isMedico = user?.MedicoId != null;
+    bool isFuncionarioLimpeza = user?.FuncionarioLimpezaId != null;
+}
+
 @if ((bool)(ViewBag.DeveAlterarSenha ?? false))
 {
     <div class="alert alert-warning mt-4">
@@ -22,21 +33,48 @@
 
 <div class="container mt-5">
     <h1 class="text-center mb-4 text-primary">🏥 Sistema Hospitalar</h1>
-    <h4 class="text-center text-muted mb-5">Escolha uma secção para gerir</h4>
+    <h4 class="text-center text-muted mb-5">Escolha uma área para gerir</h4>
 
     <div class="row row-cols-1 row-cols-md-3 g-4">
+        @if (isUtente)
+        {
+            <div class="d-flex flex-column align-items-center w-100 mt-3">
+                <div style="width: 300px;">
+                    <partial name="_MenuCard" model="@(Tuple.Create("Consultas", "Consultas", "Index"))" />
+                </div>
+            </div>
+        }
 
-        <partial name="_MenuCard" model="@(Tuple.Create("Consultas", "Consultas", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Funcionários de Limpeza", "FuncionarioLimpezas", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Gabinetes", "Gabinetes", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Internamentos", "Internamentos", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Limpeza de Salas", "LimpezaSalas", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Médicos", "Medicos", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Pessoas", "Pessoas", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Quartos de Internamento", "QuartosInternagems", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Salas", "Salas", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Utentes", "Utentes", "Index"))" />
-        <partial name="_MenuCard" model="@(Tuple.Create("Utilizadores", "Utilizadores", "Index"))" />
+            else if (isFuncionarioLimpeza)
+    {
+        <div class="d-flex flex-column align-items-center w-100 mt-3">
+            <div style="width: 300px;">
+                <partial name="_MenuCard" model="@(Tuple.Create("Limpeza de Salas", "LimpezaSalas", "Index"))" />
+            </div>
+        </div>
+    }
 
+        else if (isMedico)
+        {
+            <partial name="_MenuCard" model="@(Tuple.Create("Consultas", "Consultas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Internamentos", "Internamentos", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Quartos de Internamento", "QuartosInternagems", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Gabinetes", "Gabinetes", "Index"))" />
+        }
+        else
+        {
+            <partial name="_MenuCard" model="@(Tuple.Create("Consultas", "Consultas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Funcionários de Limpeza", "FuncionarioLimpezas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Gabinetes", "Gabinetes", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Internamentos", "Internamentos", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Limpeza de Salas", "LimpezaSalas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Médicos", "Medicos", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Pessoas", "Pessoas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Quartos de Internamento", "QuartosInternagems", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Salas", "Salas", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Utentes", "Utentes", "Index"))" />
+            <partial name="_MenuCard" model="@(Tuple.Create("Utilizadores", "Utilizadores", "Index"))" />
+        }
     </div>
+
 </div>

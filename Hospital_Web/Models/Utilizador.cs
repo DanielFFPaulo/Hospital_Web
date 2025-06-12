@@ -11,6 +11,8 @@ namespace Hospital_Web.Models
         [Key]
         public int ID_Utilizador { get; set; }
 
+
+
         /// <summary>
         /// Nome de utilizador para autenticação.
         /// </summary>
@@ -39,6 +41,5 @@ namespace Hospital_Web.Models
         [ForeignKey("Pessoa_Id")]
         public virtual Pessoa? Pessoa { get; set; }
 
-        public string AspNetUserId { get; set; } // para associar ao Identity
     }
 }

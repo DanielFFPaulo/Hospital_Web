@@ -13,15 +13,6 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Especialidade)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Numero_de_ordem)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Anos_de_experiencia)
-            </th>
-            <th>
                 @Html.DisplayNameFor(model => model.Nome)
             </th>
             <th>
@@ -51,12 +42,52 @@
             <th>
                 @Html.DisplayNameFor(model => model.Localidade)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Especialidade)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Numero_de_ordem)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Anos_de_experiencia)
+            </th>
+ 
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Idade)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Data_de_Nascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Morada)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telemovel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelemovelAlt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NIF)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cod_Postal)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Localidade)
+                </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Especialidade)
             </td>
@@ -66,36 +97,8 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Anos_de_experiencia)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Idade)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_de_Nascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Morada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telemovel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelemovelAlt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIF)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cod_Postal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Localidade)
-            </td>
+
+  
             <td>
                 <a asp-action="Edit" asp-route-id="@item.N_Processo">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.N_Processo">Details</a> |

@@ -57,56 +57,10 @@ namespace Hospital_Web.Controllers
             if (!ModelState.IsValid)
                 return View(pessoa);
 
-            // Criar o utilizador primeiro
-            var user = new ApplicationUser
-            {
-                UserName = pessoa.Email,
-                Email = pessoa.Email,
-                DeveAlterarSenha = true
-            };
+            _context.Pessoa.Add(pessoa);
+            await _context.SaveChangesAsync();
 
-            string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
-            var result = await _userManager.CreateAsync(user, senhaTemporaria);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                    ModelState.AddModelError("", error.Description);
-
-                return View(pessoa);
-            }
-
-            // Se chegou aqui, o utilizador foi criado. Inicia transação para garantir integridade.
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                _context.Pessoa.Add(pessoa);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                await _emailSender.SendEmailAsync(
-                    pessoa.Email,
-                    "Bem-vindo ao Portal do Hospital",
-                    $@"
-            <p>Olá {pessoa.Nome},</p>
-            <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
-            <p><strong>Credenciais de acesso:</strong><br>
-            Email: {pessoa.Email}<br>
-            Senha: {senhaTemporaria}</p>
-            <p>Por favor, altere a sua senha após o primeiro login.</p>");
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                // Se der erro ao criar Pessoa, remove o utilizador e faz rollback
-                await _userManager.DeleteAsync(user);
-                await transaction.RollbackAsync();
-
-                ModelState.AddModelError("", "Erro ao criar a pessoa. Nenhum dado foi gravado.");
-                return View(pessoa);
-            }
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -147,15 +101,23 @@ namespace Hospital_Web.Controllers
 
             if (pessoa != null)
             {
-                // 🧹 Apagar também o utilizador do Identity (caso exista)
+                //  Apagar também o utilizador do Identity (caso exista)
                 var user = await _userManager.FindByEmailAsync(pessoa.Email);
                 if (user != null)
                 {
                     await _userManager.DeleteAsync(user);
                 }
 
-                _context.Pessoa.Remove(pessoa);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Pessoa.Remove(pessoa);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Não é possível eliminar a pessoa porque existem registos associados (ex: consultas).");
+                    return View("Delete", pessoa);
+                }
             }
 
             return RedirectToAction(nameof(Index));

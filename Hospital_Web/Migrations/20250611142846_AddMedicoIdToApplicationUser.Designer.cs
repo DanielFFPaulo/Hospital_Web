@@ -4,6 +4,7 @@ using Hospital_Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Web.Migrations
 {
     [DbContext(typeof(Hospital_WebContext))]
-    partial class Hospital_WebContextModelSnapshot : ModelSnapshot
+    [Migration("20250611142846_AddMedicoIdToApplicationUser")]
+    partial class AddMedicoIdToApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -43,9 +46,6 @@ namespace Hospital_Web.Migrations
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<int?>("FuncionarioLimpezaId")
-                        .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
@@ -87,8 +87,6 @@ namespace Hospital_Web.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FuncionarioLimpezaId");
 
                     b.HasIndex("MedicoId");
 
@@ -612,10 +610,6 @@ namespace Hospital_Web.Migrations
 
             modelBuilder.Entity("Hospital_Web.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("Hospital_Web.Models.FuncionarioLimpeza", "FuncionarioLimpeza")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioLimpezaId");
-
                     b.HasOne("Hospital_Web.Models.Medico", "Medico")
                         .WithMany()
                         .HasForeignKey("MedicoId");
@@ -623,8 +617,6 @@ namespace Hospital_Web.Migrations
                     b.HasOne("Hospital_Web.Models.Utente", "Utente")
                         .WithMany()
                         .HasForeignKey("UtenteId");
-
-                    b.Navigation("FuncionarioLimpeza");
 
                     b.Navigation("Medico");
 

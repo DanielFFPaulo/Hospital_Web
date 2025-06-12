@@ -34,19 +34,18 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
 
-
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = "Cookies"; // login normal
-    options.DefaultChallengeScheme = "Bearer"; // APIs
+options.DefaultScheme = "Cookies"; // <- define que a autenticação padrão usa Cookies
 })
 .AddCookie("Cookies", options =>
 {
-    options.LoginPath = "/Identity/Account/Login";
-    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+options.LoginPath = "/Identity/Account/Login";
+options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 })
 .AddJwtBearer("Bearer", options =>
 {
+    
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -90,8 +89,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
-
-
 app.UseRouting();
 
 //adicionado
@@ -105,10 +102,48 @@ app.MapControllerRoute(
 
 app.MapRazorPages();
 
+app.MapControllers();
+
+app.MapDefaultControllerRoute();
+
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
 
+    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+
+    Task.Run(async () =>
+    {
+        // Criar Role Admin se não existir
+        if (!await roleManager.RoleExistsAsync("Admin"))
+        {
+            await roleManager.CreateAsync(new IdentityRole("Admin"));
+        }
+
+        // Criar utilizador admin inicial (só se não existir)
+        var adminEmail = "admin@hospital.com";
+        var adminUser = await userManager.FindByEmailAsync(adminEmail);
+
+        if (adminUser == null)
+        {
+            var user = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true,
+                DeveAlterarSenha = true
+            };
+
+            string senhaTemporaria = "Hosp@123456";
+            var result = await userManager.CreateAsync(user, senhaTemporaria);
+
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(user, "Admin");
+            }
+        }
+    }).GetAwaiter().GetResult();
 }
 
 app.Run();

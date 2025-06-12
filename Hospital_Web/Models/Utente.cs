@@ -5,6 +5,7 @@ namespace Hospital_Web.Models
 {
     public class Utente : Pessoa
     {
+
         /// <summary>
         /// Grupo sanguineo do Utente
         /// </summary>
@@ -72,6 +73,7 @@ namespace Hospital_Web.Models
         [StringLength(100)]
         public string Seguro_de_Saude { get; set; } = string.Empty;
 
+
         /// <summary>
         /// Data de registo do Utente.
         /// </summary>
@@ -91,5 +93,6 @@ namespace Hospital_Web.Models
         // Navigation properties
         public virtual ICollection<Consulta> Consultas { get; set; } = [];
         public virtual ICollection<Internamento> Internamentos { get; set; } = [];
+
     }
 }

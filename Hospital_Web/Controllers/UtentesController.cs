@@ -1,22 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
+using Hospital_Web.Services;
+using Microsoft.AspNetCore.Identity;
+
 
 namespace Hospital_Web.Controllers
 {
     public class UtentesController : Controller
     {
         private readonly Hospital_WebContext _context;
+        private readonly IEmailSender _emailSender;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UtentesController(Hospital_WebContext context)
+        public UtentesController(
+          Hospital_WebContext context,
+          IEmailSender emailSender,
+          UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _emailSender = emailSender;
+            _userManager = userManager;
         }
 
         // GET: Utentes
@@ -59,31 +65,54 @@ namespace Hospital_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(utente);
+
+            // 1. Criar o Utente na base de dados
+            _context.Add(utente);
+            await _context.SaveChangesAsync();
+
+            // 2. Criar utilizador no Identity com UtenteId
+            var user = new ApplicationUser
             {
-                _context.Add(utente);
+                UserName = utente.Email,
+                Email = utente.Email,
+                DeveAlterarSenha = true,
+                UtenteId = utente.N_Processo
+            };
+
+            string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            var result = await _userManager.CreateAsync(user, senhaTemporaria);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                // Remover utente se criação de utilizador falhar
+                _context.Utente.Remove(utente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
-            return View(utente);
-        }
 
-        // GET: Utentes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
+                return View(utente);
             }
 
-            var utente = await _context.Utente.FindAsync(id);
-            if (utente == null)
-            {
-                return NotFound();
-            }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
-            return View(utente);
+            // 3. Adicionar ao role "Utente"
+            await _userManager.AddToRoleAsync(user, "Utente");
+
+            // 4. Enviar email
+            await _emailSender.SendEmailAsync(
+                utente.Email,
+                "Bem-vindo ao Portal do Hospital",
+                $@"
+<p>Olá {utente.Nome},</p>
+<p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
+<p><strong>Credenciais:</strong><br>
+Email: {utente.Email}<br>
+Senha temporária: {senhaTemporaria}</p>
+<p><a href='https://localhost:7140/Identity/Account/Login'>Entrar no sistema Hospital</a></p>
+<p>Será solicitado a alterar a senha no primeiro login.</p>");
+
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: Utentes/Edit/5

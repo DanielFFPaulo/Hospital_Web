@@ -38,5 +38,6 @@ namespace Hospital_Web.Models
 
         // Navigation property for Utentes assigned to this Medico
         public virtual ICollection<Utente> UtentesAssociados { get; set; } = [];
+
     }
 }
