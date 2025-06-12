@@ -18,7 +18,57 @@
                         asp-items="Html.GetEnumSelectList<Hospital_Web.Models.FuncionarioLimpeza.Turnos>()">
                     <option value="">-- Selecione --</option>
                 </select>
-                <span asp-validation-for="Turno" class="text-danger"></span>
+                <div class="form-group">
+                    <label asp-for="Nome" class="control-label"></label>
+                    <input asp-for="Nome" class="form-control" />
+                    <span asp-validation-for="Nome" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Idade" class="control-label"></label>
+                    <input asp-for="Idade" class="form-control" />
+                    <span asp-validation-for="Idade" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Data_de_Nascimento" class="control-label"></label>
+                    <input asp-for="Data_de_Nascimento" class="form-control" />
+                    <span asp-validation-for="Data_de_Nascimento" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Morada" class="control-label"></label>
+                    <input asp-for="Morada" class="form-control" />
+                    <span asp-validation-for="Morada" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Telemovel" class="control-label"></label>
+                    <input asp-for="Telemovel" class="form-control" />
+                    <span asp-validation-for="Telemovel" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TelemovelAlt" class="control-label"></label>
+                    <input asp-for="TelemovelAlt" class="form-control" />
+                    <span asp-validation-for="TelemovelAlt" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="NIF" class="control-label"></label>
+                    <input asp-for="NIF" class="form-control" />
+                    <span asp-validation-for="NIF" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Cod_Postal" class="control-label"></label>
+                    <input asp-for="Cod_Postal" class="form-control" />
+                    <span asp-validation-for="Cod_Postal" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Localidade" class="control-label"></label>
+                    <input asp-for="Localidade" class="form-control" />
+                    <span asp-validation-for="Localidade" class="text-danger"></span>
+                </div>
+          
             </div>
             <div class="form-group">
                 <label asp-for="Tamanho_Uniforme" class="control-label"></label>
@@ -28,6 +78,7 @@
                 </select>
                 <span asp-validation-for="Tamanho_Uniforme" class="text-danger"></span>
             </div>
+            <span asp-validation-for="Turno" class="text-danger"></span>
             <div class="form-group">
                 <label asp-for="Data_de_contratacao" class="control-label"></label>
                 <input asp-for="Data_de_contratacao" class="form-control" />
@@ -37,67 +88,6 @@
                 <label asp-for="Certificacoes" class="control-label"></label>
                 <input asp-for="Certificacoes" class="form-control" />
                 <span asp-validation-for="Certificacoes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Nome" class="control-label"></label>
-                <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataDeNascimento" class="control-label"></label>
-                <input asp-for="DataDeNascimento" class="form-control" />
-                <span asp-validation-for="DataDeNascimento" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="sexo" class="control-label"></label>
-                <select asp-for="sexo" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.FuncionarioLimpeza.Sexo>()">
-                    <option value="">-- Selecione --</option>
-                </select>
-                <span asp-validation-for="sexo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Morada" class="control-label"></label>
-                <input asp-for="Morada" class="form-control" />
-                <span asp-validation-for="Morada" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Grupo_Sanguineo" class="control-label"></label>
-                <select asp-for="Grupo_Sanguineo" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.FuncionarioLimpeza.GrupoSanguineo>()">
-                    <option value="">-- Selecione --</option>
-                </select>
-                <span asp-validation-for="Grupo_Sanguineo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Telemovel" class="control-label"></label>
-                <input asp-for="Telemovel" class="form-control" />
-                <span asp-validation-for="Telemovel" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TelemovelAlt" class="control-label"></label>
-                <input asp-for="TelemovelAlt" class="form-control" />
-                <span asp-validation-for="TelemovelAlt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NIF" class="control-label"></label>
-                <input asp-for="NIF" class="form-control" />
-                <span asp-validation-for="NIF" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cod_Postal" class="control-label"></label>
-                <input asp-for="Cod_Postal" class="form-control" />
-                <span asp-validation-for="Cod_Postal" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Localidade" class="control-label"></label>
-                <input asp-for="Localidade" class="form-control" />
-                <span asp-validation-for="Localidade" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

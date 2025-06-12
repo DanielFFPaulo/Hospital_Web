@@ -6,6 +6,36 @@ namespace Hospital_Web.Models
     public class Utente : Pessoa
     {
 
+        /// <summary>
+        /// Grupo sanguineo do Utente
+        /// </summary>
+        public enum GrupoSanguineo
+        {
+            [Display(Name = "A+")]
+            A_Positivo,
+
+            [Display(Name = "A−")]
+            A_Negativo,
+
+            [Display(Name = "B+")]
+            B_Positivo,
+
+            [Display(Name = "B−")]
+            B_Negativo,
+
+            [Display(Name = "AB+")]
+            AB_Positivo,
+
+            [Display(Name = "AB−")]
+            AB_Negativo,
+
+            [Display(Name = "O+")]
+            O_Positivo,
+
+            [Display(Name = "O−")]
+            O_Negativo
+        }
+
 
         /// <summary>
         /// Estado clínico do Utente.
@@ -19,7 +49,12 @@ namespace Hospital_Web.Models
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Estado_clinico { get; set; } = string.Empty;
 
-
+        /// <summary>
+        /// Tipo sanguíneo do Utente.
+        /// </summary>
+        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Display(Name = "Tipo sanguineo")]
+        public GrupoSanguineo Grupo_Sanguineo { get; set; }
 
         /// <summary>
         /// Alergias do Utente.
@@ -36,14 +71,13 @@ namespace Hospital_Web.Models
         /// Nome do seguro do utente.
         /// </summary>
         [StringLength(100)]
-        [Display(Name = "Seguro de Saúde")]
         public string Seguro_de_Saude { get; set; } = string.Empty;
+
 
         /// <summary>
         /// Data de registo do Utente.
         /// </summary>
         [DataType(DataType.Date)]
-        [Display(Name = "Data de registo")]
         public DateTime Data_de_Registo { get; set; } = DateTime.Now;
 
         // Foreign key for Medico Associado
@@ -51,7 +85,6 @@ namespace Hospital_Web.Models
         /// <summary>
         /// Identificador do médico associado ao Utente. (Opcional)
         /// </summary>
-        [Display(Name = "Médico Associado")]
         public int? Medico_Associado_Id { get; set; }
 
         [ForeignKey("Medico_Associado_Id")]
@@ -60,5 +93,6 @@ namespace Hospital_Web.Models
         // Navigation properties
         public virtual ICollection<Consulta> Consultas { get; set; } = [];
         public virtual ICollection<Internamento> Internamentos { get; set; } = [];
+
     }
 }

@@ -12,60 +12,25 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Estado_clinico" class="control-label"></label>
-                <textarea asp-for="Estado_clinico" class="form-control"></textarea>
-                <span asp-validation-for="Estado_clinico" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Alergias" class="control-label"></label>
-                <textarea asp-for="Alergias" class="form-control"></textarea>
-                <span asp-validation-for="Alergias" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Seguro_de_Saude" class="control-label"></label>
-                <input asp-for="Seguro_de_Saude" class="form-control" />
-                <span asp-validation-for="Seguro_de_Saude" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Data_de_Registo" class="control-label"></label>
-                <input asp-for="Data_de_Registo" class="form-control" />
-                <span asp-validation-for="Data_de_Registo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Medico_Associado_Id" class="control-label"></label>
-                <select asp-for="Medico_Associado_Id" class ="form-control" asp-items="ViewBag.Medico_Associado_Id"></select>
-            </div>
+            <!-- Nome primeiro -->
             <div class="form-group">
                 <label asp-for="Nome" class="control-label"></label>
                 <input asp-for="Nome" class="form-control" />
-                <span asp-validation-for="Nome" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="DataDeNascimento" class="control-label"></label>
-                <input asp-for="DataDeNascimento" class="form-control" />
-                <span asp-validation-for="DataDeNascimento" class="text-danger"></span>
+                <label asp-for="Idade" class="control-label"></label>
+                <input asp-for="Idade" class="form-control" />
+                <span asp-validation-for="Idade" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="sexo" class="control-label"></label>
-                <select asp-for="sexo" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Utente.Sexo>()">
-                    <option value="">-- Selecione --</option>
-                </select>
-                <span asp-validation-for="sexo" class="text-danger"></span>
+                <label asp-for="Data_de_Nascimento" class="control-label"></label>
+                <input asp-for="Data_de_Nascimento" class="form-control" />
+                <span asp-validation-for="Data_de_Nascimento" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Morada" class="control-label"></label>
                 <input asp-for="Morada" class="form-control" />
                 <span asp-validation-for="Morada" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Grupo_Sanguineo" class="control-label"></label>
-                <select asp-for="Grupo_Sanguineo" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Utente.GrupoSanguineo>()">
-                    <option value="">-- Selecione --</option>
-                </select>
-                <span asp-validation-for="Grupo_Sanguineo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Telemovel" class="control-label"></label>
@@ -97,6 +62,40 @@
                 <input asp-for="Localidade" class="form-control" />
                 <span asp-validation-for="Localidade" class="text-danger"></span>
             </div>
+            
+            <div class="form-group">
+                <label asp-for="Estado_clinico" class="control-label"></label>
+                <textarea asp-for="Estado_clinico" class="form-control"></textarea>
+                <span asp-validation-for="Estado_clinico" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Grupo_Sanguineo" class="control-label"></label>
+                <select asp-for="Grupo_Sanguineo" class="form-control"
+                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Utente.GrupoSanguineo>()">
+                    <option value="">-- Selecione --</option>
+                </select>
+                <span asp-validation-for="Grupo_Sanguineo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Alergias" class="control-label"></label>
+                <textarea asp-for="Alergias" class="form-control"></textarea>
+                <span asp-validation-for="Alergias" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Seguro_de_Saude" class="control-label"></label>
+                <input asp-for="Seguro_de_Saude" class="form-control" />
+                <span asp-validation-for="Seguro_de_Saude" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Data_de_Registo" class="control-label"></label>
+                <input asp-for="Data_de_Registo" class="form-control" />
+                <span asp-validation-for="Data_de_Registo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Medico_Associado_Id" class="control-label"></label>
+                <select asp-for="Medico_Associado_Id" class ="form-control" asp-items="ViewBag.Medico_Associado_Id"></select>
+            </div>
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

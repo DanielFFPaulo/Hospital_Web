@@ -30,7 +30,6 @@
     <Compile Remove="Controllers\AdministracaoController.cs" />
     <Compile Remove="Controllers\API\AdministracaoController.cs" />
     <Compile Remove="Data\RoleInitializer.cs" />
-    <Compile Remove="Models\Administrador.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,17 +1,55 @@
-﻿@model IEnumerable<Hospital_Web.Models.Consulta>
+﻿@using Microsoft.AspNetCore.Identity
+@using Hospital_Web.Models
+@inject UserManager<ApplicationUser> UserManager
+
+@{
+    var user = await UserManager.GetUserAsync(User);
+    bool isUtente = user?.UtenteId != null;
+}
+
+@model IEnumerable<Hospital_Web.Models.Consulta>
 
 @{
     ViewData["Title"] = "Index";
 }
 
+<form method="get" class="row g-3 mb-4">
+    @if (!isUtente)
+    {
+        <div class="col-md-4">
+            <input type="text" name="nomeUtente" value="@Context.Request.Query["nomeUtente"]" class="form-control" placeholder="Nome do utente" />
+        </div>
+    }
+    <div class="col-md-4">
+        <input type="date" name="dataConsulta" value="@Context.Request.Query["dataConsulta"]" class="form-control" />
+    </div>
+    <div class="col-md-4">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+    </div>
+</form>
+
+
+
 <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (!isUtente)
+{
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Nova Consulta</a>
+    </p>
+}
+
+
 <table class="table">
     <thead>
         <tr>
+            @if (!isUtente)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Utente)
+                </th>
+            }
+
             <th>
                 @Html.DisplayNameFor(model => model.Data)
             </th>
@@ -30,9 +68,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.Medico)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Utente)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Gabinete)
             </th>
@@ -42,6 +78,12 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                @if (!isUtente)
+                {
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Utente.Nome)
+                    </td>
+                }
             <td>
                 @Html.DisplayFor(modelItem => item.Data)
             </td>
@@ -58,19 +100,25 @@
                 @Html.DisplayFor(modelItem => item.Observacoes)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Medico.NIF)
+                @Html.DisplayFor(modelItem => item.Medico.Nome)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Utente.NIF)
-            </td>
+
             <td>
                 @Html.DisplayFor(modelItem => item.Gabinete.Bloco)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Episodio">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Episodio">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Episodio">Delete</a>
-            </td>
+
+                <td>
+                    @if (!isUtente)
+                    {
+                        <text>
+                            <a asp-action="Edit" asp-route-id="@item.Episodio">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Episodio">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Episodio">Delete</a>
+                        </text>
+                    }
+                </td>
+
+
         </tr>
 }
     </tbody>

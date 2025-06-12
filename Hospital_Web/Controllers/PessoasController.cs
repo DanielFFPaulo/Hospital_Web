@@ -24,22 +24,9 @@ namespace Hospital_Web.Controllers
         }
 
         // GET: Pessoas
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            if (_context.Pessoa == null)
-            {
-                return Problem("Entity set 'Hospital_WebContext.Pessoa'  is null.");
-            }
-
-            var pessoas = from p in _context.Pessoa
-                         select p;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                pessoas = pessoas.Where(s => s.Nome!.ToUpper().Contains(searchString.ToUpper()));
-            }
-
-            return View(await pessoas.ToListAsync());
+            return View(await _context.Pessoa.ToListAsync());
         }
 
         // GET: Pessoas/Details/5
@@ -65,61 +52,15 @@ namespace Hospital_Web.Controllers
         // POST: Pessoas/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
+        public async Task<IActionResult> Create([Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
         {
             if (!ModelState.IsValid)
                 return View(pessoa);
 
-            // Criar o utilizador primeiro
-            var user = new ApplicationUser
-            {
-                UserName = pessoa.Email,
-                Email = pessoa.Email,
-                DeveAlterarSenha = true
-            };
+            _context.Pessoa.Add(pessoa);
+            await _context.SaveChangesAsync();
 
-            string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
-            var result = await _userManager.CreateAsync(user, senhaTemporaria);
-
-            if (!result.Succeeded)
-            {
-                foreach (var error in result.Errors)
-                    ModelState.AddModelError("", error.Description);
-
-                return View(pessoa);
-            }
-
-            // Se chegou aqui, o utilizador foi criado. Inicia transação para garantir integridade.
-            using var transaction = await _context.Database.BeginTransactionAsync();
-            try
-            {
-                _context.Pessoa.Add(pessoa);
-                await _context.SaveChangesAsync();
-
-                await transaction.CommitAsync();
-
-                await _emailSender.SendEmailAsync(
-                    pessoa.Email,
-                    "Bem-vindo ao Portal do Hospital",
-                    $@"
-            <p>Olá {pessoa.Nome},</p>
-            <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
-            <p><strong>Credenciais de acesso:</strong><br>
-            Email: {pessoa.Email}<br>
-            Senha: {senhaTemporaria}</p>
-            <p>Por favor, altere a sua senha após o primeiro login.</p>");
-
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                // Se der erro ao criar Pessoa, remove o utilizador e faz rollback
-                await _userManager.DeleteAsync(user);
-                await transaction.RollbackAsync();
-
-                ModelState.AddModelError("", "Erro ao criar a pessoa. Nenhum dado foi gravado.");
-                return View(pessoa);
-            }
+            return RedirectToAction(nameof(Index));
         }
 
 
@@ -134,35 +75,7 @@ namespace Hospital_Web.Controllers
                 return NotFound();
 
             return View(pessoa);
-       }
-        // POST: Pessoas/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
-        {
-            if (id != pessoa.N_Processo)
-                return NotFound();
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(pessoa);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!PessoaExists(pessoa.N_Processo))
-                        return NotFound();
-                    else
-                        throw;
-                }
-
-                return RedirectToAction(nameof(Index));
-            }
-
-            return View(pessoa);
-      
+        }
 
 
         // GET: Pessoas/Delete/5
@@ -188,15 +101,23 @@ namespace Hospital_Web.Controllers
 
             if (pessoa != null)
             {
-                // 🧹 Apagar também o utilizador do Identity (caso exista)
+                //  Apagar também o utilizador do Identity (caso exista)
                 var user = await _userManager.FindByEmailAsync(pessoa.Email);
                 if (user != null)
                 {
                     await _userManager.DeleteAsync(user);
                 }
 
-                _context.Pessoa.Remove(pessoa);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    _context.Pessoa.Remove(pessoa);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException)
+                {
+                    ModelState.AddModelError("", "Não é possível eliminar a pessoa porque existem registos associados (ex: consultas).");
+                    return View("Delete", pessoa);
+                }
             }
 
             return RedirectToAction(nameof(Index));

@@ -7,35 +7,32 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
+using Microsoft.AspNetCore.Identity;
+using Hospital_Web.Services;
+
 
 namespace Hospital_Web.Controllers
 {
     public class FuncionarioLimpezasController : Controller
     {
         private readonly Hospital_WebContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailSender _emailSender;
 
-        public FuncionarioLimpezasController(Hospital_WebContext context)
+        public FuncionarioLimpezasController(
+            Hospital_WebContext context,
+            UserManager<ApplicationUser> userManager,
+            IEmailSender emailSender)
         {
             _context = context;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         // GET: FuncionarioLimpezas
-        public async Task<IActionResult> Index(string searchString)
+        public async Task<IActionResult> Index()
         {
-            if (_context.FuncionarioLimpeza == null)
-            {
-                return Problem("Entity set 'Hospital_WebContext.FuncionarioLimpeza'  is null.");
-            }
-
-            var funcLimpeza = from fl in _context.FuncionarioLimpeza
-                              select fl;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                funcLimpeza = funcLimpeza.Where(fl => fl.Nome!.ToUpper().Contains(searchString.ToUpper()));
-            }
-
-            return View(await funcLimpeza.ToListAsync());
+            return View(await _context.FuncionarioLimpeza.ToListAsync());
         }
 
         // GET: FuncionarioLimpezas/Details/5
@@ -67,15 +64,61 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Create([Bind("Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Tamanho_Uniforme,Data_de_contratacao,Turno,Certificacoes,N_Processo")] FuncionarioLimpeza funcionarioLimpeza)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(funcionarioLimpeza);
+
+            var user = new ApplicationUser
             {
-                _context.Add(funcionarioLimpeza);
+                UserName = funcionarioLimpeza.Email,
+                Email = funcionarioLimpeza.Email,
+                DeveAlterarSenha = true
+            };
+
+            string senhaTemporaria = "Hosp@" + Guid.NewGuid().ToString("N").Substring(0, 6);
+            var result = await _userManager.CreateAsync(user, senhaTemporaria);
+
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                    ModelState.AddModelError("", error.Description);
+
+                return View(funcionarioLimpeza);
+            }
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+            try
+            {
+                _context.FuncionarioLimpeza.Add(funcionarioLimpeza);
                 await _context.SaveChangesAsync();
+
+                user.FuncionarioLimpezaId = funcionarioLimpeza.N_Processo;
+                await _userManager.UpdateAsync(user);
+
+                await transaction.CommitAsync();
+
+                await _emailSender.SendEmailAsync(
+                    funcionarioLimpeza.Email,
+                    "Bem-vindo ao Portal do Hospital",
+                    $@"
+<p>Olá {funcionarioLimpeza.Nome},</p>
+<p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
+<p><a href='https://localhost:7140/Identity/Account/Login'>Entrar no sistema Hospital</a></p>
+<p><strong>Credenciais de acesso:</strong><br>
+Email: {funcionarioLimpeza.Email}<br>
+Senha: {senhaTemporaria}</p>
+<p>Será solicitado a alterar a senha no primeiro login.</p>");
+
                 return RedirectToAction(nameof(Index));
             }
-            return View(funcionarioLimpeza);
+            catch
+            {
+                await _userManager.DeleteAsync(user);
+                await transaction.RollbackAsync();
+                ModelState.AddModelError("", "Erro ao criar o funcionário. Nenhum dado foi gravado.");
+                return View(funcionarioLimpeza);
+            }
         }
 
         // GET: FuncionarioLimpezas/Edit/5
@@ -99,34 +142,28 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
         {
             if (id != funcionarioLimpeza.N_Processo)
-            {
                 return NotFound();
+
+            if (!ModelState.IsValid)
+                return View(funcionarioLimpeza);
+
+            try
+            {
+                _context.Update(funcionarioLimpeza);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!FuncionarioLimpezaExists(funcionarioLimpeza.N_Processo))
+                    return NotFound();
+                else
+                    throw;
             }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(funcionarioLimpeza);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!FuncionarioLimpezaExists(funcionarioLimpeza.N_Processo))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(funcionarioLimpeza);
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: FuncionarioLimpezas/Delete/5

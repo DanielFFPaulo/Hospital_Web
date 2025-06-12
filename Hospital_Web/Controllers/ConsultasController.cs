@@ -1,31 +1,83 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Hospital_Web.Controllers
 {
+    [AllowAnonymous]
     public class ConsultasController : Controller
     {
         private readonly Hospital_WebContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ConsultasController(Hospital_WebContext db)
+        public ConsultasController(Hospital_WebContext db, UserManager<ApplicationUser> userManager)
         {
             _context = db;
+            _userManager = userManager;
         }
 
 
         // GET: Consultas
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string nomeUtente, DateTime? dataConsulta)
         {
-            var hospital_WebContext = _context.Consulta.Include(c => c.Gabinete).Include(c => c.Medico).Include(c => c.Utente);
-            return View(await hospital_WebContext.ToListAsync());
+            ApplicationUser user = null;
+
+            if (User.Identity.IsAuthenticated)
+            {
+                var userId = _userManager.GetUserId(User);
+                user = await _context.Users
+                    .Include(u => u.Utente)
+                    .Include(u => u.Medico)
+                    .FirstOrDefaultAsync(u => u.Id == userId);
+            }
+
+            var consultas = _context.Consulta
+                .Include(c => c.Gabinete)
+                .Include(c => c.Medico)
+                .Include(c => c.Utente)
+                .AsQueryable();
+
+            if (user?.UtenteId != null)
+            {
+                // Utente autenticado: mostra apenas as suas consultas
+                consultas = consultas.Where(c => c.Utente_Id == user.UtenteId);
+
+                if (dataConsulta.HasValue)
+                    consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
+            }
+            else if (user?.MedicoId != null)
+            {
+                // Médico autenticado: pode filtrar
+                if (!string.IsNullOrWhiteSpace(nomeUtente))
+                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+
+                if (dataConsulta.HasValue)
+                    consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
+            }
+            else
+            {
+                // Visitante não autenticado: pode filtrar também
+                if (!string.IsNullOrWhiteSpace(nomeUtente))
+                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+
+                if (dataConsulta.HasValue)
+                    consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
+            }
+
+            var listaConsultas = await consultas.ToListAsync();
+            return View(listaConsultas);
         }
+
+        
+
+
+
+
 
         // GET: Consultas/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -52,8 +104,8 @@ namespace Hospital_Web.Controllers
         public IActionResult Create()
         {
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Bloco");
-            ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF");
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF");
+            ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "Nome");
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "Nome");
             return View();
         }
 

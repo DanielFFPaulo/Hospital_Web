@@ -94,6 +94,9 @@ namespace Hospital_Web.Models
 
         [ForeignKey("Gabinete_Id")]
         public virtual Gabinete? Gabinete { get; set; }
+
+  
+
     }
 
 }

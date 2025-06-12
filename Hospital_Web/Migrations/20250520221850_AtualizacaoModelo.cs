@@ -18,25 +18,25 @@ namespace Hospital_Web.Migrations
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.CreateTable(
-                name: "Administrador",
-                columns: table => new
-                {
-                    N_Processo = table.Column<int>(type: "int", nullable: false),
-                    Departamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Funcao = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Administrador", x => x.N_Processo);
-                    table.ForeignKey(
-                        name: "FK_Administrador_Pessoa_N_Processo",
-                        column: x => x.N_Processo,
-                        principalTable: "Pessoa",
-                        principalColumn: "N_Processo",
-                        onDelete: ReferentialAction.Cascade);
-                });
+         //   migrationBuilder.CreateTable(
+          //      name: "Administrador",
+          //      columns: table => new
+            //    {
+              //      N_Processo = table.Column<int>(type: "int", nullable: false),
+               //     Departamento = table.Column<string>(type: "nvarchar(max)", nullable: false),
+               //     Funcao = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                 //   DataInicio = table.Column<DateTime>(type: "datetime2", nullable: false)
+              //  },
+               // constraints: table =>
+                //{
+                 //   table.PrimaryKey("PK_Administrador", x => x.N_Processo);
+                  //  table.ForeignKey(
+                    //    name: "FK_Administrador_Pessoa_N_Processo",
+                    //    column: x => x.N_Processo,
+                     //   principalTable: "Pessoa",
+                 //       principalColumn: "N_Processo",
+                  //      onDelete: ReferentialAction.Cascade);
+              //  });
         }
 
         /// <inheritdoc />
