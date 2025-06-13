@@ -36,7 +36,7 @@ namespace Hospital_Web.Models
             [Display(Name = "O−")]
             O_Negativo
         }
-        public enum Sexo
+        public enum Género
         {
             Masculino,
             Feminino
@@ -79,15 +79,6 @@ namespace Hospital_Web.Models
         }
 
 
-
-
-
-
-
-
-
-
-
         /// <summary>
         /// Data de nascimento da pessoa
         /// </summary>
@@ -98,9 +89,9 @@ namespace Hospital_Web.Models
         public DateTime DataDeNascimento { get; set; }
 
 
-        [Display(Name = "Sexo")]
+        [Display(Name = "Género")]
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        public Sexo sexo { get; set; }
+        public Género genero { get; set; }
 
 
         /// <summary>

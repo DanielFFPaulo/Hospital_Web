@@ -24,12 +24,12 @@
                 <span asp-validation-for="DataDeNascimento" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="sexo" class="control-label"></label>
-                <select asp-for="sexo" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Pessoa.Sexo>()">
+                <label asp-for="genero" class="control-label"></label>
+                <select asp-for="genero" class="form-control"
+                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Pessoa.Género>()">
                     <option value="">-- Selecione --</option>
                 </select>
-                <span asp-validation-for="sexo" class="text-danger"></span>
+                <span asp-validation-for="genero" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Morada" class="control-label"></label>

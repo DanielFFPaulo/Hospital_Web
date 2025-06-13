@@ -20,12 +20,7 @@ namespace Hospital_Web.Models
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Estado_clinico { get; set; } = string.Empty;
 
-        /// <summary>
-        /// Tipo sanguíneo do Utente.
-        /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        [Display(Name = "Tipo sanguineo")]
-        public GrupoSanguineo Grupo_Sanguineo { get; set; }
+
 
         /// <summary>
         /// Alergias do Utente.

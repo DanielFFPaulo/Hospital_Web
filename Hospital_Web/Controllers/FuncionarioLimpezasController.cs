@@ -64,7 +64,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Tamanho_Uniforme,Data_de_contratacao,Turno,Certificacoes,N_Processo")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Create([Bind("Nome,Idade,DatadeNascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Tamanho_Uniforme,Data_de_contratacao,Turno,Certificacoes,N_Processo")] FuncionarioLimpeza funcionarioLimpeza)
         {
             if (!ModelState.IsValid)
                 return View(funcionarioLimpeza);
@@ -142,7 +142,7 @@ Senha: {senhaTemporaria}</p>
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] FuncionarioLimpeza funcionarioLimpeza)
+        public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,DataDeNascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Grupo_Sanguineo")] FuncionarioLimpeza funcionarioLimpeza)
         {
             if (id != funcionarioLimpeza.N_Processo)
                 return NotFound();
