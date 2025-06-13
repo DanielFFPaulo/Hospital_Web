@@ -72,7 +72,7 @@ namespace Hospital_Web.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Medico medico)
+        public async Task<IActionResult> Create([Bind("Especialidade,Numero_de_ordem,Anos_de_experiencia,N_Processo,Nome,DataDeNascimento,sexo,Morada,Grupo_Sanguineo,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade, Grupo_Sanguineo")] Medico medico)
         {
             if (!ModelState.IsValid)
                 return View(medico);

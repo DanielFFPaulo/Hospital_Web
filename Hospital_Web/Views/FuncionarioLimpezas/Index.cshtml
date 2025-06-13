@@ -29,11 +29,9 @@
                 @Html.DisplayNameFor(model => model.DataDeNascimento)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.sexo)
+                @Html.DisplayNameFor(model => model.genero)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Morada)
-            </th>
+
             <th>
                 @Html.DisplayNameFor(model => model.Grupo_Sanguineo)
             </th>
@@ -48,6 +46,9 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NIF)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Morada)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Cod_Postal)
@@ -74,54 +75,62 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Turno)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Tamanho_Uniforme)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Data_de_contratacao)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Certificacoes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Nome)
-            </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nome)
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Idade)
                 </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DataDeNascimento)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.sexo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Morada)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Grupo_Sanguineo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Telemovel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelemovelAlt)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NIF)
-            </td>
-            <td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DataDeNascimento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.genero)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grupo_Sanguineo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telemovel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TelemovelAlt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NIF)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Morada)
+                </td>
+                
+                <td>
                 @Html.DisplayFor(modelItem => item.Cod_Postal)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Localidade)
-            </td>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Localidade)
+
+               </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Tamanho_Uniforme)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Turno)
+                </td>
+
+                <td>
+                @Html.DisplayFor(modelItem => item.Data_de_contratacao)
+                </td>
+                <td>
+                @Html.DisplayFor(modelItem => item.Certificacoes)
+                </td>
+
+
+
+
             <td>
                 <a asp-action="Edit" asp-route-id="@item.N_Processo">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.N_Processo">Details</a> |

@@ -115,12 +115,33 @@ Senha temporária: {senhaTemporaria}</p>
             return RedirectToAction(nameof(Index));
         }
 
+        // GET: Utentes/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var utente = await _context.Utente.FindAsync(id);
+            if (utente == null)
+            {
+                return NotFound();
+            }
+
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            return View(utente);
+        }
+
+
+
         // POST: Utentes/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,DataDeNascimento,genero,Morada,Localidade,Cod_Postal,Telemovel,TelemovelAlt,Email,NIF,Grupo_Sanguineo,Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id")] Utente utente)
+
         {
             if (id != utente.N_Processo)
             {

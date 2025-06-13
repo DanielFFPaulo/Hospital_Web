@@ -35,7 +35,7 @@ public static class SeedData
                     NIF = "257029345",
                     Cod_Postal = "1000-123 LISBOA",
                     Localidade = "Lisboa",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                     DataDeNascimento = DateTime.Parse("1990-04-16"),
                     Grupo_Sanguineo = Utente.GrupoSanguineo.O_Positivo
                 },
@@ -56,7 +56,7 @@ public static class SeedData
                     NIF = "256789123",
                     Cod_Postal = "1250-096 LISBOA",
                     Localidade = "Lisboa",
-                    sexo = Pessoa.Sexo.Feminino,
+                    genero = Pessoa.Género.Feminino,
                 },
                 new Utente
                 {
@@ -74,7 +74,7 @@ public static class SeedData
                     NIF = "234567890",
                     Cod_Postal = "4000-123 PORTO",
                     Localidade = "Porto",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                 },
                 new Utente
                 {
@@ -92,7 +92,7 @@ public static class SeedData
                     NIF = "278901234",
                     Cod_Postal = "3000-456 COIMBRA",
                     Localidade = "Coimbra",
-                    sexo = Pessoa.Sexo.Feminino,
+                    genero = Pessoa.Género.Feminino,
                 }
             );
 
@@ -117,7 +117,7 @@ public static class SeedData
                     NIF = "278902134",
                     Cod_Postal = "4100-123 PORTO",
                     Localidade = "Porto",
-                    sexo = Pessoa.Sexo.Feminino,
+                    genero = Pessoa.Género.Feminino,
                     DataDeNascimento = DateTime.Parse("1983-08-12"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Positivo
                 },
@@ -135,7 +135,7 @@ public static class SeedData
                     NIF = "287654321",
                     Cod_Postal = "1990-423 LISBOA",
                     Localidade = "Lisboa",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                     DataDeNascimento = DateTime.Parse("1986-05-17"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Negativo
                 },
@@ -155,7 +155,7 @@ public static class SeedData
                     NIF = "268183245",
                     Cod_Postal = "2300-420 SANTAREM",
                     Localidade = "Santarem",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                     DataDeNascimento = DateTime.Parse("1979-03-26"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Positivo
                 }
@@ -185,7 +185,7 @@ public static class SeedData
                     NIF = "190475689",
                     Cod_Postal = "2415-369 LEIRIA",
                     Localidade = "Leiria",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                     DataDeNascimento = DateTime.Parse("1998-04-01"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.AB_Positivo
                 },
@@ -205,7 +205,7 @@ public static class SeedData
                     NIF = "204567891",
                     Cod_Postal = "4700-123 BRAGA",
                     Localidade = "Braga",
-                    sexo = Pessoa.Sexo.Feminino,
+                    genero = Pessoa.Género.Feminino,
                     DataDeNascimento = DateTime.Parse("1991-01-20"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Positivo
                 },
@@ -225,7 +225,7 @@ public static class SeedData
                     NIF = "198776543",
                     Cod_Postal = "8000-456 FARO",
                     Localidade = "Faro",
-                    sexo = Pessoa.Sexo.Masculino,
+                    genero = Pessoa.Género.Masculino,
                     DataDeNascimento = DateTime.Parse("1996-09-14"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Negativo
                 }
