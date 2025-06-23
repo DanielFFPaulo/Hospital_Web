@@ -1,9 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Hospital_Web.Data;
-using System;
-using System.Linq;
-using static Hospital_Web.Models.Utente;
+
 
 namespace Hospital_Web.Models;
 
