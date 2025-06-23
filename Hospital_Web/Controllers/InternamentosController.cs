@@ -59,7 +59,7 @@ namespace Hospital_Web.Controllers
                 "Episodio",
                 "DisplayText"
             );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new {ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2")}), "ID", "DisplayText");
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new {ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText");
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF");
             return View();
         }
@@ -88,7 +88,7 @@ namespace Hospital_Web.Controllers
                 internamento.Consulta_Id
             );
 
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
@@ -116,7 +116,7 @@ namespace Hospital_Web.Controllers
                 "DisplayText",
                 internamento.Consulta_Id
             );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }
@@ -163,7 +163,7 @@ namespace Hospital_Web.Controllers
                 "DisplayText",
                 internamento.Consulta_Id
             );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Bloco + q.Andar.ToString() + q.Numero.ToString("D2") }), "ID", "DisplayText", internamento.Quarto_Id);
+            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
             return View(internamento);
         }

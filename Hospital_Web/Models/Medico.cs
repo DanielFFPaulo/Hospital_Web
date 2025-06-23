@@ -1,5 +1,6 @@
 ﻿using Humanizer.Localisation;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hospital_Web.Models
 {
@@ -32,6 +33,10 @@ namespace Hospital_Web.Models
         [RegularExpression(@"^[0-9]{1,2}$", ErrorMessage = "O {0} deve conter apenas números.")]
         [Range(0, 99, ErrorMessage = "O {0} deve estar entre {1} e {2}")]
         public int Anos_de_experiencia { get; set; }
+
+
+        [NotMapped]
+        public string DisplayName { get{ return "CT-" + Numero_de_ordem + "\t" + Nome; } }
 
         // Navigation property
         public virtual ICollection<Consulta> Consultas { get; set; } = [];

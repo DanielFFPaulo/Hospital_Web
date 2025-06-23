@@ -17,7 +17,6 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data da consulta")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public DateTime Data { get; set; }
         /// <summary>

@@ -46,7 +46,6 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data da limpeza")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
         public DateTime Data { get; set; }
 
@@ -56,7 +55,6 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Time)]
         [Display(Name = "Hora da limpeza")]
-        [DisplayFormat(DataFormatString = "{0:c}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
         public TimeSpan Hora { get; set; }
 

@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Reflection.Metadata;
 
 namespace Hospital_Web.Models
 {
@@ -24,6 +26,9 @@ namespace Hospital_Web.Models
         [Required(ErrorMessage = "É necessário definir o {0}")]
         public int Numero { get; set; }
 
+
+        [NotMapped]
+        public string Denominacao { get{ return Bloco + Andar + Numero.ToString("D2"); } }
         // Navigation property for limpezas
         public virtual ICollection<LimpezaSala> LimpezasDeSala { get; set; } = [];
 

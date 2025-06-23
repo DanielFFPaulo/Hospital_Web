@@ -84,7 +84,6 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data de Nascimento")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
         public DateTime DataDeNascimento { get; set; }
 
