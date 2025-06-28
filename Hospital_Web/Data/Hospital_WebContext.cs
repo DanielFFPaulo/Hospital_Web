@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_Web.Data
 {
@@ -36,7 +37,11 @@ namespace Hospital_Web.Data
                 .WithMany()
                 .HasForeignKey(c => c.Gabinete_Id)
                 .OnDelete(DeleteBehavior.NoAction);
+
         }
+
+
+    
 
         public DbSet<Hospital_Web.Models.Consulta> Consulta { get; set; } = default!;
         public DbSet<Hospital_Web.Models.FuncionarioLimpeza> FuncionarioLimpeza { get; set; } = default!;
@@ -49,5 +54,6 @@ namespace Hospital_Web.Data
         public DbSet<Hospital_Web.Models.Sala> Sala { get; set; } = default!;
         public DbSet<Hospital_Web.Models.Utente> Utente { get; set; } = default!;
         public DbSet<Hospital_Web.Models.Utilizador> Utilizador { get; set; } = default!;
+
     }
 }

@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Hospital_Web.Migrations.ApplicationDb
+namespace Hospital_Web.Migrations
 {
-    [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250611113509_FixStaticAdminUserSeed")]
-    partial class FixStaticAdminUserSeed
+    [DbContext(typeof(Hospital_WebContext))]
+    [Migration("20250628101149_RemoverAplicationdbContext")]
+    partial class RemoverAplicationdbContext
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -47,11 +47,17 @@ namespace Hospital_Web.Migrations.ApplicationDb
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("FuncionarioLimpezaId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<int?>("MedicoId")
+                        .HasColumnType("int");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -85,6 +91,10 @@ namespace Hospital_Web.Migrations.ApplicationDb
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FuncionarioLimpezaId");
+
+                    b.HasIndex("MedicoId");
+
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -114,11 +124,17 @@ namespace Hospital_Web.Migrations.ApplicationDb
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
+                    b.Property<int?>("GabineteID")
+                        .HasColumnType("int");
+
                     b.Property<int>("Gabinete_Id")
                         .HasColumnType("int");
 
                     b.Property<TimeSpan>("Hora")
                         .HasColumnType("time");
+
+                    b.Property<int?>("MedicoN_Processo")
+                        .HasColumnType("int");
 
                     b.Property<int>("Medico_Id")
                         .HasColumnType("int");
@@ -137,7 +153,11 @@ namespace Hospital_Web.Migrations.ApplicationDb
 
                     b.HasKey("Episodio");
 
+                    b.HasIndex("GabineteID");
+
                     b.HasIndex("Gabinete_Id");
+
+                    b.HasIndex("MedicoN_Processo");
 
                     b.HasIndex("Medico_Id");
 
@@ -157,10 +177,10 @@ namespace Hospital_Web.Migrations.ApplicationDb
                     b.Property<int?>("Consulta_Id")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Data_Hora_Entrada")
+                    b.Property<DateTime>("DataHoraEntrada")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime?>("Data_Hora_Saida")
+                    b.Property<DateTime?>("DataHoraSaida")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("Quarto_Id")
@@ -234,7 +254,7 @@ namespace Hospital_Web.Migrations.ApplicationDb
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<DateTime>("Data_de_Nascimento")
+                    b.Property<DateTime>("DataDeNascimento")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
@@ -242,7 +262,7 @@ namespace Hospital_Web.Migrations.ApplicationDb
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Idade")
+                    b.Property<int>("Grupo_Sanguineo")
                         .HasColumnType("int");
 
                     b.Property<string>("Localidade")
@@ -270,6 +290,9 @@ namespace Hospital_Web.Migrations.ApplicationDb
                     b.Property<string>("TelemovelAlt")
                         .HasMaxLength(18)
                         .HasColumnType("nvarchar(18)");
+
+                    b.Property<int>("genero")
+                        .HasColumnType("int");
 
                     b.HasKey("N_Processo");
 
@@ -460,15 +483,15 @@ namespace Hospital_Web.Migrations.ApplicationDb
                         {
                             Id = "admin",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "STATIC-CONCURRENCY-STAMP-5678",
+                            ConcurrencyStamp = "6ff3514e-957e-40dc-9f3c-5f929373883e",
                             Email = "admin@mail.pt",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "ADMIN@MAIL.PT",
                             NormalizedUserName = "ADMIN@MAIL.PT",
-                            PasswordHash = "AQAAAAIAAYagAAAAEJRAyJ3o3op6t8rxDtx+xUHAk0QEBrwldcG7zIylR2tnJDKTNf9jf+tGeKuzChiDrg==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGcfXwbxbVZctfYUB+YmohxpnPTqS4SVFZokYRgyU9wPCL8C55h/aRx3Q4+bVV0Nkg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "STATIC-SECURITY-STAMP-1234",
+                            SecurityStamp = "b46798e8-8f19-4c14-965c-6fe6d32be0d5",
                             TwoFactorEnabled = false,
                             UserName = "admin@mail.pt"
                         });
@@ -618,9 +641,6 @@ namespace Hospital_Web.Migrations.ApplicationDb
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Grupo_Sanguineo")
-                        .HasColumnType("int");
-
                     b.Property<int?>("Medico_Associado_Id")
                         .HasColumnType("int");
 
@@ -680,31 +700,51 @@ namespace Hospital_Web.Migrations.ApplicationDb
 
             modelBuilder.Entity("Hospital_Web.Models.ApplicationUser", b =>
                 {
+                    b.HasOne("Hospital_Web.Models.FuncionarioLimpeza", "FuncionarioLimpeza")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioLimpezaId");
+
+                    b.HasOne("Hospital_Web.Models.Medico", "Medico")
+                        .WithMany()
+                        .HasForeignKey("MedicoId");
+
                     b.HasOne("Hospital_Web.Models.Utente", "Utente")
                         .WithMany()
                         .HasForeignKey("UtenteId");
+
+                    b.Navigation("FuncionarioLimpeza");
+
+                    b.Navigation("Medico");
 
                     b.Navigation("Utente");
                 });
 
             modelBuilder.Entity("Hospital_Web.Models.Consulta", b =>
                 {
-                    b.HasOne("Hospital_Web.Models.Gabinete", "Gabinete")
+                    b.HasOne("Hospital_Web.Models.Gabinete", null)
                         .WithMany("Consultas")
+                        .HasForeignKey("GabineteID");
+
+                    b.HasOne("Hospital_Web.Models.Gabinete", "Gabinete")
+                        .WithMany()
                         .HasForeignKey("Gabinete_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
-                    b.HasOne("Hospital_Web.Models.Medico", "Medico")
+                    b.HasOne("Hospital_Web.Models.Medico", null)
                         .WithMany("Consultas")
+                        .HasForeignKey("MedicoN_Processo");
+
+                    b.HasOne("Hospital_Web.Models.Medico", "Medico")
+                        .WithMany()
                         .HasForeignKey("Medico_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("Hospital_Web.Models.Utente", "Utente")
                         .WithMany("Consultas")
                         .HasForeignKey("Utente_Id")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.Navigation("Gabinete");
