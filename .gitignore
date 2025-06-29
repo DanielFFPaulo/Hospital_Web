@@ -396,3 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.cs
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.cs
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.cs
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.Designer.cs
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.cs
+/Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.Designer.cs
