@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hospital_Web.Migrations
 {
     [DbContext(typeof(Hospital_WebContext))]
-    [Migration("20250629093335_Inicial")]
-    partial class Inicial
+    [Migration("20250629155123_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
