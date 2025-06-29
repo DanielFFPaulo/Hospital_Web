@@ -402,3 +402,6 @@ FodyWeavers.xsd
 /Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.Designer.cs
 /Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.cs
 /Hospital_Web/Migrations/20250628101149_RemoverAplicationdbContext.Designer.cs
+/Hospital_Web/Migrations/20250511193626_InitialMigration1.cs
+/Hospital_Web/Migrations/20250511193626_InitialMigration1.cs
+/Hospital_Web/Migrations/20250511193626_InitialMigration1.cs
