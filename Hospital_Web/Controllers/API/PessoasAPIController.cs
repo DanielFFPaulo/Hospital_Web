@@ -126,6 +126,12 @@ namespace Hospital_Web.Controllers.API
                 return NotFound();
             }
 
+
+            var consultasPendentes = await _context.Consulta.Where(c => c.Medico_Id == id || c.Utente_Id == id).ToListAsync();
+            if (consultasPendentes != null){
+                return StatusCode(400, "The person is associated with know registries");
+            }
+
             _context.Pessoa.Remove(pessoa);
             await _context.SaveChangesAsync();
 

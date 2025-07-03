@@ -54,7 +54,7 @@ namespace Hospital_Web.Controllers
         // GET: Utentes/Create
         public IActionResult Create()
         {
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF");
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName");
             return View();
         }
 
@@ -97,7 +97,7 @@ namespace Hospital_Web.Controllers
             }
 
             // 3. Adicionar ao role "Utente"
-            await _userManager.AddToRoleAsync(user, "Utente");
+            //await _userManager.AddToRoleAsync(user, "Utente");
 
             // 4. Enviar email
             await _emailSender.SendEmailAsync(
@@ -129,7 +129,7 @@ Senha temporária: {senhaTemporaria}</p>
                 return NotFound();
             }
 
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", utente.Medico_Associado_Id);
             return View(utente);
         }
 
@@ -168,7 +168,7 @@ Senha temporária: {senhaTemporaria}</p>
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "NIF", utente.Medico_Associado_Id);
+            ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", utente.Medico_Associado_Id);
             return View(utente);
         }
 
@@ -196,7 +196,26 @@ Senha temporária: {senhaTemporaria}</p>
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var utente = await _context.Utente.FindAsync(id);
+
+            var consultas = await _context.Consulta
+                .Where(u => u.Utente_Id == id)
+                .ToListAsync();
+
+            foreach (var consulta in consultas)
+            {
+                _context.Consulta.Remove(consulta);
+            }
+
+            var users = await _context.Users
+                .Where(u => u.UtenteId == id)
+                .ToListAsync();
+
+            foreach (var user in users)
+            {
+                _context.Users.Remove(user);
+            }
+
+                var utente = await _context.Utente.FindAsync(id);
             if (utente != null)
             {
                 _context.Utente.Remove(utente);

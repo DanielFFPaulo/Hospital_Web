@@ -104,8 +104,8 @@ namespace Hospital_Web.Controllers
         public IActionResult Create()
         {
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao");
-            ViewData["Medico_Id"] = new SelectList(_context.Medico, "DisplayName", "Nome");
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "Nome");
+            ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName");
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName");
             return View();
         }
 
@@ -124,7 +124,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 
@@ -143,7 +143,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 
@@ -181,7 +181,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 
