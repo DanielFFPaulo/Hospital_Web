@@ -1,1 +1,29 @@
-﻿
+﻿@Hospital_Web_HostAddress = https://localhost:7140
+
+POST {{Hospital_Web_HostAddress}}/api/pessoasapi
+Content-Type: application/json
+password: 4dm1n_M4st3r_K3y!H0sp
+{
+    "especialidade": "Cardiologia",
+    "numero_de_ordem": "20095634",
+    "anos_de_experiencia": 8,
+    "displayName": "CT-20095634\tMiguel Santos",
+    "consultas": [],
+    "utentesAssociados": [],
+    "nome": "Miguel Santos",
+    "idade": 42,
+    "dataDeNascimento": "1982-03-15T00:00:00",
+    "genero": 0,
+    "morada": "Avenida da Liberdade, 128, Lisboa",
+    "grupo_Sanguineo": 1,
+    "telemovel": "912345678",
+    "telemovelAlt": "967891234",
+    "email": "miguelsantos@hospital.tomar.pt",
+    "nif": "234567891",
+    "cod_Postal": "1200-001 LISBOA",
+    "localidade": "Lisboa",
+    "user": null,
+    "discriminator": "Medico"
+}
+
+###

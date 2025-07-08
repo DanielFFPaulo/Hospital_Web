@@ -55,10 +55,10 @@
                 @Html.DisplayFor(modelItem => item.Hora)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Funcionario.NIF)
+                @Html.DisplayFor(modelItem => item.Funcionario.Nome)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Sala.Bloco)
+                @Html.DisplayFor(modelItem => item.Sala.Denominacao)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |

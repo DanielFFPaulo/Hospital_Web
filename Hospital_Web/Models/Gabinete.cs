@@ -13,7 +13,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem descrição")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contém caracteres inválidos.")]
         public string Descricao { get; set; } = string.Empty;
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem equipamento")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
         public string Equipamento { get; set; } = string.Empty;
 

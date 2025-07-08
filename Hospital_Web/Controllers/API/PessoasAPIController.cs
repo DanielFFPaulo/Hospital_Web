@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoa()
         {
-            return Unauthorized("No one is allowed to get all the registers at once");
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos da Base de Dados");
         }
 
 
@@ -55,7 +55,7 @@ namespace Hospital_Web.Controllers.API
                 return NotFound();
             }
 
-            return (validatePassword())? pessoa: Unauthorized("Invalid or missing password in header");
+            return (validatePassword())? pessoa: Unauthorized("Password invalida ou inexistente");
         }
 
         // PUT: api/PessoasAPI/5
@@ -64,7 +64,7 @@ namespace Hospital_Web.Controllers.API
         {
             if (!validatePassword())
             {
-                return Unauthorized("Invalid or missing password in header");
+                return Unauthorized("Password invalida ou inexistente");
             }
 
             if (id != pessoa.N_Processo)
@@ -99,7 +99,7 @@ namespace Hospital_Web.Controllers.API
         {
             if (!validatePassword())
             {
-                return Unauthorized("A valid password is needed to POST");
+                return Unauthorized("Password invalida ou inexistente");
             }
 
 
@@ -116,7 +116,7 @@ namespace Hospital_Web.Controllers.API
 
             if (!validatePassword())
             {
-                return Unauthorized("Invalid or missing password in header");
+                return Unauthorized("Password invalida ou inexistente");
             }
 
 
@@ -124,6 +124,12 @@ namespace Hospital_Web.Controllers.API
             if (pessoa == null)
             {
                 return NotFound();
+            }
+
+
+            var consultasPendentes = await _context.Consulta.Where(c => c.Medico_Id == id || c.Utente_Id == id).ToListAsync();
+            if (consultasPendentes != null){
+                return StatusCode(400, "A pessoa existe");
             }
 
             _context.Pessoa.Remove(pessoa);
@@ -138,3 +144,4 @@ namespace Hospital_Web.Controllers.API
         }
     }
 }
+// check model is valid!!!!

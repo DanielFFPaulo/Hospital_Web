@@ -1,10 +1,8 @@
-﻿@model Tuple<string, string, string>  
+﻿@model Tuple<string, string, string>
 
-<div class="col mb-4">
-    <div class="card shadow-sm h-100">
-        <div class="card-body text-center d-flex flex-column justify-content-between">
-            <h5 class="card-title mb-4">@Model.Item1</h5>
-            <a class="btn btn-outline-primary" asp-controller="@Model.Item2" asp-action="@Model.Item3">Aceder</a>
-        </div>
+<div class="card h-100 hover-shadow">
+    <div class="card-body text-center d-flex flex-column justify-content-between">
+        <h5 class="card-title mb-4">@Model.Item1</h5>
+        <a asp-controller="@Model.Item2" asp-action="@Model.Item3" class="btn btn-outline-primary w-100">Aceder</a>
     </div>
 </div>

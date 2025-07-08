@@ -204,7 +204,17 @@ namespace Hospital_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var medico = await _context.Medico.FindAsync(id);
+
+            var users = await _context.Users
+                .Where(u => u.MedicoId == id)
+                .ToListAsync();
+
+            foreach (var user in users) {
+                _context.Users.Remove(user);
+            }
+
+
+                var medico = await _context.Medico.FindAsync(id);
             if (medico != null)
             {
                 _context.Medico.Remove(medico);
