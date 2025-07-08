@@ -32,7 +32,7 @@ public static class SeedData
                     NIF = "257029345",
                     Cod_Postal = "1000-123 LISBOA",
                     Localidade = "Lisboa",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1990-04-16"),
                     Grupo_Sanguineo = Utente.GrupoSanguineo.O_Positivo
                 },
@@ -53,7 +53,7 @@ public static class SeedData
                     NIF = "256789123",
                     Cod_Postal = "1250-096 LISBOA",
                     Localidade = "Lisboa",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                 },
                 new Utente
                 {
@@ -71,7 +71,7 @@ public static class SeedData
                     NIF = "234567890",
                     Cod_Postal = "4000-123 PORTO",
                     Localidade = "Porto",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                 },
                 new Utente
                 {
@@ -89,7 +89,7 @@ public static class SeedData
                     NIF = "278901234",
                     Cod_Postal = "3000-456 COIMBRA",
                     Localidade = "Coimbra",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                 },
 
                 new Utente
@@ -108,7 +108,7 @@ public static class SeedData
                     NIF = "245678901",
                     Cod_Postal = "3800-123 AVEIRO",
                     Localidade = "Aveiro",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                 },
                 new Utente
                 {
@@ -126,7 +126,7 @@ public static class SeedData
                     NIF = "289012345",
                     Cod_Postal = "3500-789 VISEU",
                     Localidade = "Viseu",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                 },
                 new Utente
                 {
@@ -144,7 +144,7 @@ public static class SeedData
                     NIF = "234890123",
                     Cod_Postal = "2900-456 SETÚBAL",
                     Localidade = "Setúbal",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                 },
                 new Utente
                 {
@@ -162,7 +162,7 @@ public static class SeedData
                     NIF = "278345612",
                     Cod_Postal = "9000-123 FUNCHAL",
                     Localidade = "Funchal",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                 }
             );
 
@@ -187,7 +187,7 @@ public static class SeedData
                     NIF = "278902134",
                     Cod_Postal = "4100-123 PORTO",
                     Localidade = "Porto",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1983-08-12"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Positivo
                 },
@@ -205,7 +205,7 @@ public static class SeedData
                     NIF = "287654321",
                     Cod_Postal = "1990-423 LISBOA",
                     Localidade = "Lisboa",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1986-05-17"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Negativo
                 },
@@ -225,7 +225,7 @@ public static class SeedData
                     NIF = "268183245",
                     Cod_Postal = "2300-420 SANTAREM",
                     Localidade = "Santarem",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1979-03-26"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Positivo
                 },
@@ -242,7 +242,7 @@ public static class SeedData
                     NIF = "295123456",
                     Cod_Postal = "4200-567 PORTO",
                     Localidade = "Porto",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1980-11-03"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Negativo
                 },
@@ -259,7 +259,7 @@ public static class SeedData
                     NIF = "285741963",
                     Cod_Postal = "1700-890 LISBOA",
                     Localidade = "Lisboa",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1975-07-19"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Positivo
                 },
@@ -276,7 +276,7 @@ public static class SeedData
                     NIF = "276543210",
                     Cod_Postal = "3030-234 COIMBRA",
                     Localidade = "Coimbra",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1988-04-12"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.AB_Positivo
                 },
@@ -293,7 +293,7 @@ public static class SeedData
                     NIF = "289456123",
                     Cod_Postal = "4710-345 BRAGA",
                     Localidade = "Braga",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1984-09-28"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Negativo
                 }
@@ -323,7 +323,7 @@ public static class SeedData
                     NIF = "190475689",
                     Cod_Postal = "2415-369 LEIRIA",
                     Localidade = "Leiria",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1998-04-01"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.AB_Positivo
                 },
@@ -343,7 +343,7 @@ public static class SeedData
                     NIF = "204567891",
                     Cod_Postal = "4700-123 BRAGA",
                     Localidade = "Braga",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1991-01-20"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Positivo
                 },
@@ -363,7 +363,7 @@ public static class SeedData
                     NIF = "198776543",
                     Cod_Postal = "8000-456 FARO",
                     Localidade = "Faro",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1996-09-14"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Negativo
                 },
@@ -381,7 +381,7 @@ public static class SeedData
                     NIF = "201234567",
                     Cod_Postal = "7000-234 ÉVORA",
                     Localidade = "Évora",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1989-06-15"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Positivo
                 },
@@ -399,7 +399,7 @@ public static class SeedData
                     NIF = "212345678",
                     Cod_Postal = "4900-567 VIANA DO CASTELO",
                     Localidade = "Viana do Castelo",
-                    genero = Pessoa.Género.Masculino,
+                    genero = Pessoa.Genero.Masculino,
                     DataDeNascimento = DateTime.Parse("1985-12-03"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.A_Positivo
                 },
@@ -417,7 +417,7 @@ public static class SeedData
                     NIF = "207890123",
                     Cod_Postal = "6300-123 GUARDA",
                     Localidade = "Guarda",
-                    genero = Pessoa.Género.Feminino,
+                    genero = Pessoa.Genero.Feminino,
                     DataDeNascimento = DateTime.Parse("1993-03-22"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.O_Negativo
                 }

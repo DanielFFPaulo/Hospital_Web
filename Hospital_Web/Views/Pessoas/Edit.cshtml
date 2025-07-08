@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label asp-for="genero" class="control-label"></label>
                 <select asp-for="genero" class="form-control"
-                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Pessoa.Género>()">
+                        asp-items="Html.GetEnumSelectList<Hospital_Web.Models.Pessoa.Genero>()">
                     <option value="">-- Selecione --</option>
                 </select>
                 <span asp-validation-for="genero" class="text-danger"></span>

@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers.API
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoa()
         {
-            return Unauthorized("No one is allowed to get all the registers at once");
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos da Base de Dados");
         }
 
 

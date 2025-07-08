@@ -36,7 +36,7 @@ namespace Hospital_Web.Models
             [Display(Name = "O−")]
             O_Negativo
         }
-        public enum Género
+        public enum Genero
         {
             Masculino,
             Feminino
@@ -90,7 +90,7 @@ namespace Hospital_Web.Models
 
         [Display(Name = "Género")]
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        public Género genero { get; set; }
+        public Genero genero { get; set; }
 
 
         /// <summary>
