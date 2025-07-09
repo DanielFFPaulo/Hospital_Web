@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Hospital_Web.Services;
+using System.Security.Claims;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +23,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 
 // JWT + Cookies
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+var secretKey = jwtSettings["Key"];
+if (string.IsNullOrEmpty(secretKey))
+{
+    throw new InvalidOperationException("JWT secret key is not configured.");
+}
+var key = Encoding.UTF8.GetBytes(secretKey);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -44,7 +50,10 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ClockSkew = TimeSpan.Zero
+        ClockSkew = TimeSpan.Zero,
+
+        // This line is crucial for role-based [Authorize(Roles = "Admin")]
+        RoleClaimType = ClaimTypes.Role
     };
 });
 

@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers.API
             if (!result.Succeeded)
                 return Unauthorized("Credenciais inválidas");
 
-            var token = _tokenService.GenerateToken(user);
+            var token = await _tokenService.GenerateTokenAsync(user);
             return Ok(new { token });
         }
     }

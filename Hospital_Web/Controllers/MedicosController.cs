@@ -8,21 +8,14 @@ using Hospital_Web.Services;
 
 namespace Hospital_Web.Controllers
 {
-    public class MedicosController : Controller
+    public class MedicosController(
+        Hospital_WebContext context,
+        UserManager<ApplicationUser> userManager,
+        IEmailSender emailSender) : Controller
     {
-        private readonly Hospital_WebContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
-
-        public MedicosController(
-            Hospital_WebContext context,
-            UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender)
-        {
-            _context = context;
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly Hospital_WebContext _context = context;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
         // GET: Medicos
         public async Task<IActionResult> Index(string searchString)
