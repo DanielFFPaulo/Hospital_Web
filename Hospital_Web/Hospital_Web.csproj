@@ -26,19 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Areas\Identity\Pages\Account\Register.cshtml.cs" />
     <Compile Remove="Controllers\AdministracaoController.cs" />
     <Compile Remove="Controllers\API\AdministracaoController.cs" />
     <Compile Remove="Data\RoleInitializer.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Remove="Areas\Identity\Pages\Account\Register.cshtml" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Remove="Areas\Identity\Pages\Account\ResendEmailConfirmationConfirmation.cshtml" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
@@ -55,6 +47,7 @@
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="9.0.0" />
   </ItemGroup>
+
 
   <ItemGroup>
     <Folder Include="Data\Seed\" />

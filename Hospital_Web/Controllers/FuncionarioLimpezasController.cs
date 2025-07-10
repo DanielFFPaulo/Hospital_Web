@@ -96,6 +96,9 @@ namespace Hospital_Web.Controllers
                 user.FuncionarioLimpezaId = funcionarioLimpeza.N_Processo;
                 await _userManager.UpdateAsync(user);
 
+                // Atribuir Role "FuncionarioLimpeza"
+                await _userManager.AddToRoleAsync(user, "FuncionarioLimpeza");
+
                 await transaction.CommitAsync();
 
                 await _emailSender.SendEmailAsync(

@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "mssql2": {
+      "serviceConnectorResourceId": "/subscriptions/[parameters('subscriptionId')]/resourcegroups/[parameters('serviceConnectorResourceGroupName')]/providers/Microsoft.Web/sites/HospitalWeb20250710143618/providers/Microsoft.ServiceLinker/linkers/ConnectionStringsHospital_WebContext2_459150FAAA",
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.Sql/servers/hospitalweb/databases/HospitalWeb",
+      "type": "mssql.azure",
+      "connectionId": "ConnectionStrings:Hospital_WebContext2",
+      "dynamicId": null
+    }
+  }
+}

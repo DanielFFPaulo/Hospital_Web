@@ -8,21 +8,23 @@ using Hospital_Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Base de dados e DbContext único
+// ---------------- CONFIGURAÇÃO DE SERVIÇOS ----------------
+
+// DbContext (SQL Server)
 builder.Services.AddDbContext<Hospital_WebContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Hospital_WebContext")
         ?? throw new InvalidOperationException("Connection string 'Hospital_WebContext' not found.")));
 
-// Identity com Hospital_WebContext
+// Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-    options.SignIn.RequireConfirmedAccount = false)
+        options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<Hospital_WebContext>()
     .AddDefaultTokenProviders();
 
 // JWT + Cookies
 var jwtSettings = builder.Configuration.GetSection("Jwt");
-var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]);
+var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
@@ -48,30 +50,52 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-// Serviços
+// Serviços de aplicação
 builder.Services.AddScoped<TokenService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
-// MVC e Razor
+// MVC / Razor
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 var app = builder.Build();
 
-// Seed inicial
+// ---------------- MIGRAÇÕES + SEED AUTOMÁTICOS (inclui AZURE) ----------------
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    SeedData.Initialize(services);
-}
+    try
+    {
+        var context = services.GetRequiredService<Hospital_WebContext>();
+        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-// Pipeline HTTP
+        // 1) Aplica quaisquer migrações pendentes
+        context.Database.Migrate();
+
+        // 2) Inicializa dados essenciais (roles, utilizador admin, etc.)
+        SeedData.Initialize(services);
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+    }
+}
+// ---------------------------------------------------------------------------
+
+// ---------------- PIPELINE HTTP ----------------
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
+}
+else
+{
+    // Em desenvolvimento mostra erros detalhados, inclusive de migrações
+    app.UseMigrationsEndPoint();
 }
 
 app.UseHttpsRedirection();
@@ -88,42 +112,15 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 app.MapControllers();
-app.MapDefaultControllerRoute();
 
-// Criar Role e utilizador admin
-using (var scope = app.Services.CreateScope())
+
+app.MapGet("/", context =>
 {
-    var services = scope.ServiceProvider;
-    var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-    var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-
-    Task.Run(async () =>
-    {
-        if (!await roleManager.RoleExistsAsync("Admin"))
-        {
-            await roleManager.CreateAsync(new IdentityRole("Admin"));
-        }
-
-        var adminEmail = "admin@hospital.com";
-        var adminUser = await userManager.FindByEmailAsync(adminEmail);
-
-        if (adminUser == null)
-        {
-            var user = new ApplicationUser
-            {
-                UserName = adminEmail,
-                Email = adminEmail,
-                EmailConfirmed = true,
-                DeveAlterarSenha = true
-            };
-
-            var result = await userManager.CreateAsync(user, "Hosp@123456");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(user, "Admin");
-            }
-        }
-    }).GetAwaiter().GetResult();
-}
+    if (!context.User.Identity?.IsAuthenticated ?? true)
+        context.Response.Redirect("/Identity/Account/Login");
+    else
+        context.Response.Redirect("/Home/Index");
+    return Task.CompletedTask;
+});
 
 app.Run();

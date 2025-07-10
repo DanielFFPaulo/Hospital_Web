@@ -103,6 +103,11 @@ namespace Hospital_Web.Controllers
 
                 user.MedicoId = medico.N_Processo;
                 await _userManager.UpdateAsync(user);
+
+                // Atribuir Role "Medico"
+                await _userManager.AddToRoleAsync(user, "Medico");
+
+
                 await transaction.CommitAsync();
 
                 string prefixo = medico.Nome.ToLower().EndsWith("a") ? "Dra." : "Dr.";
