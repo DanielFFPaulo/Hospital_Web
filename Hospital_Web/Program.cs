@@ -8,13 +8,13 @@ using Hospital_Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---------------- CONFIGURAÇÃO DE SERVIÇOS ----------------
+// CONFIGURAÇÃO DE SERVIÇOS 
 
 // DbContext (SQL Server)
 builder.Services.AddDbContext<Hospital_WebContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Hospital_WebContext")
-        ?? throw new InvalidOperationException("Connection string 'Hospital_WebContext' not found.")));
+        ?? throw new InvalidOperationException("\r\nString de conexão 'Hospital_WebContext' não encontrada.")));
 
 // Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
@@ -76,12 +76,42 @@ using (var scope = app.Services.CreateScope())
         context.Database.Migrate();
 
         // 2) Inicializa dados essenciais (roles, utilizador admin, etc.)
-        SeedData.Initialize(services);
+        string[] roles = { "Admin", "Médico", "FuncionarioLimpeza", "Utente" };
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+        // Criar utilizador admin se não existir
+        string adminEmail = "admin@hospital.pt";
+        string adminPassword = "Admin123!";
+        var admin = await userManager.FindByEmailAsync(adminEmail);
+
+        if (admin == null)
+        {
+            var newAdmin = new ApplicationUser
+            {
+                UserName = adminEmail,
+                Email = adminEmail,
+                EmailConfirmed = true
+            };
+
+            var result = await userManager.CreateAsync(newAdmin, adminPassword);
+            if (result.Succeeded)
+            {
+                await userManager.AddToRoleAsync(newAdmin, "Admin");
+            }
+        }
+
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "An error occurred while migrating or seeding the database.");
+        logger.LogError(ex, "Ocorreu um erro ao migrar ou iniciar o banco de dados.");
     }
 }
 // ---------------------------------------------------------------------------

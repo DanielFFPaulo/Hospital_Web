@@ -22,7 +22,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
             [Required]
             [DataType(DataType.Password)]
-            [Range(6, 100, ErrorMessage = "A {0} deve ter entre {1} e {2} caracteres.")]
+            [StringLength(100, MinimumLength = 6, ErrorMessage = "A {0} deve ter entre {2} e {1} caracteres.")]
             [Compare("NewPassword", ErrorMessage = "As passwords não coincidem.")]
             public string ConfirmPassword { get; set; } = string.Empty;
         }
