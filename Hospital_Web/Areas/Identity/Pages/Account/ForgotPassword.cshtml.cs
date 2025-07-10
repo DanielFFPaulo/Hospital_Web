@@ -12,27 +12,19 @@ using Microsoft.AspNetCore.WebUtilities;
 using System.Text;
 
 
-public class ForgotPasswordModel : PageModel
+public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSenderApp emailSender) : PageModel
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IEmailSenderApp _emailSender;
-
-
-    public ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSenderApp emailSender)
-    {
-        _userManager = userManager;
-        _emailSender = emailSender;
-    }
-
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly IEmailSenderApp _emailSender = emailSender;
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel Input { get; set; } = new();
 
     public class InputModel
     {
-        [Required]
+
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 
     public void OnGet() { }
@@ -43,11 +35,11 @@ public class ForgotPasswordModel : PageModel
             return Page();
 
         var user = await _userManager.FindByEmailAsync(Input.Email);
-        // if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-        //{
-        //    Evita revelar se o utilizador existe
-        //     return RedirectToPage("./ForgotPasswordConfirmation");
-        // }
+        if (user == null)
+        {
+            // Avoid revealing whether the user exists
+            return RedirectToPage("./ForgotPasswordConfirmation");
+        }
 
         var token = await _userManager.GeneratePasswordResetTokenAsync(user);
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
@@ -63,7 +55,7 @@ public class ForgotPasswordModel : PageModel
         await _emailSender.SendEmailAsync(
             Input.Email,
             "Recuperação de Password - Hospital",
-            $"<p>Olá,</p><p>Para redefinir a sua password <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clique aqui</a>.</p>");
+            $"<p>Olá,</p><p>Para redefinir a sua password <a href='{HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty)}'>clique aqui</a>.</p>");
 
         return RedirectToPage("./ForgotPasswordConfirmation");
     }

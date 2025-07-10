@@ -8,14 +8,9 @@ using Microsoft.AspNetCore.WebUtilities;
 
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
-    public class ResetPasswordModel : PageModel
+    public class ResetPasswordModel(UserManager<ApplicationUser> userManager) : PageModel
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-
-        public ResetPasswordModel(UserManager<ApplicationUser> userManager)
-        {
-            _userManager = userManager;
-        }
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         [BindProperty]
         public InputModel Input { get; set; } = new();  // Inicializado para evitar CS8618
@@ -39,7 +34,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             public string Code { get; set; } = string.Empty;
         }
 
-        public IActionResult OnGet(string code = null, string email = null)
+        public IActionResult OnGet(string? code = null, string? email = null)
         {
             if (code == null || email == null)
                 return BadRequest("Código inválido.");

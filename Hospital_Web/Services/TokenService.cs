@@ -1,5 +1,6 @@
 ﻿
 // Importa a funcionalidade de Identity do ASP.NET Core (para gerir utilizadores)
+using Hospital_Web.Models;
 using Microsoft.AspNetCore.Identity;
 
 // Importa classes relacionadas com segurança de tokens
@@ -24,39 +25,53 @@ namespace Hospital_Web.Services
     {
         // Campo para aceder às configurações (como a chave secreta, tempo de expiração, etc.)
         private readonly IConfiguration _config;
+        private readonly UserManager<ApplicationUser> _userManager;
 
         // Construtor que recebe as configurações da aplicação por injeção de dependência
-        public TokenService(IConfiguration config)
+
+        public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
             _config = config;
+            _userManager = userManager;
         }
+
 
         /// <summary>
         /// Gera um token JWT para o utilizador fornecido
-        /// </summary>
-        public string GenerateToken(IdentityUser user)
+        /// </summary>  
+        public async Task<string> GenerateTokenAsync(IdentityUser user)
         {
             // Obtém a secção "Jwt" do ficheiro de configuração (appsettings.json)
             var jwtSettings = _config.GetSection("Jwt");
 
+            // Verifica se a chave secreta não é nula ou vazia
+            var secretKey = jwtSettings["Key"];
+            if (string.IsNullOrEmpty(secretKey))
+            {
+                throw new InvalidOperationException("JWT secret key is not configured.");
+            }
+
             // Cria uma chave simétrica a partir da string secreta definida nas configurações
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             // Define as credenciais de assinatura com algoritmo HmacSha256
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
+            // Saber 
+            var emailClaimValue = user.Email ?? throw new InvalidOperationException("User email is null.");
+
             // Define os dados (claims) a incluir dentro do token
-            var claims = new[]
+            var roles = await _userManager.GetRolesAsync((ApplicationUser)user);
+
+            var claims = new List<Claim>
             {
-                // Claim "sub" (subject): identifica o utilizador pelo seu ID
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-
-                // Claim "email": inclui o email do utilizador
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-
-                // Claim "jti": identificador único do token (evita reutilização)
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
             };
+
+            // Add each role as a claim
+            claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
             // Cria o token JWT com todas as propriedades definidas
             var token = new JwtSecurityToken(

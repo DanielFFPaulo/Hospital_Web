@@ -15,21 +15,21 @@ namespace SendEmail.Models
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
         [EmailAddress(ErrorMessage = "Deve escrever um endereço de email válido...")]
         [Display(Name = "Destinatário")]
-        public string Destinatario { get; set; }
+        public string Destinatario { get; set; } = string.Empty;
 
         /// <summary>
         /// Assunto do email
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
         [Display(Name = "Assunto do email")]
-        public string Subject { get; set; }
+        public string Subject { get; set; } = string.Empty;
 
         /// <summary>
         /// Corpo do email
         /// </summary>
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
         [Display(Name = "Corpo do email")]
-        public string Body { get; set; }
+        public string Body { get; set; } = string.Empty;
 
     }
 }

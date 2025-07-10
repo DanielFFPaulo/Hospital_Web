@@ -25,9 +25,10 @@ namespace Hospital_Web.Controllers
         // GET: Consultas
         public async Task<IActionResult> Index(string nomeUtente, DateTime? dataConsulta)
         {
-            ApplicationUser user = null;
+            ApplicationUser? user = null;
 
-            if (User.Identity.IsAuthenticated)
+            // Fix for CS8602: Dereference of a possibly null reference.
+            if (User?.Identity?.IsAuthenticated == true)
             {
                 var userId = _userManager.GetUserId(User);
                 user = await _context.Users
@@ -54,7 +55,7 @@ namespace Hospital_Web.Controllers
             {
                 // Médico autenticado: pode filtrar
                 if (!string.IsNullOrWhiteSpace(nomeUtente))
-                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+                    consultas = consultas.Where(predicate: c => c.Utente != null && c.Utente.Nome.Contains(nomeUtente));
 
                 if (dataConsulta.HasValue)
                     consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
@@ -63,7 +64,7 @@ namespace Hospital_Web.Controllers
             {
                 // Visitante não autenticado: pode filtrar também
                 if (!string.IsNullOrWhiteSpace(nomeUtente))
-                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+                    consultas = consultas.Where(c => c.Utente != null && c.Utente.Nome.Contains(nomeUtente));
 
                 if (dataConsulta.HasValue)
                     consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);

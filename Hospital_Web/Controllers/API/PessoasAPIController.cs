@@ -8,35 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
 using BCrypt;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Hospital_Web.Controllers.API
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
-    public class PessoasAPIController : ControllerBase
+    public class PessoasAPIController(Hospital_WebContext context) : ControllerBase
     {
-        private readonly Hospital_WebContext _context;
-        private readonly string? _hashedPassword; // Marking _hashedPassword as nullable
+        private readonly Hospital_WebContext _context = context;
 
-        public PessoasAPIController(Hospital_WebContext context, IConfiguration configuration)
-        {
-            _context = context;
-            _hashedPassword = configuration["ApiSettings:HashedAdminPassword"] ?? string.Empty; // Providing a fallback value
-        }
-
-        private bool validatePassword()
-        {
-            if (string.IsNullOrEmpty(_hashedPassword) ||
-                !Request.Headers.TryGetValue("password", out var hashable) ||
-                !BCrypt.Net.BCrypt.Verify(hashable, _hashedPassword))
-            {
-                return false;
-            }return true;
-        }
 
         // GET: api/PessoasAPI
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Pessoa>>> GetPessoa()
+        public ActionResult<IEnumerable<Pessoa>> GetPessoa()
         {
             return Unauthorized("Ninguem tem permissão para pedir por todos os registos da Base de Dados");
         }
@@ -44,10 +30,10 @@ namespace Hospital_Web.Controllers.API
 
 
         // GET: api/PessoasAPI/5
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(int id)
         {
-
             var pessoa = await _context.Pessoa.FindAsync(id);
 
             if (pessoa == null)
@@ -55,17 +41,14 @@ namespace Hospital_Web.Controllers.API
                 return NotFound();
             }
 
-            return (validatePassword())? pessoa: Unauthorized("Password invalida ou inexistente");
+            return pessoa;
         }
 
         // PUT: api/PessoasAPI/5
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutPessoa(int id, Pessoa pessoa)
         {
-            if (!validatePassword())
-            {
-                return Unauthorized("Password invalida ou inexistente");
-            }
 
             if (id != pessoa.N_Processo)
             {
@@ -95,13 +78,14 @@ namespace Hospital_Web.Controllers.API
 
         // POST: api/PessoasAPI
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Pessoa>> PostPessoa(Pessoa pessoa)
         {
-            if (!validatePassword())
-            {
-                return Unauthorized("Password invalida ou inexistente");
-            }
 
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             _context.Pessoa.Add(pessoa);
             await _context.SaveChangesAsync();
@@ -111,13 +95,9 @@ namespace Hospital_Web.Controllers.API
 
         // DELETE: api/PessoasAPI/5
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
-
-            if (!validatePassword())
-            {
-                return Unauthorized("Password invalida ou inexistente");
-            }
 
 
             var pessoa = await _context.Pessoa.FindAsync(id);
@@ -127,15 +107,27 @@ namespace Hospital_Web.Controllers.API
             }
 
 
-            var consultasPendentes = await _context.Consulta.Where(c => c.Medico_Id == id || c.Utente_Id == id).ToListAsync();
-            if (consultasPendentes != null){
-                return StatusCode(400, "A pessoa existe");
+            var consultasPendentes = await _context.Consulta
+                .Where(c => c.Medico_Id == id || c.Utente_Id == id)
+                .ToListAsync();
+
+
+            if (consultasPendentes.Any()){
+                return Conflict("Não é possível eliminar: esta pessoa tem consultas associadas.");
             }
 
-            _context.Pessoa.Remove(pessoa);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Pessoa.Remove(pessoa);
+                await _context.SaveChangesAsync();
+                
 
-            return NoContent();
+            }
+            catch (DbUpdateException ex)
+            {
+                return StatusCode(500, $"Erro ao eliminar: {ex.Message}");
+            }
+            return StatusCode(200,pessoa.Nome + " foi apagado(a)");
         }
 
         private bool PessoaExists(int id)
