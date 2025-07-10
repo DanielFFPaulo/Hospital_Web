@@ -192,6 +192,16 @@ Senha: {senhaTemporaria}</p>
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            var users = await _context.Users
+             .Where(u => u.FuncionarioLimpezaId == id)
+             .ToListAsync();
+
+            // Remove each user
+            foreach (var user in users)
+            {
+                _context.Users.Remove(user);
+            }
+
             var funcionarioLimpeza = await _context.FuncionarioLimpeza.FindAsync(id);
             if (funcionarioLimpeza != null)
             {

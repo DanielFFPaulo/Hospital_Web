@@ -16,7 +16,7 @@ namespace Hospital_Web.Models
         [StringLength(100)]
         [Required(ErrorMessage = "É necessário definir o {0}")]
         [Display(Name = "Produto 1")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         [DisplayFormat(NullDisplayText = "Sem produto")]
         public string Produto1 { get; set; } = string.Empty;
 
@@ -26,7 +26,7 @@ namespace Hospital_Web.Models
         /// </summary>
         [StringLength(100)]
         [Display(Name = "Produto 2")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         [DisplayFormat(NullDisplayText = "Sem produto")]
         public string? Produto2 { get; set; }
 
@@ -37,7 +37,7 @@ namespace Hospital_Web.Models
         /// </summary>
         [StringLength(100)]
         [Display(Name = "Produto 3")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         [DisplayFormat(NullDisplayText = "Sem produto")]
         public string? Produto3 { get; set; }
 

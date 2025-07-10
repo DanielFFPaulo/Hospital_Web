@@ -25,9 +25,10 @@ namespace Hospital_Web.Controllers
         // GET: Consultas
         public async Task<IActionResult> Index(string nomeUtente, DateTime? dataConsulta)
         {
-            ApplicationUser user = null;
+            ApplicationUser? user = null;
 
-            if (User.Identity.IsAuthenticated)
+            // Fix for CS8602: Dereference of a possibly null reference.
+            if (User?.Identity?.IsAuthenticated == true)
             {
                 var userId = _userManager.GetUserId(User);
                 user = await _context.Users
@@ -54,7 +55,7 @@ namespace Hospital_Web.Controllers
             {
                 // Médico autenticado: pode filtrar
                 if (!string.IsNullOrWhiteSpace(nomeUtente))
-                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+                    consultas = consultas.Where(predicate: c => c.Utente != null && c.Utente.Nome.Contains(nomeUtente));
 
                 if (dataConsulta.HasValue)
                     consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
@@ -63,7 +64,7 @@ namespace Hospital_Web.Controllers
             {
                 // Visitante não autenticado: pode filtrar também
                 if (!string.IsNullOrWhiteSpace(nomeUtente))
-                    consultas = consultas.Where(c => c.Utente.Nome.Contains(nomeUtente));
+                    consultas = consultas.Where(c => c.Utente != null && c.Utente.Nome.Contains(nomeUtente));
 
                 if (dataConsulta.HasValue)
                     consultas = consultas.Where(c => c.Data.Date == dataConsulta.Value.Date);
@@ -104,8 +105,8 @@ namespace Hospital_Web.Controllers
         public IActionResult Create()
         {
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao");
-            ViewData["Medico_Id"] = new SelectList(_context.Medico, "DisplayName", "Nome");
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "Nome");
+            ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName");
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName");
             return View();
         }
 
@@ -124,7 +125,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 
@@ -143,7 +144,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 
@@ -181,7 +182,7 @@ namespace Hospital_Web.Controllers
             }
             ViewData["Gabinete_Id"] = new SelectList(_context.Gabinete, "ID", "Denominacao", consulta.Gabinete_Id);
             ViewData["Medico_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", consulta.Medico_Id);
-            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", consulta.Utente_Id);
+            ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "DisplayName", consulta.Utente_Id);
             return View(consulta);
         }
 

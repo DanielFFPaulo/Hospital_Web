@@ -8,21 +8,14 @@ using Hospital_Web.Services;
 
 namespace Hospital_Web.Controllers
 {
-    public class MedicosController : Controller
+    public class MedicosController(
+        Hospital_WebContext context,
+        UserManager<ApplicationUser> userManager,
+        IEmailSender emailSender) : Controller
     {
-        private readonly Hospital_WebContext _context;
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly IEmailSender _emailSender;
-
-        public MedicosController(
-            Hospital_WebContext context,
-            UserManager<ApplicationUser> userManager,
-            IEmailSender emailSender)
-        {
-            _context = context;
-            _userManager = userManager;
-            _emailSender = emailSender;
-        }
+        private readonly Hospital_WebContext _context = context;
+        private readonly UserManager<ApplicationUser> _userManager = userManager;
+        private readonly IEmailSender _emailSender = emailSender;
 
         // GET: Medicos
         public async Task<IActionResult> Index(string searchString)
@@ -209,7 +202,17 @@ namespace Hospital_Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var medico = await _context.Medico.FindAsync(id);
+
+            var users = await _context.Users
+                .Where(u => u.MedicoId == id)
+                .ToListAsync();
+
+            foreach (var user in users) {
+                _context.Users.Remove(user);
+            }
+
+
+                var medico = await _context.Medico.FindAsync(id);
             if (medico != null)
             {
                 _context.Medico.Remove(medico);

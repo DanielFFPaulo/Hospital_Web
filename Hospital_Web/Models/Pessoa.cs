@@ -7,43 +7,6 @@ namespace Hospital_Web.Models
     public class Pessoa
     {
 
-        /// <summary>
-        /// Grupo sanguineo do Utente
-        /// </summary>
-        public enum GrupoSanguineo
-        {
-            [Display(Name = "A+")]
-            A_Positivo,
-
-            [Display(Name = "A−")]
-            A_Negativo,
-
-            [Display(Name = "B+")]
-            B_Positivo,
-
-            [Display(Name = "B−")]
-            B_Negativo,
-
-            [Display(Name = "AB+")]
-            AB_Positivo,
-
-            [Display(Name = "AB−")]
-            AB_Negativo,
-
-            [Display(Name = "O+")]
-            O_Positivo,
-
-            [Display(Name = "O−")]
-            O_Negativo
-        }
-        public enum Género
-        {
-            Masculino,
-            Feminino
-        }
-
-
-
         [Key]
         public int N_Processo { get; set; }
 
@@ -90,7 +53,7 @@ namespace Hospital_Web.Models
 
         [Display(Name = "Género")]
         [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
-        public Género genero { get; set; }
+        public Sexo genero { get; set; }
 
 
         /// <summary>
@@ -184,7 +147,7 @@ namespace Hospital_Web.Models
         /// Localidade da morada do utilizador
         /// </summary>
         [StringLength(100)]
-        [RegularExpression("[A-Za-z ]+", ErrorMessage = "No {0} só são aceites algarismos e letras inglesas.")]
+        [RegularExpression("[A-Za-z]+", ErrorMessage = "No {0} só são aceites algarismos e letras inglesas.")]
         [Display(Name = "Localidade")]
         public string? Localidade { get; set; }
 
@@ -193,6 +156,43 @@ namespace Hospital_Web.Models
 
         [NotMapped] // This prevents EF from mapping this to the database
         public virtual string Discriminator => this.GetType().Name;
+
+
+        /// <summary>
+        /// Grupo sanguineo do Utente
+        /// </summary>
+        public enum GrupoSanguineo
+        {
+            [Display(Name = "A+")]
+            A_Positivo,
+
+            [Display(Name = "A−")]
+            A_Negativo,
+
+            [Display(Name = "B+")]
+            B_Positivo,
+
+            [Display(Name = "B−")]
+            B_Negativo,
+
+            [Display(Name = "AB+")]
+            AB_Positivo,
+
+            [Display(Name = "AB−")]
+            AB_Negativo,
+
+            [Display(Name = "O+")]
+            O_Positivo,
+
+            [Display(Name = "O−")]
+            O_Negativo
+        }
+        public enum Sexo
+        {
+            Masculino,
+            Feminino
+        }
+
 
     }
 }

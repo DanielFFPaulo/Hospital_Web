@@ -11,7 +11,6 @@ namespace Hospital_Web.Models
         /// <summary>
         /// Estado clínico do Utente.
         /// </summary>
-
         [Display(Name = "Estado clínico")]
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem estado clínico")]
@@ -52,6 +51,13 @@ namespace Hospital_Web.Models
         /// Identificador do médico associado ao Utente. (Opcional)
         /// </summary>
         public int? Medico_Associado_Id { get; set; }
+
+        /// <summary>
+        ///     
+        /// Objeto usado para referenciar o utente em listas.
+        /// </summary>
+        [NotMapped]
+        public string DisplayName { get { return $"{N_Processo}- ({Nome})"; } }
 
         [ForeignKey("Medico_Associado_Id")]
         public virtual Medico? MedicoAssociado { get; set; }

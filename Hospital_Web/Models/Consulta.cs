@@ -36,7 +36,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem diagnóstico")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         public string Diagnostico { get; set; } = string.Empty;
         /// <summary>
         /// Tratamento a ser seguido.
@@ -46,7 +46,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem tratamento")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         public string Tratamento { get; set; } = string.Empty;
 
 
@@ -62,7 +62,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem observações")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Z0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
         public string? Observacoes { get; set; }
 
         // Foreign keys

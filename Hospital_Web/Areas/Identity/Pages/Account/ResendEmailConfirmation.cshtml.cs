@@ -8,25 +8,19 @@ using System.Text;
 using Hospital_Web.Models;
 using Hospital_Web.Services;
 
-public class ResendEmailConfirmationModel : PageModel
+public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender) : PageModel
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly IEmailSender _emailSender;
-
-    public ResendEmailConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender)
-    {
-        _userManager = userManager;
-        _emailSender = emailSender;
-    }
+    private readonly UserManager<ApplicationUser> _userManager = userManager;
+    private readonly IEmailSender _emailSender = emailSender;
 
     [BindProperty]
-    public InputModel Input { get; set; }
+    public InputModel Input { get; set; } = new InputModel(); // Inicializa a propriedade para evidar problemas com ela ser null
 
     public class InputModel
     {
         [Required]
         [EmailAddress]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty;
     }
 
     public void OnGet() { }
@@ -51,7 +45,7 @@ public class ResendEmailConfirmationModel : PageModel
             ModelState.AddModelError(string.Empty, "Erro ao redefinir a password.");
             return Page();
         }
-        
+
 
         // Enviar email com as novas credenciais
         var mensagem = $@"
@@ -63,7 +57,7 @@ public class ResendEmailConfirmationModel : PageModel
         <p>Por favor, altere a sua senha após o primeiro login.</p>
     ";
 
-        await _emailSender.SendEmailAsync(user.Email, "Reenvio de credenciais - Hospital", mensagem);
+        await _emailSender.SendEmailAsync(user.Email ?? string.Empty, "Reenvio de credenciais - Hospital", mensagem);
 
         return RedirectToPage("./ResendEmailConfirmationConfirmation");
     }
