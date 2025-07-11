@@ -26,9 +26,9 @@ namespace Hospital_Web.Controllers.API
         // GET: api/QuartosInternagemsAPI
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<QuartosInternagem>>> GetQuartosInternagem()
+        public ActionResult<IEnumerable<QuartosInternagem>> GetQuartosInternagem()
         {
-            return await _context.QuartosInternagem.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/QuartosInternagemsAPI/5
@@ -52,7 +52,7 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutQuartosInternagem(int id, QuartosInternagem quartosInternagem)
         {
-            if (id != quartosInternagem.ID)
+            if (id != quartosInternagem.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -84,6 +84,10 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<QuartosInternagem>> PostQuartosInternagem(QuartosInternagem quartosInternagem)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.QuartosInternagem.Add(quartosInternagem);
             await _context.SaveChangesAsync();
 

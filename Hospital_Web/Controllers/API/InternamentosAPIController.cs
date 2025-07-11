@@ -25,15 +25,15 @@ namespace Hospital_Web.Controllers.API
 
         // GET: api/InternamentosAPI
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Internamento>>> GetInternamento()
+        [Authorize(Roles = "Admin, Medico")]
+        public ActionResult<IEnumerable<Internamento>> GetInternamento()
         {
-            return await _context.Internamento.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/InternamentosAPI/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Internamento>> GetInternamento(int id)
         {
             var internamento = await _context.Internamento.FindAsync(id);
@@ -49,10 +49,10 @@ namespace Hospital_Web.Controllers.API
         // PUT: api/InternamentosAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> PutInternamento(int id, Internamento internamento)
         {
-            if (id != internamento.ID)
+            if (id != internamento.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -81,9 +81,13 @@ namespace Hospital_Web.Controllers.API
         // POST: api/InternamentosAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Internamento>> PostInternamento(Internamento internamento)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.Internamento.Add(internamento);
             await _context.SaveChangesAsync();
 
@@ -95,6 +99,7 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteInternamento(int id)
         {
+
             var internamento = await _context.Internamento.FindAsync(id);
             if (internamento == null)
             {

@@ -25,15 +25,15 @@ namespace Hospital_Web.Controllers.API
 
         // GET: api/ConsultasAPI
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Consulta>>> GetConsulta()
+        [Authorize(Roles = "Admin, Medico")]
+        public ActionResult<IEnumerable<Consulta>> GetConsulta()
         {
-            return await _context.Consulta.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/ConsultasAPI/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Consulta>> GetConsulta(int id)
         {
             var consulta = await _context.Consulta.FindAsync(id);
@@ -49,10 +49,10 @@ namespace Hospital_Web.Controllers.API
         // PUT: api/ConsultasAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> PutConsulta(int id, Consulta consulta)
         {
-            if (id != consulta.Episodio)
+            if (id != consulta.Episodio || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -81,9 +81,15 @@ namespace Hospital_Web.Controllers.API
         // POST: api/ConsultasAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Consulta>> PostConsulta(Consulta consulta)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
             _context.Consulta.Add(consulta);
             await _context.SaveChangesAsync();
 
@@ -92,7 +98,7 @@ namespace Hospital_Web.Controllers.API
 
         // DELETE: api/ConsultasAPI/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> DeleteConsulta(int id)
         {
             var consulta = await _context.Consulta.FindAsync(id);

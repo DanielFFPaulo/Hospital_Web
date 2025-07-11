@@ -25,15 +25,15 @@ namespace Hospital_Web.Controllers.API
 
         // GET: api/GabinetesAPI
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Gabinete>>> GetGabinete()
+        [Authorize(Roles = "Admin, Medico")]
+        public ActionResult<IEnumerable<Gabinete>> GetGabinete()
         {
-            return await _context.Gabinete.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/GabinetesAPI/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Gabinete>> GetGabinete(int id)
         {
             var gabinete = await _context.Gabinete.FindAsync(id);
@@ -49,10 +49,10 @@ namespace Hospital_Web.Controllers.API
         // PUT: api/GabinetesAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> PutGabinete(int id, Gabinete gabinete)
         {
-            if (id != gabinete.ID)
+            if (id != gabinete.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -81,9 +81,13 @@ namespace Hospital_Web.Controllers.API
         // POST: api/GabinetesAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Gabinete>> PostGabinete(Gabinete gabinete)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.Gabinete.Add(gabinete);
             await _context.SaveChangesAsync();
 

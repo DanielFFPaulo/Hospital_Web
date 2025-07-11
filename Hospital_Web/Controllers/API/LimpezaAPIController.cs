@@ -25,15 +25,15 @@ namespace Hospital_Web.Controllers.API
 
         // GET: api/LimpezaAPI
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<LimpezaSala>>> GetLimpezaSala()
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
+        public ActionResult<IEnumerable<LimpezaSala>> GetLimpezaSala()
         {
-            return await _context.LimpezaSala.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/LimpezaAPI/5
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<ActionResult<LimpezaSala>> GetLimpezaSala(int id)
         {
             var limpezaSala = await _context.LimpezaSala.FindAsync(id);
@@ -49,10 +49,10 @@ namespace Hospital_Web.Controllers.API
         // PUT: api/LimpezaAPI/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<IActionResult> PutLimpezaSala(int id, LimpezaSala limpezaSala)
         {
-            if (id != limpezaSala.ID)
+            if (id != limpezaSala.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -81,9 +81,13 @@ namespace Hospital_Web.Controllers.API
         // POST: api/LimpezaAPI
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<ActionResult<LimpezaSala>> PostLimpezaSala(LimpezaSala limpezaSala)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.LimpezaSala.Add(limpezaSala);
             await _context.SaveChangesAsync();
 
@@ -92,7 +96,7 @@ namespace Hospital_Web.Controllers.API
 
         // DELETE: api/LimpezaAPI/5
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<IActionResult> DeleteLimpezaSala(int id)
         {
             var limpezaSala = await _context.LimpezaSala.FindAsync(id);

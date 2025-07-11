@@ -24,13 +24,13 @@ namespace Hospital_Web.Controllers.API
         [HttpGet]
         public ActionResult<IEnumerable<Pessoa>> GetPessoa()
         {
-            return Unauthorized("Ninguem tem permissão para pedir por todos os registos da Base de Dados");
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
 
 
         // GET: api/PessoasAPI/5
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Utente")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(int id)
         {
@@ -50,7 +50,7 @@ namespace Hospital_Web.Controllers.API
         public async Task<IActionResult> PutPessoa(int id, Pessoa pessoa)
         {
 
-            if (id != pessoa.N_Processo)
+            if (id != pessoa.N_Processo || !ModelState.IsValid)
             {
                 return BadRequest();
             }

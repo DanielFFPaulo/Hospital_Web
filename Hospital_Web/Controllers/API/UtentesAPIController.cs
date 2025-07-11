@@ -26,9 +26,9 @@ namespace Hospital_Web.Controllers.API
         // GET: api/UtentesAPI
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Utente>>> GetUtente()
+        public ActionResult<IEnumerable<Utente>> GetUtente()
         {
-            return await _context.Utente.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         // GET: api/UtentesAPI/5
@@ -52,7 +52,7 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUtente(int id, Utente utente)
         {
-            if (id != utente.N_Processo)
+            if (id != utente.N_Processo || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -84,6 +84,10 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Utente>> PostUtente(Utente utente)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.Utente.Add(utente);
             await _context.SaveChangesAsync();
 
