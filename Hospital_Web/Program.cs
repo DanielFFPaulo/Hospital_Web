@@ -8,48 +8,37 @@ using Hospital_Web.Services;
 using Hospital_Web.Hubs;
 using Microsoft.AspNetCore.SignalR;
 
-// ------------------------------------------------------------
-// Program.cs / Startup: configuração principal da aplicação
-// ASP.NET Core + Identity + JWT + SignalR + EF Core
-// ------------------------------------------------------------
 
 var builder = WebApplication.CreateBuilder(args);
 
-#region CONFIGURAÇÃO DE SERVIÇOS (DI)
+// CONFIGURAcaO DE SERVIcOS 
 
-// ---------------------------
-// 1. DbContext  (SQL Server)
-// ---------------------------
+// DbContext (SQL Server)
 builder.Services.AddDbContext<Hospital_WebContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("Hospital_WebContext")
-        ?? throw new InvalidOperationException(
-            "String de ligação 'Hospital_WebContext' não encontrada.")));
+        ?? throw new InvalidOperationException("\r\nString de conexao 'Hospital_WebContext' nao encontrada.")));
 
-// ---------------------------
-// 2. Identity (utilizadores + roles)
-// ---------------------------
+// Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-        options.SignIn.RequireConfirmedAccount = false)   // login sem e-mail confirmado
+        options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<Hospital_WebContext>()
     .AddDefaultTokenProviders();
 
-// ---------------------------
-// 3. Autenticação – Cookies (UI) + JWT (API)
-// ---------------------------
-var jwtSettings = builder.Configuration.GetSection("Jwt");   // lê appsettings.json
+// JWT + Cookies
+var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultScheme = "Cookies";          // esquema por defeito (navegador)
+    options.DefaultScheme = "Cookies";
 })
-.AddCookie("Cookies", options =>               // login via página /Account/Login
+.AddCookie("Cookies", options =>
 {
     options.LoginPath = "/Identity/Account/Login";
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
 })
-.AddJwtBearer("Bearer", options =>             // suporte a “Authorization: Bearer <token>”
+.AddJwtBearer("Bearer", options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
@@ -60,36 +49,29 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer = jwtSettings["Issuer"],
         ValidAudience = jwtSettings["Audience"],
         IssuerSigningKey = new SymmetricSecurityKey(key),
-        ClockSkew = TimeSpan.Zero              // sem tolerância extra na expiração
+        ClockSkew = TimeSpan.Zero
     };
 });
 
-// ---------------------------
-// 4. Serviços de aplicação
-// ---------------------------
-builder.Services.AddScoped<TokenService>();                              // gera JWT
+// Servicos de aplicacao
+builder.Services.AddScoped<TokenService>();
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
-builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();          // envia emails
+builder.Services.AddTransient<IEmailSender, SmtpEmailSender>();
 
-// ---------------------------
-// 5. MVC / Razor Pages
-// ---------------------------
+// MVC / Razor
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();              // detalhes EF em Dev
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
-// ---------------------------
-// 6. SignalR  (tempo-real)
-// ---------------------------
+// SignalR
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();  // identifica users
 
-#endregion
+builder.Services.AddSingleton<IUserIdProvider, CustomUserIdProvider>();
+
 
 var app = builder.Build();
 
-#region MIGRAÇÕES & SEED AUTOMÁTICOS
-// Aplica migrações pendentes e cria dados iniciais (roles, admin)
+// ---------------- MIGRAcoES + SEED AUTOMaTICOS (inclui AZURE) ----------------
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
@@ -99,19 +81,25 @@ using (var scope = app.Services.CreateScope())
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
         var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
 
-        // 1) aplica todas as migrações pendentes
+        // 1) Aplica quaisquer migracoes pendentes
         context.Database.Migrate();
 
-        // 2) cria roles essenciais
+        // 2) Inicializa dados essenciais (roles, utilizador admin, etc.)
         string[] roles = { "Admin", "Medico", "FuncionarioLimpeza", "Utente" };
-        foreach (var role in roles)
-            if (!await roleManager.RoleExistsAsync(role))
-                await roleManager.CreateAsync(new IdentityRole(role));
 
-        // 3) garante a existência do utilizador admin
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole(role));
+            }
+        }
+
+        // Criar utilizador admin se nao existir
         string adminEmail = "admin@hospital.pt";
         string adminPassword = "Admin123!";
         var admin = await userManager.FindByEmailAsync(adminEmail);
+
         if (admin == null)
         {
             var newAdmin = new ApplicationUser
@@ -120,29 +108,33 @@ using (var scope = app.Services.CreateScope())
                 Email = adminEmail,
                 EmailConfirmed = true
             };
+
             var result = await userManager.CreateAsync(newAdmin, adminPassword);
             if (result.Succeeded)
+            {
                 await userManager.AddToRoleAsync(newAdmin, "Admin");
+            }
         }
+
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Erro ao migrar ou inicializar a base de dados.");
+        logger.LogError(ex, "Ocorreu um erro ao migrar ou iniciar o banco de dados.");
     }
 }
-#endregion
+// ---------------------------------------------------------------------------
 
-#region PIPELINE HTTP (middlewares)
-
+// ---------------- PIPELINE HTTP ----------------
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error"); // página de erro genérica em produção
+    app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
 else
 {
-    app.UseMigrationsEndPoint();            // mostra erros detalhados + pendências EF
+    // Em desenvolvimento mostra erros detalhados, inclusive de migracoes
+    app.UseMigrationsEndPoint();
 }
 
 app.UseHttpsRedirection();
@@ -150,22 +142,20 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-app.UseAuthentication();   // valida cookies/JWT
-app.UseAuthorization();    // verifica [Authorize] nas controllers
+app.UseAuthentication();
+app.UseAuthorization();
 
-// ---------- Rotas MVC ----------
+// Rotas
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// ---------- End-point SignalR ----------
 app.MapHub<NotificationHub>("/notificationHub");
 
-// ---------- Razor Pages & API ----------
 app.MapRazorPages();
 app.MapControllers();
 
-// ---------- Redireciona raiz conforme autenticado ----------
+
 app.MapGet("/", context =>
 {
     if (!context.User.Identity?.IsAuthenticated ?? true)
@@ -174,7 +164,5 @@ app.MapGet("/", context =>
         context.Response.Redirect("/Home/Index");
     return Task.CompletedTask;
 });
-
-#endregion
 
 app.Run();
