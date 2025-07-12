@@ -9,21 +9,37 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Define o namespace dos controladores de API da aplicação.
+/// </summary>
 namespace Hospital_Web.Controllers.API
 {
+    /// <summary>
+    /// Controlador de API responsável pela gestão de médicos.
+    /// Requer autenticação via JWT Bearer e perfil "Admin".
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class MedicosAPIController : ControllerBase
     {
+        /// <summary>
+        /// Contexto da base de dados usado para aceder à tabela de médicos.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que injeta o contexto da base de dados.
+        /// </summary>
         public MedicosAPIController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: api/MedicosAPI
+        /// <summary>
+        /// Devolve a lista de todos os médicos.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Medico>>> GetMedico()
@@ -31,7 +47,11 @@ namespace Hospital_Web.Controllers.API
             return await _context.Medico.ToListAsync();
         }
 
-        // GET: api/MedicosAPI/5
+        /// <summary>
+        /// Devolve um médico específico pelo seu número de processo.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">Número de processo do médico</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Medico>> GetMedico(int id)
@@ -46,8 +66,12 @@ namespace Hospital_Web.Controllers.API
             return medico;
         }
 
-        // PUT: api/MedicosAPI/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de um médico existente.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">Número de processo do médico</param>
+        /// <param name="medico">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutMedico(int id, Medico medico)
@@ -78,8 +102,11 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
-        // POST: api/MedicosAPI
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um novo médico.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="medico">Objeto com os dados do médico a criar</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Medico>> PostMedico(Medico medico)
@@ -90,7 +117,11 @@ namespace Hospital_Web.Controllers.API
             return CreatedAtAction("GetMedico", new { id = medico.N_Processo }, medico);
         }
 
-        // DELETE: api/MedicosAPI/5
+        /// <summary>
+        /// Elimina um médico com base no seu número de processo.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">Número de processo do médico a eliminar</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMedico(int id)
@@ -107,6 +138,10 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Verifica se existe um médico com o número de processo fornecido.
+        /// </summary>
+        /// <param name="id">Número de processo do médico</param>
         private bool MedicoExists(int id)
         {
             return _context.Medico.Any(e => e.N_Processo == id);

@@ -16,7 +16,7 @@
 @if ((bool)(ViewBag.DeveAlterarSenha ?? false))
 {
     <div class="alert alert-warning mt-5 shadow-sm rounded">
-        <h4 class="mb-3"><i class="bi bi-exclamation-triangle-fill me-2"></i>Alterar senha obrigatória</h4>
+        <h4 class="mb-3"><i class="bi bi-exclamation-triangle-fill me-2"></i>Alterar senha obrigatoria</h4>
         <form method="post" asp-action="AlterarSenha">
             <div class="form-group mb-3">
                 <label class="form-label">Nova senha</label>
@@ -37,7 +37,7 @@
         <div class="overlay">
             <div class="welcome-content">
                 <h1 class="welcome-title">🏥 Sistema Hospitalar</h1>
-                <p class="welcome-subtitle">Gestão Integrada de Saúde</p>
+                <p class="welcome-subtitle">Gestao Integrada de Saude</p>
             </div>
         </div>
     </div>
@@ -45,8 +45,8 @@
     <!-- Menu Section -->
     <div class="menu-section">
         <div class="menu-container">
-            <h2 class="menu-title">Menu de Navegação</h2>
-            <p class="menu-description">Escolha uma área para gerir</p>
+            <h2 class="menu-title">Menu de Navegacao</h2>
+            <p class="menu-description">Escolha uma area para gerir</p>
 
             <div class="scrollable-menu">
                 @if (isUtente)
@@ -82,7 +82,7 @@
                         <partial name="_MenuCard" model="@(Tuple.Create("Consultas", "Consultas", "Index"))" />
                     </div>
                     <div class="menu-item">
-                        <partial name="_MenuCard" model="@(Tuple.Create("Funcionários de Limpeza", "FuncionarioLimpezas", "Index"))" />
+                        <partial name="_MenuCard" model="@(Tuple.Create("Funcionarios de Limpeza", "FuncionarioLimpezas", "Index"))" />
                     </div>
                     <div class="menu-item">
                         <partial name="_MenuCard" model="@(Tuple.Create("Gabinetes", "Gabinetes", "Index"))" />
@@ -94,7 +94,7 @@
                         <partial name="_MenuCard" model="@(Tuple.Create("Limpeza de Salas", "LimpezaSalas", "Index"))" />
                     </div>
                     <div class="menu-item">
-                        <partial name="_MenuCard" model="@(Tuple.Create("Médicos", "Medicos", "Index"))" />
+                        <partial name="_MenuCard" model="@(Tuple.Create("Medicos", "Medicos", "Index"))" />
                     </div>
                     <div class="menu-item">
                         <partial name="_MenuCard" model="@(Tuple.Create("Pessoas", "Pessoas", "Index"))" />

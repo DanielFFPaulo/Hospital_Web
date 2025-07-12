@@ -8,50 +8,62 @@ using Microsoft.EntityFrameworkCore;
 using Hospital_Web.Data;
 using Hospital_Web.Models;
 
+/// <summary>
+/// Controlador responsável pela gestão de gabinetes no sistema hospitalar.
+/// Permite realizar operações CRUD (criar, ler, atualizar e eliminar).
+/// </summary>
 namespace Hospital_Web.Controllers
 {
     public class GabinetesController : Controller
     {
+        /// <summary>
+        /// Contexto da base de dados.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor do controlador. Injeta o contexto da base de dados.
+        /// </summary>
         public GabinetesController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: Gabinetes
+        /// <summary>
+        /// Mostra a lista de todos os gabinetes.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             return View(await _context.Gabinete.ToListAsync());
         }
 
-        // GET: Gabinetes/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um gabinete específico.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var gabinete = await _context.Gabinete
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (gabinete == null)
-            {
                 return NotFound();
-            }
 
             return View(gabinete);
         }
 
-        // GET: Gabinetes/Create
+        /// <summary>
+        /// Mostra o formulário para criar um novo gabinete.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Gabinetes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Processa a criação de um novo gabinete após submissão do formulário.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Descricao,Equipamento,Disponivel,ID,Bloco,Andar,Numero")] Gabinete gabinete)
@@ -65,33 +77,30 @@ namespace Hospital_Web.Controllers
             return View(gabinete);
         }
 
-        // GET: Gabinetes/Edit/5
+        /// <summary>
+        /// Mostra o formulário para editar os dados de um gabinete.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var gabinete = await _context.Gabinete.FindAsync(id);
             if (gabinete == null)
-            {
                 return NotFound();
-            }
+
             return View(gabinete);
         }
 
-        // POST: Gabinetes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Processa a edição dos dados de um gabinete após submissão do formulário.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Descricao,Equipamento,Disponivel,ID,Bloco,Andar,Numero")] Gabinete gabinete)
         {
             if (id != gabinete.ID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -103,52 +112,49 @@ namespace Hospital_Web.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!GabineteExists(gabinete.ID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(gabinete);
         }
 
-        // GET: Gabinetes/Delete/5
+        /// <summary>
+        /// Mostra o formulário de confirmação para eliminar um gabinete.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var gabinete = await _context.Gabinete
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (gabinete == null)
-            {
                 return NotFound();
-            }
 
             return View(gabinete);
         }
 
-        // POST: Gabinetes/Delete/5
+        /// <summary>
+        /// Elimina definitivamente um gabinete da base de dados.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var gabinete = await _context.Gabinete.FindAsync(id);
             if (gabinete != null)
-            {
                 _context.Gabinete.Remove(gabinete);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se um gabinete com o ID fornecido existe na base de dados.
+        /// </summary>
         private bool GabineteExists(int id)
         {
             return _context.Gabinete.Any(e => e.ID == id);

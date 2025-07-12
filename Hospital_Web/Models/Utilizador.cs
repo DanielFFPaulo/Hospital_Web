@@ -6,7 +6,7 @@ namespace Hospital_Web.Models
     public class Utilizador
     {
         /// <summary>
-        /// Identificador único do utilizador.
+        /// Identificador unico do utilizador.
         /// </summary>
         [Key]
         public int ID_Utilizador { get; set; }
@@ -14,20 +14,20 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Nome de utilizador para autenticação.
+        /// Nome de utilizador para autenticacao.
         /// </summary>
         [Display(Name = "Nome de utilizador")]
         [StringLength(50)]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public string Nome_Utilizador { get; set; } = string.Empty;
         /// <summary>
-        /// Senha para autenticação.
+        /// Senha para autenticacao.
         /// </summary>
         [Required]
         [StringLength(100)]
         public string Password { get; set; } = string.Empty;
         /// <summary>
-        /// Data de criação da conta do utilizador.
+        /// Data de criacao da conta do utilizador.
         /// </summary>
         [DataType(DataType.Date)]
         public DateTime Data_Criacao_Conta { get; set; } = DateTime.Now;

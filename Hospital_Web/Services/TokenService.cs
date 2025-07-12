@@ -3,31 +3,31 @@
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Identity;
 
-// Importa classes relacionadas com segurança de tokens
+// Importa classes relacionadas com seguranca de tokens
 using Microsoft.IdentityModel.Tokens;
 
-// Importa classes para criação de tokens JWT
+// Importa classes para criacao de tokens JWT
 using System.IdentityModel.Tokens.Jwt;
 
-// Importa classes para manipular claims (informações dentro do token)
+// Importa classes para manipular claims (informacoes dentro do token)
 using System.Security.Claims;
 
-// Importa classe para codificação de strings (como chaves secretas)
+// Importa classe para codificacao de strings (como chaves secretas)
 using System.Text;
 
-// Define o namespace onde esta classe está incluída
+// Define o namespace onde esta classe esta incluida
 namespace Hospital_Web.Services
 {
     /// <summary>
-    /// Classe responsável pela geração de tokens JWT (JSON Web Tokens)
+    /// Classe responsavel pela geracao de tokens JWT (JSON Web Tokens)
     /// </summary>
     public class TokenService
     {
-        // Campo para aceder às configurações (como a chave secreta, tempo de expiração, etc.)
+        // Campo para aceder as configuracoes (como a chave secreta, tempo de expiracao, etc.)
         private readonly IConfiguration _config;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        // Construtor que recebe as configurações da aplicação por injeção de dependência
+        // Construtor que recebe as configuracoes da aplicacao por injecao de dependencia
 
         public TokenService(IConfiguration config, UserManager<ApplicationUser> userManager)
         {
@@ -41,17 +41,17 @@ namespace Hospital_Web.Services
         /// </summary>  
         public async Task<string> GenerateTokenAsync(IdentityUser user)
         {
-            // Obtém a secção "Jwt" do ficheiro de configuração (appsettings.json)
+            // Obtem a seccao "Jwt" do ficheiro de configuracao (appsettings.json)
             var jwtSettings = _config.GetSection("Jwt");
 
-            // Verifica se a chave secreta não é nula ou vazia
+            // Verifica se a chave secreta nao e nula ou vazia
             var secretKey = jwtSettings["Key"];
             if (string.IsNullOrEmpty(secretKey))
             {
                 throw new InvalidOperationException("JWT secret key is not configured.");
             }
 
-            // Cria uma chave simétrica a partir da string secreta definida nas configurações
+            // Cria uma chave simetrica a partir da string secreta definida nas configuracoes
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
             // Define as credenciais de assinatura com algoritmo HmacSha256

@@ -10,25 +10,34 @@ using Hospital_Web.Models;
 
 namespace Hospital_Web.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão das salas hospitalares.
+    /// Permite listar, pesquisar, criar, editar e apagar salas.
+    /// </summary>
     public class SalasController : Controller
     {
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que injeta o contexto da base de dados.
+        /// </summary>
         public SalasController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: Salas
+        /// <summary>
+        /// Apresenta a lista de todas as salas.
+        /// Permite filtrar por bloco através da barra de pesquisa.
+        /// </summary>
         public async Task<IActionResult> Index(string searchString)
         {
             if (_context.Sala == null)
             {
-                return Problem("Entity set 'Hospital_WebContext.Sala'  is null.");
+                return Problem("Entity set 'Hospital_WebContext.Sala' is null.");
             }
 
-            var sala = from s in _context.Sala
-                          select s;
+            var sala = from s in _context.Sala select s;
 
             if (!String.IsNullOrEmpty(searchString))
             {
@@ -38,33 +47,32 @@ namespace Hospital_Web.Controllers
             return View(await sala.ToListAsync());
         }
 
-        // GET: Salas/Details/5
+        /// <summary>
+        /// Mostra os detalhes de uma sala específica com base no ID.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var sala = await _context.Sala
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var sala = await _context.Sala.FirstOrDefaultAsync(m => m.ID == id);
             if (sala == null)
-            {
                 return NotFound();
-            }
 
             return View(sala);
         }
 
-        // GET: Salas/Create
+        /// <summary>
+        /// Exibe o formulário de criação de nova sala.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Salas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Cria uma nova sala na base de dados após submissão do formulário.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,Bloco,Andar,Numero")] Sala sala)
@@ -78,33 +86,30 @@ namespace Hospital_Web.Controllers
             return View(sala);
         }
 
-        // GET: Salas/Edit/5
+        /// <summary>
+        /// Exibe o formulário para editar os dados de uma sala existente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var sala = await _context.Sala.FindAsync(id);
             if (sala == null)
-            {
                 return NotFound();
-            }
+
             return View(sala);
         }
 
-        // POST: Salas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Guarda as alterações feitas na sala após a edição.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,Bloco,Andar,Numero")] Sala sala)
         {
             if (id != sala.ID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -116,38 +121,33 @@ namespace Hospital_Web.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!SalaExists(sala.ID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(sala);
         }
 
-        // GET: Salas/Delete/5
+        /// <summary>
+        /// Apresenta a confirmação de eliminação da sala.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
-            var sala = await _context.Sala
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var sala = await _context.Sala.FirstOrDefaultAsync(m => m.ID == id);
             if (sala == null)
-            {
                 return NotFound();
-            }
 
             return View(sala);
         }
 
-        // POST: Salas/Delete/5
+        /// <summary>
+        /// Elimina a sala da base de dados após confirmação.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -162,6 +162,9 @@ namespace Hospital_Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se uma sala com o ID especificado existe na base de dados.
+        /// </summary>
         private bool SalaExists(int id)
         {
             return _context.Sala.Any(e => e.ID == id);

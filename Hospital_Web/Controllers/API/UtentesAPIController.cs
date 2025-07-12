@@ -9,21 +9,38 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
+
+/// <summary>
+/// Define o namespace para os controladores de API da aplicação.
+/// </summary>
 namespace Hospital_Web.Controllers.API
 {
+    /// <summary>
+    /// API responsável pela gestão dos utentes do hospital.
+    /// Requer autenticação por token JWT e perfil de administrador.
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class UtentesAPIController : ControllerBase
     {
+        /// <summary>
+        /// Contexto da base de dados do hospital.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que recebe o contexto da base de dados.
+        /// </summary>
         public UtentesAPIController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: api/UtentesAPI
+        /// <summary>
+        /// Obtém todos os utentes registados na base de dados.
+        /// Acesso restrito a administradores.
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Utente>>> GetUtente()
@@ -31,7 +48,11 @@ namespace Hospital_Web.Controllers.API
             return await _context.Utente.ToListAsync();
         }
 
-        // GET: api/UtentesAPI/5
+        /// <summary>
+        /// Obtém um utente específico pelo seu número de processo.
+        /// Acesso restrito a administradores.
+        /// </summary>
+        /// <param name="id">Número de processo do utente</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Utente>> GetUtente(int id)
@@ -46,8 +67,12 @@ namespace Hospital_Web.Controllers.API
             return utente;
         }
 
-        // PUT: api/UtentesAPI/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de um utente existente.
+        /// Acesso restrito a administradores.
+        /// </summary>
+        /// <param name="id">Número de processo do utente</param>
+        /// <param name="utente">Objeto utente com dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutUtente(int id, Utente utente)
@@ -78,8 +103,11 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
-        // POST: api/UtentesAPI
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Regista um novo utente na base de dados.
+        /// Acesso restrito a administradores.
+        /// </summary>
+        /// <param name="utente">Objeto utente a ser criado</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Utente>> PostUtente(Utente utente)
@@ -90,7 +118,11 @@ namespace Hospital_Web.Controllers.API
             return CreatedAtAction("GetUtente", new { id = utente.N_Processo }, utente);
         }
 
-        // DELETE: api/UtentesAPI/5
+        /// <summary>
+        /// Elimina um utente da base de dados.
+        /// Acesso restrito a administradores.
+        /// </summary>
+        /// <param name="id">Número de processo do utente</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUtente(int id)
@@ -107,6 +139,10 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Verifica se um utente com o número de processo especificado existe.
+        /// </summary>
+        /// <param name="id">Número de processo do utente</param>
         private bool UtenteExists(int id)
         {
             return _context.Utente.Any(e => e.N_Processo == id);

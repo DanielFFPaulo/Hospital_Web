@@ -9,21 +9,37 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Define o namespace para os controladores de API da aplicação.
+/// </summary>
 namespace Hospital_Web.Controllers.API
 {
+    /// <summary>
+    /// Controlador de API responsável pela gestão de gabinetes.
+    /// Requer autenticação via JWT Bearer e perfil "Admin".
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class GabinetesAPIController : ControllerBase
     {
+        /// <summary>
+        /// Contexto da base de dados que dá acesso à tabela Gabinete.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que injeta o contexto da base de dados.
+        /// </summary>
         public GabinetesAPIController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: api/GabinetesAPI
+        /// <summary>
+        /// Devolve a lista de todos os gabinetes existentes.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<Gabinete>>> GetGabinete()
@@ -31,7 +47,11 @@ namespace Hospital_Web.Controllers.API
             return await _context.Gabinete.ToListAsync();
         }
 
-        // GET: api/GabinetesAPI/5
+        /// <summary>
+        /// Devolve os dados de um gabinete específico com base no ID.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID do gabinete a obter</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Gabinete>> GetGabinete(int id)
@@ -46,8 +66,12 @@ namespace Hospital_Web.Controllers.API
             return gabinete;
         }
 
-        // PUT: api/GabinetesAPI/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de um gabinete existente.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID do gabinete</param>
+        /// <param name="gabinete">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutGabinete(int id, Gabinete gabinete)
@@ -78,8 +102,11 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
-        // POST: api/GabinetesAPI
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um novo gabinete na base de dados.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="gabinete">Objeto do novo gabinete</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Gabinete>> PostGabinete(Gabinete gabinete)
@@ -90,7 +117,11 @@ namespace Hospital_Web.Controllers.API
             return CreatedAtAction("GetGabinete", new { id = gabinete.ID }, gabinete);
         }
 
-        // DELETE: api/GabinetesAPI/5
+        /// <summary>
+        /// Elimina um gabinete existente com base no ID.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID do gabinete a eliminar</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteGabinete(int id)
@@ -107,6 +138,10 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Verifica se existe um gabinete com o ID fornecido.
+        /// </summary>
+        /// <param name="id">ID do gabinete</param>
         private bool GabineteExists(int id)
         {
             return _context.Gabinete.Any(e => e.ID == id);

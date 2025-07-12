@@ -16,7 +16,7 @@ namespace Hospital_Web.Models
         /// </summary>
         [Required]
         [StringLength(200)]
-        [Display(Name = "Descrição do Quarto")]
+        [Display(Name = "Descricao do Quarto")]
         [DataType(DataType.MultilineText)]
         public string Descricao { get; set; } = string.Empty;
 

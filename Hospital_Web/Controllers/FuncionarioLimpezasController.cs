@@ -11,14 +11,32 @@ using Microsoft.AspNetCore.Identity;
 using Hospital_Web.Services;
 
 
+/// <summary>
+/// Controlador responsável pela gestão de funcionários da limpeza no sistema hospitalar.
+/// Inclui criação de conta de utilizador, envio de email de boas-vindas e operações CRUD.
+/// </summary>
 namespace Hospital_Web.Controllers
 {
     public class FuncionarioLimpezasController : Controller
     {
+        /// <summary>
+        /// Contexto da base de dados.
+        /// </summary>
         private readonly Hospital_WebContext _context;
+
+        /// <summary>
+        /// Gerenciador de utilizadores (Identity).
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <summary>
+        /// Serviço de envio de emails.
+        /// </summary>
         private readonly IEmailSender _emailSender;
 
+        /// <summary>
+        /// Construtor do controlador. Injeta as dependências necessárias.
+        /// </summary>
         public FuncionarioLimpezasController(
             Hospital_WebContext context,
             UserManager<ApplicationUser> userManager,
@@ -29,39 +47,42 @@ namespace Hospital_Web.Controllers
             _emailSender = emailSender;
         }
 
-        // GET: FuncionarioLimpezas
+        /// <summary>
+        /// Mostra a lista de todos os funcionários da limpeza.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             return View(await _context.FuncionarioLimpeza.ToListAsync());
         }
 
-        // GET: FuncionarioLimpezas/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um funcionário da limpeza.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var funcionarioLimpeza = await _context.FuncionarioLimpeza
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
             if (funcionarioLimpeza == null)
-            {
                 return NotFound();
-            }
 
             return View(funcionarioLimpeza);
         }
 
-        // GET: FuncionarioLimpezas/Create
+        /// <summary>
+        /// Mostra o formulário de criação de um novo funcionário da limpeza.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: FuncionarioLimpezas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Regista um novo funcionário da limpeza e cria conta de utilizador associada.
+        /// Envia email com credenciais temporárias.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Nome,Idade,DatadeNascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Tamanho_Uniforme,Data_de_contratacao,Turno,Certificacoes,N_Processo")] FuncionarioLimpeza funcionarioLimpeza)
@@ -105,13 +126,13 @@ namespace Hospital_Web.Controllers
                     funcionarioLimpeza.Email,
                     "Bem-vindo ao Portal do Hospital",
                     $@"
-<p>Olá {funcionarioLimpeza.Nome},</p>
+<p>Ola {funcionarioLimpeza.Nome},</p>
 <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
 <p><a href='https://localhost:7140/Identity/Account/Login'>Entrar no sistema Hospital</a></p>
 <p><strong>Credenciais de acesso:</strong><br>
 Email: {funcionarioLimpeza.Email}<br>
 Senha: {senhaTemporaria}</p>
-<p>Será solicitado a alterar a senha no primeiro login.</p>");
+<p>Sera solicitado a alterar a senha no primeiro login.</p>");
 
                 return RedirectToAction(nameof(Index));
             }
@@ -119,30 +140,29 @@ Senha: {senhaTemporaria}</p>
             {
                 await _userManager.DeleteAsync(user);
                 await transaction.RollbackAsync();
-                ModelState.AddModelError("", "Erro ao criar o funcionário. Nenhum dado foi gravado.");
+                ModelState.AddModelError("", "Erro ao criar o funcionario. Nenhum dado foi gravado.");
                 return View(funcionarioLimpeza);
             }
         }
 
-        // GET: FuncionarioLimpezas/Edit/5
+        /// <summary>
+        /// Mostra o formulário para editar dados de um funcionário da limpeza.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var funcionarioLimpeza = await _context.FuncionarioLimpeza.FindAsync(id);
             if (funcionarioLimpeza == null)
-            {
                 return NotFound();
-            }
+
             return View(funcionarioLimpeza);
         }
 
-        // POST: FuncionarioLimpezas/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Atualiza os dados de um funcionário da limpeza.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Turno,Tamanho_Uniforme,Data_de_contratacao,Certificacoes,N_Processo,Nome,Idade,DataDeNascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade,Grupo_Sanguineo")] FuncionarioLimpeza funcionarioLimpeza)
@@ -169,49 +189,47 @@ Senha: {senhaTemporaria}</p>
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: FuncionarioLimpezas/Delete/5
+        /// <summary>
+        /// Mostra o formulário de confirmação para eliminar um funcionário da limpeza.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var funcionarioLimpeza = await _context.FuncionarioLimpeza
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
             if (funcionarioLimpeza == null)
-            {
                 return NotFound();
-            }
 
             return View(funcionarioLimpeza);
         }
 
-        // POST: FuncionarioLimpezas/Delete/5
+        /// <summary>
+        /// Elimina definitivamente um funcionário da limpeza e os utilizadores associados.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var users = await _context.Users
-             .Where(u => u.FuncionarioLimpezaId == id)
-             .ToListAsync();
+                .Where(u => u.FuncionarioLimpezaId == id)
+                .ToListAsync();
 
-            // Remove each user
             foreach (var user in users)
-            {
                 _context.Users.Remove(user);
-            }
 
             var funcionarioLimpeza = await _context.FuncionarioLimpeza.FindAsync(id);
             if (funcionarioLimpeza != null)
-            {
                 _context.FuncionarioLimpeza.Remove(funcionarioLimpeza);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se existe um funcionário da limpeza com o N_Processo fornecido.
+        /// </summary>
         private bool FuncionarioLimpezaExists(int id)
         {
             return _context.FuncionarioLimpeza.Any(e => e.N_Processo == id);

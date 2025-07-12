@@ -15,7 +15,7 @@ namespace Hospital_Web.Models
         /// </summary>
         [Display(Name = "Nome")]
         [StringLength(50)]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public string Nome { get; set; } = string.Empty;
 
 
@@ -47,12 +47,12 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data de Nascimento")]
-        [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "A {0} e de preenchimento obrigatorio")]
         public DateTime DataDeNascimento { get; set; }
 
 
-        [Display(Name = "Género")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Display(Name = "Genero")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public Sexo genero { get; set; }
 
 
@@ -65,20 +65,20 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Tipo sanguíneo do Utente.
+        /// Tipo sanguineo do Utente.
         /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         [Display(Name = "Tipo sanguineo")]
         public GrupoSanguineo Grupo_Sanguineo { get; set; }
 
 
 
         /// <summary>
-        /// número de telemóvel do utilizador
+        /// numero de telemovel do utilizador
         /// </summary>
-        [Display(Name = "Telemóvel")]
+        [Display(Name = "Telemovel")]
         [StringLength(18)]
-        [RegularExpression("(([+]|00)[0-9]{1,5})?[1-9][0-9]{5,10}", ErrorMessage = "Escreva um nº de telefone. Pode adicionar indicativo do país.")]
+        [RegularExpression("(([+]|00)[0-9]{1,5})?[1-9][0-9]{5,10}", ErrorMessage = "Escreva um nº de telefone. Pode adicionar indicativo do pais.")]
         public string? Telemovel { get; set; }
 
 
@@ -87,11 +87,11 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// número de telemóvel do utilizador
+        /// numero de telemovel do utilizador
         /// </summary>
-        [Display(Name = "Telemóvel Alternativo")]
+        [Display(Name = "Telemovel Alternativo")]
         [StringLength(18)]
-        [RegularExpression("(([+]|00)[0-9]{1,5})?[1-9][0-9]{5,10}", ErrorMessage = "Escreva um nº de telefone. Pode adicionar indicativo do país.")]
+        [RegularExpression("(([+]|00)[0-9]{1,5})?[1-9][0-9]{5,10}", ErrorMessage = "Escreva um nº de telefone. Pode adicionar indicativo do pais.")]
         public string? TelemovelAlt { get; set; }
 
 
@@ -115,12 +115,12 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Número de identificação fiscal do Utilizador
+        /// Numero de identificacao fiscal do Utilizador
         /// </summary>
         [Display(Name = "NIF")]
         [StringLength(9)]
         [RegularExpression("[1-9][0-9]{8}", ErrorMessage = "Deve escrever apenas 9 digitos no {0}")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public string NIF { get; set; } = string.Empty;
 
 
@@ -131,12 +131,12 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Código Postal da  morada do utilizador
+        /// Codigo Postal da  morada do utilizador
         /// </summary>
-        [Display(Name = "Código Postal")]
+        [Display(Name = "Codigo Postal")]
         [StringLength(50)]
         [RegularExpression("[1-9][0-9]{3}-[0-9]{3} [A-Za-z ]+",
-                           ErrorMessage = "No {0} só são aceites algarismos e letras inglesas.")]
+                           ErrorMessage = "No {0} so sao aceites algarismos e letras inglesas.")]
         public string? Cod_Postal { get; set; }
 
 
@@ -147,7 +147,7 @@ namespace Hospital_Web.Models
         /// Localidade da morada do utilizador
         /// </summary>
         [StringLength(100)]
-        [RegularExpression("[A-Za-z]+", ErrorMessage = "No {0} só são aceites algarismos e letras inglesas.")]
+        [RegularExpression("[A-Za-z]+", ErrorMessage = "No {0} so sao aceites algarismos e letras inglesas.")]
         [Display(Name = "Localidade")]
         public string? Localidade { get; set; }
 

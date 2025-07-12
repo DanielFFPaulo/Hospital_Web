@@ -9,14 +9,14 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Estado clínico do Utente.
+        /// Estado clinico do Utente.
         /// </summary>
-        [Display(Name = "Estado clínico")]
+        [Display(Name = "Estado clinico")]
         [DataType(DataType.MultilineText)]
-        [DisplayFormat(NullDisplayText = "Sem estado clínico")]
+        [DisplayFormat(NullDisplayText = "Sem estado clinico")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contem caracteres invalidos.")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public string Estado_clinico { get; set; } = string.Empty;
 
 
@@ -29,7 +29,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem alergias")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contem caracteres invalidos.")]
         public string? Alergias { get; set; } = string.Empty;
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Hospital_Web.Models
         // Foreign key for Medico Associado
 
         /// <summary>
-        /// Identificador do médico associado ao Utente. (Opcional)
+        /// Identificador do medico associado ao Utente. (Opcional)
         /// </summary>
         public int? Medico_Associado_Id { get; set; }
 

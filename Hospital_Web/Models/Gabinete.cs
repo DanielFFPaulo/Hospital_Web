@@ -5,33 +5,33 @@ namespace Hospital_Web.Models
     public class Gabinete : Sala
     {
         /// <summary>
-        /// Descrição do Gabinete.
+        /// Descricao do Gabinete.
         /// </summary>
-        [Required (ErrorMessage = " A {0} é de preenchimento obrigatório")]
+        [Required (ErrorMessage = " A {0} e de preenchimento obrigatorio")]
         [StringLength(200)]
-        [Display(Name = "Descrição do Gabinete")]
+        [Display(Name = "Descricao do Gabinete")]
         [DataType(DataType.MultilineText)]
-        [DisplayFormat(NullDisplayText = "Sem descrição")]
+        [DisplayFormat(NullDisplayText = "Sem descricao")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "A {0} contem caracteres invalidos.")]
         public string Descricao { get; set; } = string.Empty;
 
         /// <summary>
-        /// Equipamento disponível no gabinete.
+        /// Equipamento disponivel no gabinete.
         /// </summary>
         [StringLength(500)]
         [Display(Name = "Equipamento")]
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem equipamento")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contem caracteres invalidos.")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public string Equipamento { get; set; } = string.Empty;
 
         /// <summary>
         /// Disponibilidade do gabinete.
         /// </summary>
-        [Display(Name = "Disponível")]
+        [Display(Name = "Disponivel")]
         public bool Disponivel { get; set; } = false;
 
         // Navigation properties

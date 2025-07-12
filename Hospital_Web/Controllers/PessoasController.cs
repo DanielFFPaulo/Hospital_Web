@@ -7,12 +7,20 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_Web.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão de pessoas no sistema hospitalar.
+    /// Permite criar, editar, consultar, e apagar registos da entidade Pessoa.
+    /// Também remove utilizadores associados no Identity, se existirem.
+    /// </summary>
     public class PessoasController : Controller
     {
         private readonly Hospital_WebContext _context;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
+        /// <summary>
+        /// Construtor que injeta dependências do contexto, sistema de emails e gestão de utilizadores.
+        /// </summary>
         public PessoasController(
           Hospital_WebContext context,
           IEmailSender emailSender,
@@ -23,13 +31,17 @@ namespace Hospital_Web.Controllers
             _userManager = userManager;
         }
 
-        // GET: Pessoas
+        /// <summary>
+        /// Mostra a lista de todas as pessoas registadas.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             return View(await _context.Pessoa.ToListAsync());
         }
 
-        // GET: Pessoas/Details/5
+        /// <summary>
+        /// Mostra os detalhes de uma pessoa específica.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -43,13 +55,17 @@ namespace Hospital_Web.Controllers
             return View(pessoa);
         }
 
-        // GET: Pessoas/Create
+        /// <summary>
+        /// Mostra o formulário para criação de uma nova pessoa.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Pessoas/Create
+        /// <summary>
+        /// Cria uma nova pessoa após submissão do formulário.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Pessoa pessoa)
@@ -63,8 +79,9 @@ namespace Hospital_Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-
-        // GET: Pessoas/Edit/5
+        /// <summary>
+        /// Mostra o formulário para editar uma pessoa existente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,8 +94,9 @@ namespace Hospital_Web.Controllers
             return View(pessoa);
         }
 
-
-        // GET: Pessoas/Delete/5
+        /// <summary>
+        /// Mostra a confirmação para apagar uma pessoa específica.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -92,7 +110,9 @@ namespace Hospital_Web.Controllers
             return View(pessoa);
         }
 
-        // POST: Pessoas/Delete/5
+        /// <summary>
+        /// Elimina uma pessoa e, se existir, também o utilizador associado no sistema Identity.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -101,7 +121,7 @@ namespace Hospital_Web.Controllers
 
             if (pessoa != null)
             {
-                //  Apagar também o utilizador do Identity (caso exista)
+                // Tenta remover o utilizador associado no Identity pelo email
                 var user = await _userManager.FindByEmailAsync(pessoa.Email);
                 if (user != null)
                 {
@@ -115,7 +135,8 @@ namespace Hospital_Web.Controllers
                 }
                 catch (DbUpdateException)
                 {
-                    ModelState.AddModelError("", "Não é possível eliminar a pessoa porque existem registos associados (ex: consultas).");
+                    // Caso existam dependências (ex: consultas), mostra erro e não elimina
+                    ModelState.AddModelError("", "Nao e possivel eliminar a pessoa porque existem registos associados (ex: consultas).");
                     return View("Delete", pessoa);
                 }
             }

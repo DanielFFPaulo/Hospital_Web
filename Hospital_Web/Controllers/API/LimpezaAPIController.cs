@@ -9,21 +9,37 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Define o namespace dos controladores de API da aplicação.
+/// </summary>
 namespace Hospital_Web.Controllers.API
 {
+    /// <summary>
+    /// Controlador de API responsável pela gestão de registos de limpeza de salas.
+    /// Requer autenticação via JWT Bearer e perfil "Admin".
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class LimpezaAPIController : ControllerBase
     {
+        /// <summary>
+        /// Contexto da base de dados que dá acesso à tabela LimpezaSala.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que injeta o contexto da base de dados.
+        /// </summary>
         public LimpezaAPIController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: api/LimpezaAPI
+        /// <summary>
+        /// Devolve a lista de todas as limpezas de sala registadas.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<LimpezaSala>>> GetLimpezaSala()
@@ -31,7 +47,11 @@ namespace Hospital_Web.Controllers.API
             return await _context.LimpezaSala.ToListAsync();
         }
 
-        // GET: api/LimpezaAPI/5
+        /// <summary>
+        /// Devolve os dados de uma limpeza de sala específica pelo ID.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID da limpeza de sala</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<LimpezaSala>> GetLimpezaSala(int id)
@@ -46,8 +66,12 @@ namespace Hospital_Web.Controllers.API
             return limpezaSala;
         }
 
-        // PUT: api/LimpezaAPI/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de uma limpeza de sala existente.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID da limpeza</param>
+        /// <param name="limpezaSala">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutLimpezaSala(int id, LimpezaSala limpezaSala)
@@ -78,8 +102,11 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
-        // POST: api/LimpezaAPI
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um novo registo de limpeza de sala.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="limpezaSala">Objeto com os dados da nova limpeza</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<LimpezaSala>> PostLimpezaSala(LimpezaSala limpezaSala)
@@ -90,7 +117,11 @@ namespace Hospital_Web.Controllers.API
             return CreatedAtAction("GetLimpezaSala", new { id = limpezaSala.ID }, limpezaSala);
         }
 
-        // DELETE: api/LimpezaAPI/5
+        /// <summary>
+        /// Elimina um registo de limpeza de sala com base no ID.
+        /// Acesso restrito a utilizadores com perfil "Admin".
+        /// </summary>
+        /// <param name="id">ID da limpeza a eliminar</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteLimpezaSala(int id)
@@ -107,9 +138,14 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Verifica se existe um registo de limpeza de sala com o ID fornecido.
+        /// </summary>
+        /// <param name="id">ID a verificar</param>
         private bool LimpezaSalaExists(int id)
         {
             return _context.LimpezaSala.Any(e => e.ID == id);
         }
     }
 }
+

@@ -7,7 +7,7 @@ namespace Hospital_Web.Models
     public class Internamento
     {
         /// <summary>
-        /// Identificador único do internamento de um Utente.
+        /// Identificador unico do internamento de um Utente.
         /// </summary>
         [Key]
         public int ID { get; set; }
@@ -15,15 +15,15 @@ namespace Hospital_Web.Models
         /// <summary>
         /// Data e hora de entrada do Utente no internamento.
         /// </summary>
-        [Required(ErrorMessage = "A data e hora de entrada são obrigatórias")]
+        [Required(ErrorMessage = "A data e hora de entrada sao obrigatorias")]
         [Display(Name = "Data e hora de entrada")]
         [DataType(DataType.DateTime)]
         public DateTime DataHoraEntrada { get; set; }
 
         /// <summary>
-        /// Data e hora de saída do Utente do internamento.
+        /// Data e hora de saida do Utente do internamento.
         /// </summary>
-        [Display(Name = "Data e hora de saída")]
+        [Display(Name = "Data e hora de saida")]
         [DataType(DataType.DateTime)]
         public DateTime? DataHoraSaida { get; set; }
 

@@ -7,7 +7,7 @@ namespace Hospital_Web.Services
     {
         public Task SendEmailAsync(string email, string subject, string message)
         {
-            // Apenas simula envio — NÃO ENVIA NADA
+            // Apenas simula envio — NaO ENVIA NADA
             Console.WriteLine($"Simulado envio para {email}: {subject}");
             return Task.CompletedTask;
         }

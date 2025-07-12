@@ -20,17 +20,39 @@ using Microsoft.EntityFrameworkCore;
 
 
 
+/// <summary>
+/// Define o namespace da página de login dentro da área Identity.
+/// </summary>
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
+    /// <summary>
+    /// Modelo da página Razor responsável pela autenticação dos utilizadores.
+    /// </summary>
     public class LoginModel : PageModel
     {
+        /// <summary>
+        /// Gerencia operações de login como autenticação com password e 2FA.
+        /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager;
+
+        /// <summary>
+        /// Permite obter e atualizar informações sobre utilizadores.
+        /// </summary>
         private readonly UserManager<ApplicationUser> _userManager;
+
+        /// <summary>
+        /// Regista mensagens de log, como login bem-sucedido ou falhas.
+        /// </summary>
         private readonly ILogger<LoginModel> _logger;
+
+        /// <summary>
+        /// Contexto da base de dados da aplicação para acesso a entidades como Utente.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
-
-
+        /// <summary>
+        /// Construtor que injeta as dependências necessárias.
+        /// </summary>
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
             UserManager<ApplicationUser> userManager,
@@ -44,64 +66,59 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         }
 
         /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        /// Modelo de entrada com email, password e lembrar login.
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
 
         /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        /// Lista de esquemas de autenticação externa disponíveis (ex: Google, Facebook).
         /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        /// URL para redirecionamento após login bem-sucedido.
         /// </summary>
         public string ReturnUrl { get; set; }
 
         /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        /// Mensagem de erro persistente entre pedidos (ex: após redirecionamento).
         /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
         /// <summary>
-        ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-        ///     directly from your code. This API may change or be removed in future releases.
+        /// Classe aninhada que representa os campos do formulário de login.
         /// </summary>
         public class InputModel
         {
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            /// Email do utilizador que está a tentar fazer login.
             /// </summary>
             [Required]
             [EmailAddress]
             public string Email { get; set; }
 
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            /// Password do utilizador.
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string Password { get; set; }
 
             /// <summary>
-            ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
-            ///     directly from your code. This API may change or be removed in future releases.
+            /// Indica se o utilizador deseja manter a sessão iniciada.
             /// </summary>
             [Display(Name = "Remember me?")]
             public bool RememberMe { get; set; }
         }
 
+        /// <summary>
+        /// Executado quando a página é carregada via GET.
+        /// Limpa cookies externos e inicializa dados como ReturnUrl e logins externos.
+        /// </summary>
         public async Task OnGetAsync(string returnUrl = null)
         {
-
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
                 ModelState.AddModelError(string.Empty, ErrorMessage);
@@ -109,7 +126,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
             returnUrl ??= Url.Content("~/");
 
-            // Clear the existing external cookie to ensure a clean login process
+            // Limpa qualquer cookie de autenticação externa anterior
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
@@ -117,6 +134,10 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        /// <summary>
+        /// Executado quando o formulário de login é submetido (POST).
+        /// Valida credenciais e trata lógicas como obrigatoriedade de alterar senha, 2FA e associação a Utente.
+        /// </summary>
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl ??= Url.Content("~/");
@@ -133,6 +154,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
                     var user = await _userManager.FindByEmailAsync(Input.Email);
 
+                    // Associa automaticamente o utilizador à entidade Utente, se ainda não estiver associado
                     if (user != null && user.UtenteId == null)
                     {
                         var utente = await _context.Utente.FirstOrDefaultAsync(u => u.Email == user.Email);
@@ -145,13 +167,14 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                         }
                     }
 
+                    // Se o utilizador estiver marcado para alterar a senha, redireciona para isso
                     if (user != null && user.DeveAlterarSenha)
                     {
                         await _signInManager.SignInAsync(user, isPersistent: Input.RememberMe);
                         return RedirectToPage("/Account/ForceChangePassword");
                     }
-                    return RedirectToAction("Index", "Home");
 
+                    return RedirectToAction("Index", "Home");
                 }
 
                 if (result.RequiresTwoFactor)
@@ -169,12 +192,12 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            // Se falhar a validação do modelo
+            // Se a validação do modelo falhar, volta a mostrar a página
             return Page();
         }
-
     }
 }
+
 
 
 

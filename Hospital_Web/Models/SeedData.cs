@@ -19,12 +19,12 @@ public static class SeedData
             context.Utente.AddRange(
                 new Utente
                 {
-                    Estado_clinico = "O paciente tem o mindinho do pé completamente roxo após ter batido na mobilia dentro de casa",
+                    Estado_clinico = "O paciente tem o mindinho do pe completamente roxo apos ter batido na mobilia dentro de casa",
                     Alergias = "Amendoins, Pelo de gato, borracha sintetica",
                     Seguro_de_Saude = "Fidelidade",
                     Data_de_Registo = DateTime.Parse("2025-04-16"),
 
-                    Nome = "João Silva",
+                    Nome = "Joao Silva",
                     Morada = "Rua das Flores, 123, Lisboa",
                     Telemovel = "912345678",
                     TelemovelAlt = "919876543",
@@ -39,9 +39,9 @@ public static class SeedData
 
                 new Utente
                 {
-                    Estado_clinico = "Paciente com queixas de dores de cabeça frequentes e insónia.",
+                    Estado_clinico = "Paciente com queixas de dores de cabeca frequentes e insonia.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.A_Positivo,
-                    Alergias = "Pólen",
+                    Alergias = "Polen",
                     Seguro_de_Saude = "Multicare",
                     Nome = "Maria Ferreira",
                     Data_de_Registo = DateTime.Parse("2025-04-18"),
@@ -57,10 +57,10 @@ public static class SeedData
                 },
                 new Utente
                 {
-                    Estado_clinico = "Relatou dores abdominais persistentes há mais de uma semana.",
+                    Estado_clinico = "Relatou dores abdominais persistentes ha mais de uma semana.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.B_Positivo,
                     Alergias = "Nenhuma conhecida",
-                    Seguro_de_Saude = "Médis",
+                    Seguro_de_Saude = "Medis",
                     Nome = "Carlos Gomes",
                     Data_de_Registo = DateTime.Parse("2025-04-17"),
                     DataDeNascimento = DateTime.Parse("1978-07-25"),
@@ -77,7 +77,7 @@ public static class SeedData
                 {
                     Estado_clinico = "Paciente com asma moderada, em tratamento controlado.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.AB_Positivo,
-                    Alergias = "Poeira, Ácaros",
+                    Alergias = "Poeira, acaros",
                     Seguro_de_Saude = "AdvanceCare",
                     Nome = "Ana Costa",
                     Data_de_Registo = DateTime.Parse("2025-04-15"),
@@ -94,7 +94,7 @@ public static class SeedData
 
                 new Utente
                 {
-                    Estado_clinico = "Paciente diabético tipo 2, com controlo glicémico irregular.",
+                    Estado_clinico = "Paciente diabetico tipo 2, com controlo glicemico irregular.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.A_Negativo,
                     Alergias = "Penicilina, Marisco",
                     Seguro_de_Saude = "Fidelidade",
@@ -112,9 +112,9 @@ public static class SeedData
                 },
                 new Utente
                 {
-                    Estado_clinico = "Fraturas múltiplas no braço direito após acidente de viação.",
+                    Estado_clinico = "Fraturas multiplas no braco direito apos acidente de viacao.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.O_Negativo,
-                    Alergias = "Látex",
+                    Alergias = "Latex",
                     Seguro_de_Saude = "Multicare",
                     Nome = "Sofia Rodrigues",
                     Data_de_Registo = DateTime.Parse("2025-04-20"),
@@ -130,25 +130,25 @@ public static class SeedData
                 },
                 new Utente
                 {
-                    Estado_clinico = "Hipertensão arterial e colesterol elevado, em acompanhamento regular.",
+                    Estado_clinico = "Hipertensao arterial e colesterol elevado, em acompanhamento regular.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.B_Negativo,
                     Alergias = "Aspirina, Ibuprofeno",
-                    Seguro_de_Saude = "Médis",
-                    Nome = "António Oliveira",
+                    Seguro_de_Saude = "Medis",
+                    Nome = "Antonio Oliveira",
                     Data_de_Registo = DateTime.Parse("2025-04-21"),
                     DataDeNascimento = DateTime.Parse("1965-05-15"),
-                    Morada = "Rua do Campo, 89, Setúbal",
+                    Morada = "Rua do Campo, 89, Setubal",
                     Telemovel = "914321098",
                     TelemovelAlt = "917890123",
                     Email = "antonio.oliveira@email.com",
                     NIF = "234890123",
-                    Cod_Postal = "2900-456 SETÚBAL",
-                    Localidade = "Setúbal",
+                    Cod_Postal = "2900-456 SETuBAL",
+                    Localidade = "Setubal",
                     genero = Pessoa.Sexo.Masculino,
                 },
                 new Utente
                 {
-                    Estado_clinico = "Gravidez de 32 semanas, sem complicações.",
+                    Estado_clinico = "Gravidez de 32 semanas, sem complicacoes.",
                     Grupo_Sanguineo = Utente.GrupoSanguineo.AB_Negativo,
                     Alergias = "Nenhuma conhecida",
                     Seguro_de_Saude = "AdvanceCare",
@@ -179,8 +179,8 @@ public static class SeedData
                     Numero_de_ordem = "20083421",
                     Anos_de_experiencia = 15,
 
-                    Nome = "Inês Moura",
-                    Morada = "Rua da Ciência, 45, Porto",
+                    Nome = "Ines Moura",
+                    Morada = "Rua da Ciencia, 45, Porto",
                     Telemovel = "965332178",
                     TelemovelAlt = "910223344",
                     Email = "inesmoura@hospital.tomar.pt",
@@ -197,7 +197,7 @@ public static class SeedData
                     Numero_de_ordem = "18827412",
                     Anos_de_experiencia = 8,
 
-                    Nome = "Luís Martins",
+                    Nome = "Luis Martins",
                     Morada = "Alameda dos Oceanos, 220, Lisboa",
                     Telemovel = "962884112",
                     TelemovelAlt = "915445566",
@@ -235,7 +235,7 @@ public static class SeedData
                     Numero_de_ordem = "21095674",
                     Anos_de_experiencia = 12,
                     Nome = "Dr. Ricardo Alves",
-                    Morada = "Rua dos Médicos, 78, Porto",
+                    Morada = "Rua dos Medicos, 78, Porto",
                     Telemovel = "963741852",
                     TelemovelAlt = "918520741",
                     Email = "ricardoalves@hospital.tomar.pt",
@@ -252,7 +252,7 @@ public static class SeedData
                     Numero_de_ordem = "22103458",
                     Anos_de_experiencia = 18,
                     Nome = "Dra. Helena Cardoso",
-                    Morada = "Avenida da Saúde, 134, Lisboa",
+                    Morada = "Avenida da Saude, 134, Lisboa",
                     Telemovel = "967412580",
                     TelemovelAlt = "914785296",
                     Email = "helenacardoso@hospital.tomar.pt",
@@ -269,7 +269,7 @@ public static class SeedData
                     Numero_de_ordem = "19876543",
                     Anos_de_experiencia = 6,
                     Nome = "Dr. Miguel Torres",
-                    Morada = "Rua da Clínica, 45, Coimbra",
+                    Morada = "Rua da Clinica, 45, Coimbra",
                     Telemovel = "961234567",
                     TelemovelAlt = "916789012",
                     Email = "migueltorres@hospital.tomar.pt",
@@ -353,7 +353,7 @@ public static class SeedData
                     Turno = FuncionarioLimpeza.Turnos.Tarde,
                     Tamanho_Uniforme = FuncionarioLimpeza.Uniformes.S,
                     Data_de_contratacao = DateTime.Parse("2023-07-15"),
-                    Certificacoes = "Treinamento Avançado em Higienização",
+                    Certificacoes = "Treinamento Avancado em Higienizacao",
 
                     Nome = "Rui Almeida",
                     Morada = "Rua Central, 77, Faro",
@@ -372,15 +372,15 @@ public static class SeedData
                     Turno = FuncionarioLimpeza.Turnos.Manha,
                     Tamanho_Uniforme = FuncionarioLimpeza.Uniformes.L,
                     Data_de_contratacao = DateTime.Parse("2024-06-10"),
-                    Certificacoes = "Certificado de Desinfecção Hospitalar, Curso de Manuseamento de Resíduos",
+                    Certificacoes = "Certificado de Desinfeccao Hospitalar, Curso de Manuseamento de Residuos",
                     Nome = "Sandra Mendes",
-                    Morada = "Rua da Limpeza, 44, Évora",
+                    Morada = "Rua da Limpeza, 44, evora",
                     Telemovel = "214567890",
                     TelemovelAlt = "915432109",
                     Email = "sandramendes@gmail.com",
                     NIF = "201234567",
-                    Cod_Postal = "7000-234 ÉVORA",
-                    Localidade = "Évora",
+                    Cod_Postal = "7000-234 eVORA",
+                    Localidade = "evora",
                     genero = Pessoa.Sexo.Feminino,
                     DataDeNascimento = DateTime.Parse("1989-06-15"),
                     Grupo_Sanguineo = Pessoa.GrupoSanguineo.B_Positivo
@@ -391,7 +391,7 @@ public static class SeedData
                     Tamanho_Uniforme = FuncionarioLimpeza.Uniformes.XL,
                     Data_de_contratacao = DateTime.Parse("2023-02-20"),
                     Certificacoes = "Certificado Internacional de Higiene Hospitalar",
-                    Nome = "José Fernandes",
+                    Nome = "Jose Fernandes",
                     Morada = "Avenida da Higiene, 88, Viana do Castelo",
                     Telemovel = "217890123",
                     TelemovelAlt = "912345678",
@@ -408,7 +408,7 @@ public static class SeedData
                     Turno = FuncionarioLimpeza.Turnos.Noite,
                     Tamanho_Uniforme = FuncionarioLimpeza.Uniformes.M,
                     Data_de_contratacao = DateTime.Parse("2024-11-15"),
-                    Certificacoes = "Formação em Limpeza de Blocos Operatórios",
+                    Certificacoes = "Formacao em Limpeza de Blocos Operatorios",
                     Nome = "Marta Silva",
                     Morada = "Rua Noturna, 33, Guarda",
                     Telemovel = "213456789",
@@ -480,7 +480,7 @@ public static class SeedData
                         Andar = 1,
                         Numero = 05,
                         Descricao = "Gabinete A105 : gabinete de endocrinologia, utilizado pelo Dr. Ricardo Alves",
-                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Balança digital, Medidor de glicose",
+                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Balanca digital, Medidor de glicose",
                         Disponivel = true
                     },
                     new Gabinete
@@ -489,7 +489,7 @@ public static class SeedData
                         Andar = 2,
                         Numero = 07,
                         Descricao = "Gabinete C207 : gabinete de ginecologia, utilizado pela Dra. Helena Cardoso",
-                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Marquesa ginecológica, Ecógrafo",
+                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Marquesa ginecologica, Ecografo",
                         Disponivel = true
                     },
                     new Gabinete
@@ -498,7 +498,7 @@ public static class SeedData
                         Andar = 2,
                         Numero = 08,
                         Descricao = "Gabinete A208 : gabinete de medicina geral, utilizado pelo Dr. Miguel Torres",
-                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Tensiómetro, Estetoscópio",
+                        Equipamento = "Monitor, Computador, Cadeira, Mesa, Tensiometro, Estetoscopio",
                         Disponivel = false
                     },
                     new Gabinete
@@ -507,7 +507,7 @@ public static class SeedData
                         Andar = 1,
                         Numero = 09,
                         Descricao = "Gabinete D109 : gabinete de pediatria, utilizado pela Dra. Joana Ribeiro",
-                        Equipamento = "Monitor, Computador, Cadeiras coloridas, Mesa baixa, Brinquedos, Balança pediátrica",
+                        Equipamento = "Monitor, Computador, Cadeiras coloridas, Mesa baixa, Brinquedos, Balanca pediatrica",
                         Disponivel = true
                     }
                  );
@@ -574,7 +574,7 @@ public static class SeedData
                         Bloco = "D",
                         Andar = 2,
                         Numero = 06,
-                        Descricao = "Quarto D206 : enfermaria pediátrica com decoração colorida",
+                        Descricao = "Quarto D206 : enfermaria pediatrica com decoracao colorida",
                         Tipo = QuartosInternagem.TipoQuarto.SemiPrivado,
                         Capacidade = 4,
                     }
@@ -606,7 +606,7 @@ public static class SeedData
                         {
                             Produto1 = "Detergente Desinfetante",
                             Produto2 = "Desinfetante Hospitalar",
-                            Produto3 = "Desinfetante de Superfícies",
+                            Produto3 = "Desinfetante de Superficies",
                             Data = DateTime.Parse("2025-04-16"),
                             Hora = TimeSpan.Parse("10:00"),
                             Sala_Id = newestSala.ID,
@@ -630,17 +630,17 @@ public static class SeedData
             else
             {
                 // Get specific patients and doctors for realistic consultations
-                var joaoSilva = context.Utente.FirstOrDefault(u => u.Nome == "João Silva");
+                var joaoSilva = context.Utente.FirstOrDefault(u => u.Nome == "Joao Silva");
                 var mariaFerreira = context.Utente.FirstOrDefault(u => u.Nome == "Maria Ferreira");
                 var carlosGomes = context.Utente.FirstOrDefault(u => u.Nome == "Carlos Gomes");
                 var anaCosta = context.Utente.FirstOrDefault(u => u.Nome == "Ana Costa");
                 var pedroSantos = context.Utente.FirstOrDefault(u => u.Nome == "Pedro Santos");
                 var sofiaRodrigues = context.Utente.FirstOrDefault(u => u.Nome == "Sofia Rodrigues");
-                var antonioOliveira = context.Utente.FirstOrDefault(u => u.Nome == "António Oliveira");
+                var antonioOliveira = context.Utente.FirstOrDefault(u => u.Nome == "Antonio Oliveira");
                 var catarinaPereira = context.Utente.FirstOrDefault(u => u.Nome == "Catarina Pereira");
 
-                var drInesNeuro = context.Medico.FirstOrDefault(m => m.Nome == "Inês Moura");
-                var drLuisOrtopedia = context.Medico.FirstOrDefault(m => m.Nome == "Luís Martins");
+                var drInesNeuro = context.Medico.FirstOrDefault(m => m.Nome == "Ines Moura");
+                var drLuisOrtopedia = context.Medico.FirstOrDefault(m => m.Nome == "Luis Martins");
                 var drFernandoCardio = context.Medico.FirstOrDefault(m => m.Nome == "Fernando Teixeira");
                 var drRicardoEndo = context.Medico.FirstOrDefault(m => m.Nome == "Dr. Ricardo Alves");
                 var draHelenaGine = context.Medico.FirstOrDefault(m => m.Nome == "Dra. Helena Cardoso");
@@ -653,16 +653,16 @@ public static class SeedData
 
                 var consultas = new List<Consulta>();
 
-                // João Silva - Ortopedia consultation for toe injury
+                // Joao Silva - Ortopedia consultation for toe injury
                 if (joaoSilva != null && drLuisOrtopedia != null && gabineteB103 != null)
                 {
                     consultas.Add(new Consulta
                     {
                         Data = DateTime.Parse("2025-04-16"),
                         Hora = TimeSpan.Parse("09:00"),
-                        Diagnostico = "Contusão no 5º dedo do pé direito com hematoma",
-                        Tratamento = "Aplicação de gelo, anti-inflamatório tópico e repouso",
-                        Observacoes = "Paciente orientado para elevação do membro e retorno se não melhorar em 5 dias",
+                        Diagnostico = "Contusao no 5º dedo do pe direito com hematoma",
+                        Tratamento = "Aplicacao de gelo, anti-inflamatorio topico e repouso",
+                        Observacoes = "Paciente orientado para elevacao do membro e retorno se nao melhorar em 5 dias",
                         Utente_Id = joaoSilva.N_Processo,
                         Utente = joaoSilva,
                         Medico_Id = drLuisOrtopedia.N_Processo,
@@ -679,9 +679,9 @@ public static class SeedData
                     {
                         Data = DateTime.Parse("2025-04-18"),
                         Hora = TimeSpan.Parse("14:30"),
-                        Diagnostico = "Cefaleia tensional crónica com componente de insónia",
-                        Tratamento = "Prescrição de analgésico e orientações de higiene do sono",
-                        Observacoes = "Paciente aconselhada a manter diário de dores de cabeça e retornar em 1 mês",
+                        Diagnostico = "Cefaleia tensional cronica com componente de insonia",
+                        Tratamento = "Prescricao de analgesico e orientacoes de higiene do sono",
+                        Observacoes = "Paciente aconselhada a manter diario de dores de cabeca e retornar em 1 mes",
                         Utente_Id = mariaFerreira.N_Processo,
                         Utente = mariaFerreira,
                         Medico_Id = drInesNeuro.N_Processo,
@@ -699,8 +699,8 @@ public static class SeedData
                         Data = DateTime.Parse("2025-04-17"),
                         Hora = TimeSpan.Parse("11:15"),
                         Diagnostico = "Gastrite aguda, possivelmente relacionada com stress",
-                        Tratamento = "Prescrição de protetor gástrico e orientações dietéticas",
-                        Observacoes = "Paciente orientado para dieta branda e evitar alimentos irritantes. Reavaliação em 2 semanas",
+                        Tratamento = "Prescricao de protetor gastrico e orientacoes dieteticas",
+                        Observacoes = "Paciente orientado para dieta branda e evitar alimentos irritantes. Reavaliacao em 2 semanas",
                         Utente_Id = carlosGomes.N_Processo,
                         Utente = carlosGomes,
                         Medico_Id = drMiguelGeral.N_Processo,
@@ -718,8 +718,8 @@ public static class SeedData
                         Data = DateTime.Parse("2025-04-19"),
                         Hora = TimeSpan.Parse("10:45"),
                         Diagnostico = "Diabetes mellitus tipo 2 descompensada",
-                        Tratamento = "Ajuste de medicação antidiabética e orientação nutricional",
-                        Observacoes = "HbA1c elevada (9.2%). Paciente encaminhado para nutricionista e retorno em 1 mês",
+                        Tratamento = "Ajuste de medicacao antidiabetica e orientacao nutricional",
+                        Observacoes = "HbA1c elevada (9.2%). Paciente encaminhado para nutricionista e retorno em 1 mes",
                         Utente_Id = pedroSantos.N_Processo,
                         Utente = pedroSantos,
                         Medico_Id = drRicardoEndo.N_Processo,
@@ -736,9 +736,9 @@ public static class SeedData
                     {
                         Data = DateTime.Parse("2025-04-20"),
                         Hora = TimeSpan.Parse("08:30"),
-                        Diagnostico = "Fraturas múltiplas de rádio e ulna direitos",
-                        Tratamento = "Imobilização com tala gessada e prescrição de analgésicos",
-                        Observacoes = "Paciente necessita de cirurgia ortopédica. Internamento programado para redução e fixação",
+                        Diagnostico = "Fraturas multiplas de radio e ulna direitos",
+                        Tratamento = "Imobilizacao com tala gessada e prescricao de analgesicos",
+                        Observacoes = "Paciente necessita de cirurgia ortopedica. Internamento programado para reducao e fixacao",
                         Utente_Id = sofiaRodrigues.N_Processo,
                         Utente = sofiaRodrigues,
                         Medico_Id = drLuisOrtopedia.N_Processo,
@@ -748,16 +748,16 @@ public static class SeedData
                     });
                 }
 
-                // António Oliveira - Cardiologia for hypertension
+                // Antonio Oliveira - Cardiologia for hypertension
                 if (antonioOliveira != null && drFernandoCardio != null && gabineteB103 != null)
                 {
                     consultas.Add(new Consulta
                     {
                         Data = DateTime.Parse("2025-04-21"),
                         Hora = TimeSpan.Parse("15:00"),
-                        Diagnostico = "Hipertensão arterial não controlada com dislipidemia",
-                        Tratamento = "Ajuste de medicação anti-hipertensiva e estatina",
-                        Observacoes = "PA: 160/95 mmHg. Paciente orientado para dieta hipossódica e exercícios leves. Retorno em 15 dias",
+                        Diagnostico = "Hipertensao arterial nao controlada com dislipidemia",
+                        Tratamento = "Ajuste de medicacao anti-hipertensiva e estatina",
+                        Observacoes = "PA: 160/95 mmHg. Paciente orientado para dieta hipossodica e exercicios leves. Retorno em 15 dias",
                         Utente_Id = antonioOliveira.N_Processo,
                         Utente = antonioOliveira,
                         Medico_Id = drFernandoCardio.N_Processo,
@@ -774,9 +774,9 @@ public static class SeedData
                     {
                         Data = DateTime.Parse("2025-04-22"),
                         Hora = TimeSpan.Parse("16:30"),
-                        Diagnostico = "Gravidez de 32 semanas sem complicações",
-                        Tratamento = "Suplementação vitamínica e orientações pré-parto",
-                        Observacoes = "Ecografia normal. Feto com crescimento adequado. Próxima consulta em 2 semanas",
+                        Diagnostico = "Gravidez de 32 semanas sem complicacoes",
+                        Tratamento = "Suplementacao vitaminica e orientacoes pre-parto",
+                        Observacoes = "Ecografia normal. Feto com crescimento adequado. Proxima consulta em 2 semanas",
                         Utente_Id = catarinaPereira.N_Processo,
                         Utente = catarinaPereira,
                         Medico_Id = draHelenaGine.N_Processo,
@@ -794,8 +794,8 @@ public static class SeedData
                         Data = DateTime.Parse("2025-04-23"),
                         Hora = TimeSpan.Parse("09:30"),
                         Diagnostico = "Asma brônquica moderada em controlo",
-                        Tratamento = "Manutenção da medicação inalatória atual",
-                        Observacoes = "Paciente sem crises recentes. Técnica inalatória correta. Retorno em 3 meses",
+                        Tratamento = "Manutencao da medicacao inalatoria atual",
+                        Observacoes = "Paciente sem crises recentes. Tecnica inalatoria correta. Retorno em 3 meses",
                         Utente_Id = anaCosta.N_Processo,
                         Utente = anaCosta,
                         Medico_Id = drMiguelGeral.N_Processo,
@@ -821,7 +821,7 @@ public static class SeedData
                 // Get specific consultations that would lead to hospitalization
                 var sofiaConsulta = context.Consulta.FirstOrDefault(c => c.Utente != null && c.Utente.Nome == "Sofia Rodrigues");
                 var pedroConsulta = context.Consulta.FirstOrDefault(c => c.Utente != null && c.Utente.Nome == "Pedro Santos");
-                var antonioConsulta = context.Consulta.FirstOrDefault(c => c.Utente != null && c.Utente.Nome == "António Oliveira");
+                var antonioConsulta = context.Consulta.FirstOrDefault(c => c.Utente != null && c.Utente.Nome == "Antonio Oliveira");
                 var catarinaConsulta = context.Consulta.FirstOrDefault(c => c.Utente != null && c.Utente.Nome == "Catarina Pereira");
 
                 // Get available rooms
@@ -862,7 +862,7 @@ public static class SeedData
                     });
                 }
 
-                // António Oliveira - Hypertensive crisis
+                // Antonio Oliveira - Hypertensive crisis
                 if (antonioConsulta != null && enfermaria != null)
                 {
                     internamentos.Add(new Internamento

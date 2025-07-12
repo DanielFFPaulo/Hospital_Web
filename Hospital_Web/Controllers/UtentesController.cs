@@ -9,12 +9,19 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Hospital_Web.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão de utentes no sistema hospitalar.
+    /// Inclui operações de CRUD (criar, ler, atualizar, apagar) e integração com identidade e email.
+    /// </summary>
     public class UtentesController : Controller
     {
         private readonly Hospital_WebContext _context;
         private readonly IEmailSender _emailSender;
         private readonly UserManager<ApplicationUser> _userManager;
 
+        /// <summary>
+        /// Construtor que injeta o contexto da base de dados, gestor de utilizadores e serviço de email.
+        /// </summary>
         public UtentesController(
           Hospital_WebContext context,
           IEmailSender emailSender,
@@ -25,54 +32,55 @@ namespace Hospital_Web.Controllers
             _userManager = userManager;
         }
 
-        // GET: Utentes
+        /// <summary>
+        /// Apresenta a lista de utentes com os seus médicos associados.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             var hospital_WebContext = _context.Utente.Include(u => u.MedicoAssociado);
             return View(await hospital_WebContext.ToListAsync());
         }
 
-        // GET: Utentes/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um utente específico.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var utente = await _context.Utente
                 .Include(u => u.MedicoAssociado)
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
+
             if (utente == null)
-            {
                 return NotFound();
-            }
 
             return View(utente);
         }
 
-        // GET: Utentes/Create
+        /// <summary>
+        /// Exibe o formulário de criação de novo utente.
+        /// </summary>
         public IActionResult Create()
         {
             ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName");
             return View();
         }
 
-        // POST: Utentes/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Cria um novo utente, regista-o na base de dados e cria uma conta de utilizador associada.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Estado_clinico,Grupo_Sanguineo,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id,N_Processo,Nome,Idade,Data_de_Nascimento,Morada,Telemovel,TelemovelAlt,Email,NIF,Cod_Postal,Localidade")] Utente utente)
+        public async Task<IActionResult> Create([Bind(...)] Utente utente)
         {
             if (!ModelState.IsValid)
                 return View(utente);
 
-            // 1. Criar o Utente na base de dados
             _context.Add(utente);
             await _context.SaveChangesAsync();
 
-            // 2. Criar utilizador no Identity com UtenteId
             var user = new ApplicationUser
             {
                 UserName = utente.Email,
@@ -89,64 +97,51 @@ namespace Hospital_Web.Controllers
                 foreach (var error in result.Errors)
                     ModelState.AddModelError("", error.Description);
 
-                // Remover utente se criação de utilizador falhar
                 _context.Utente.Remove(utente);
                 await _context.SaveChangesAsync();
-
                 return View(utente);
             }
 
-            // 3. Adicionar ao role "Utente"
-            //await _userManager.AddToRoleAsync(user, "Utente");
-
-            // 4. Enviar email
+            // Enviar email de boas-vindas
             await _emailSender.SendEmailAsync(
                 utente.Email,
                 "Bem-vindo ao Portal do Hospital",
-                $@"
-<p>Olá {utente.Nome},</p>
-<p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
-<p><strong>Credenciais:</strong><br>
-Email: {utente.Email}<br>
-Senha temporária: {senhaTemporaria}</p>
-<p><a href='https://localhost:7140/Identity/Account/Login'>Entrar no sistema Hospital</a></p>
-<p>Será solicitado a alterar a senha no primeiro login.</p>");
+                $@"<p>Ola {utente.Nome},</p>
+                <p>Seja bem-vindo ao nosso sistema do hospital. A sua conta foi criada com sucesso.</p>
+                <p><strong>Credenciais:</strong><br>
+                Email: {utente.Email}<br>
+                Senha temporaria: {senhaTemporaria}</p>
+                <p><a href='https://localhost:7140/Identity/Account/Login'>Entrar no sistema Hospital</a></p>
+                <p>Sera solicitado a alterar a senha no primeiro login.</p>");
 
             return RedirectToAction(nameof(Index));
         }
 
-        // GET: Utentes/Edit/5
+        /// <summary>
+        /// Exibe o formulário de edição dos dados de um utente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var utente = await _context.Utente.FindAsync(id);
             if (utente == null)
-            {
                 return NotFound();
-            }
 
             ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", utente.Medico_Associado_Id);
             return View(utente);
         }
 
-
-
-        // POST: Utentes/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Atualiza os dados de um utente já existente.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("N_Processo,Nome,DataDeNascimento,genero,Morada,Localidade,Cod_Postal,Telemovel,TelemovelAlt,Email,NIF,Grupo_Sanguineo,Estado_clinico,Alergias,Seguro_de_Saude,Data_de_Registo,Medico_Associado_Id")] Utente utente)
-
+        public async Task<IActionResult> Edit(int id, [Bind(...)] Utente utente)
         {
             if (id != utente.N_Processo)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -158,73 +153,67 @@ Senha temporária: {senhaTemporaria}</p>
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!UtenteExists(utente.N_Processo))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["Medico_Associado_Id"] = new SelectList(_context.Medico, "N_Processo", "DisplayName", utente.Medico_Associado_Id);
             return View(utente);
         }
 
-        // GET: Utentes/Delete/5
+        /// <summary>
+        /// Mostra a confirmação de eliminação do utente.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var utente = await _context.Utente
                 .Include(u => u.MedicoAssociado)
                 .FirstOrDefaultAsync(m => m.N_Processo == id);
+
             if (utente == null)
-            {
                 return NotFound();
-            }
 
             return View(utente);
         }
 
-        // POST: Utentes/Delete/5
+        /// <summary>
+        /// Elimina o utente da base de dados, incluindo consultas e conta de utilizador associada.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-
             var consultas = await _context.Consulta
                 .Where(u => u.Utente_Id == id)
                 .ToListAsync();
 
             foreach (var consulta in consultas)
-            {
                 _context.Consulta.Remove(consulta);
-            }
 
             var users = await _context.Users
                 .Where(u => u.UtenteId == id)
                 .ToListAsync();
 
             foreach (var user in users)
-            {
                 _context.Users.Remove(user);
-            }
 
-                var utente = await _context.Utente.FindAsync(id);
+            var utente = await _context.Utente.FindAsync(id);
             if (utente != null)
-            {
                 _context.Utente.Remove(utente);
-            }
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se existe um utente com o ID indicado.
+        /// </summary>
         private bool UtenteExists(int id)
         {
             return _context.Utente.Any(e => e.N_Processo == id);

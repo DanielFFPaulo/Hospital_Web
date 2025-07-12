@@ -9,21 +9,37 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 using Microsoft.AspNetCore.Authorization;
 
+/// <summary>
+/// Define o namespace para os controladores de API da aplicação.
+/// </summary>
 namespace Hospital_Web.Controllers.API
 {
+    /// <summary>
+    /// API responsável pela gestão de quartos de internamento.
+    /// Requer autenticação via JWT Bearer e perfil de administrador para todas as ações.
+    /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/[controller]")]
     [ApiController]
     public class QuartosInternagemsAPIController : ControllerBase
     {
+        /// <summary>
+        /// Contexto da base de dados injetado via construtor.
+        /// </summary>
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que recebe o contexto da base de dados.
+        /// </summary>
         public QuartosInternagemsAPIController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: api/QuartosInternagemsAPI
+        /// <summary>
+        /// Obtém a lista de todos os quartos de internamento.
+        /// Apenas acessível por administradores.
+        /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<IEnumerable<QuartosInternagem>>> GetQuartosInternagem()
@@ -31,7 +47,11 @@ namespace Hospital_Web.Controllers.API
             return await _context.QuartosInternagem.ToListAsync();
         }
 
-        // GET: api/QuartosInternagemsAPI/5
+        /// <summary>
+        /// Obtém um quarto de internamento pelo seu ID.
+        /// Apenas acessível por administradores.
+        /// </summary>
+        /// <param name="id">ID do quarto de internamento</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<QuartosInternagem>> GetQuartosInternagem(int id)
@@ -46,8 +66,12 @@ namespace Hospital_Web.Controllers.API
             return quartosInternagem;
         }
 
-        // PUT: api/QuartosInternagemsAPI/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Atualiza os dados de um quarto de internamento existente.
+        /// Apenas acessível por administradores.
+        /// </summary>
+        /// <param name="id">ID do quarto</param>
+        /// <param name="quartosInternagem">Objeto com dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutQuartosInternagem(int id, QuartosInternagem quartosInternagem)
@@ -78,8 +102,11 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
-        // POST: api/QuartosInternagemsAPI
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        /// <summary>
+        /// Cria um novo quarto de internamento.
+        /// Apenas acessível por administradores.
+        /// </summary>
+        /// <param name="quartosInternagem">Objeto a ser criado</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<QuartosInternagem>> PostQuartosInternagem(QuartosInternagem quartosInternagem)
@@ -90,7 +117,11 @@ namespace Hospital_Web.Controllers.API
             return CreatedAtAction("GetQuartosInternagem", new { id = quartosInternagem.ID }, quartosInternagem);
         }
 
-        // DELETE: api/QuartosInternagemsAPI/5
+        /// <summary>
+        /// Elimina um quarto de internamento pelo seu ID.
+        /// Apenas acessível por administradores.
+        /// </summary>
+        /// <param name="id">ID do quarto</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteQuartosInternagem(int id)
@@ -107,6 +138,10 @@ namespace Hospital_Web.Controllers.API
             return NoContent();
         }
 
+        /// <summary>
+        /// Verifica se um quarto de internamento com determinado ID existe na base de dados.
+        /// </summary>
+        /// <param name="id">ID a verificar</param>
         private bool QuartosInternagemExists(int id)
         {
             return _context.QuartosInternagem.Any(e => e.ID == id);

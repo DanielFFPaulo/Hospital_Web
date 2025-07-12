@@ -7,7 +7,7 @@ namespace Hospital_Web.Models
     public class Consulta
     {
         /// <summary>
-        /// Identificador único da consulta.
+        /// Identificador unico da consulta.
         /// </summary>
         [Key]
         public int Episodio { get; set; }
@@ -17,7 +17,7 @@ namespace Hospital_Web.Models
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data da consulta")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public DateTime Data { get; set; }
         /// <summary>
         /// Hora exata do inicio da consulta.
@@ -25,18 +25,18 @@ namespace Hospital_Web.Models
         [DataType(DataType.Time)]
         [Display(Name = "Hora da consulta")]
         [DisplayFormat(DataFormatString = "{0:c}", ApplyFormatInEditMode = true)]
-        [Required(ErrorMessage = "A {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "A {0} e de preenchimento obrigatorio")]
         public TimeSpan Hora { get; set; }
         /// <summary>
         /// Diagostico da consulta.
         /// </summary>
         [StringLength(500)]
-        [Display(Name = "Diagnóstico")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Display(Name = "Diagnostico")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         [DataType(DataType.MultilineText)]
-        [DisplayFormat(NullDisplayText = "Sem diagnóstico")]
+        [DisplayFormat(NullDisplayText = "Sem diagnostico")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contem caracteres invalidos.")]
         public string Diagnostico { get; set; } = string.Empty;
         /// <summary>
         /// Tratamento a ser seguido.
@@ -46,7 +46,7 @@ namespace Hospital_Web.Models
         [DataType(DataType.MultilineText)]
         [DisplayFormat(NullDisplayText = "Sem tratamento")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contem caracteres invalidos.")]
         public string Tratamento { get; set; } = string.Empty;
 
 
@@ -55,31 +55,31 @@ namespace Hospital_Web.Models
 
 
         /// <summary>
-        /// Observações adicionais sobre a consulta.
+        /// Observacoes adicionais sobre a consulta.
         /// </summary>
         [StringLength(1000)]
-        [Display(Name = "Observações")]
+        [Display(Name = "Observacoes")]
         [DataType(DataType.MultilineText)]
-        [DisplayFormat(NullDisplayText = "Sem observações")]
+        [DisplayFormat(NullDisplayText = "Sem observacoes")]
         [UIHint("TextArea")]
-        [RegularExpression(@"^[a-zA-Zà-üÀ-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contém caracteres inválidos.")]
+        [RegularExpression(@"^[a-zA-Za-üa-Ü0-9\s.,;:!?()\-]+$", ErrorMessage = "O {0} contem caracteres invalidos.")]
         public string? Observacoes { get; set; }
 
         // Foreign keys
         /// <summary>
-        /// Identificador do médico responsável pela consulta.
+        /// Identificador do medico responsavel pela consulta.
         /// </summary>
         [Display(Name = "Medico")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public int Medico_Id { get; set; }
 
         [ForeignKey("Medico_Id")]
         public virtual Medico? Medico { get; set; }
         /// <summary>
-        /// Identificador do utente associado à consulta.
+        /// Identificador do utente associado a consulta.
         /// </summary>
         [Display(Name = "Utente")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public int Utente_Id { get; set; }
 
         [ForeignKey("Utente_Id")]
@@ -88,7 +88,7 @@ namespace Hospital_Web.Models
         /// Identificador do gabinete onde a consulta ocorre.
         /// </summary>
         [Display(Name = "Gabinete")]
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio")]
         public int Gabinete_Id { get; set; }
 
         [ForeignKey("Gabinete_Id")]

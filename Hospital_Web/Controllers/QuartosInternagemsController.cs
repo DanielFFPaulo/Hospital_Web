@@ -10,48 +10,57 @@ using Hospital_Web.Models;
 
 namespace Hospital_Web.Controllers
 {
+    /// <summary>
+    /// Controlador responsável pela gestão dos quartos de internamento no hospital.
+    /// Permite listar, visualizar detalhes, criar, editar e eliminar quartos.
+    /// </summary>
     public class QuartosInternagemsController : Controller
     {
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Construtor que recebe o contexto da base de dados.
+        /// </summary>
         public QuartosInternagemsController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: QuartosInternagems
+        /// <summary>
+        /// Mostra todos os quartos de internamento.
+        /// </summary>
         public async Task<IActionResult> Index()
         {
             return View(await _context.QuartosInternagem.ToListAsync());
         }
 
-        // GET: QuartosInternagems/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um quarto específico.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var quartosInternagem = await _context.QuartosInternagem
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (quartosInternagem == null)
-            {
                 return NotFound();
-            }
 
             return View(quartosInternagem);
         }
 
-        // GET: QuartosInternagems/Create
+        /// <summary>
+        /// Mostra o formulário de criação de um novo quarto.
+        /// </summary>
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: QuartosInternagems/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Cria um novo quarto de internamento a partir do formulário.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Descricao,Tipo,Capacidade,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
@@ -65,33 +74,30 @@ namespace Hospital_Web.Controllers
             return View(quartosInternagem);
         }
 
-        // GET: QuartosInternagems/Edit/5
+        /// <summary>
+        /// Mostra o formulário de edição de um quarto existente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var quartosInternagem = await _context.QuartosInternagem.FindAsync(id);
             if (quartosInternagem == null)
-            {
                 return NotFound();
-            }
+
             return View(quartosInternagem);
         }
 
-        // POST: QuartosInternagems/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Atualiza os dados de um quarto de internamento após edição.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Descricao,Tipo,Capacidade,ID,Bloco,Andar,Numero")] QuartosInternagem quartosInternagem)
         {
             if (id != quartosInternagem.ID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -103,38 +109,34 @@ namespace Hospital_Web.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!QuartosInternagemExists(quartosInternagem.ID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
             return View(quartosInternagem);
         }
 
-        // GET: QuartosInternagems/Delete/5
+        /// <summary>
+        /// Mostra a confirmação para eliminar um quarto de internamento.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var quartosInternagem = await _context.QuartosInternagem
                 .FirstOrDefaultAsync(m => m.ID == id);
             if (quartosInternagem == null)
-            {
                 return NotFound();
-            }
 
             return View(quartosInternagem);
         }
 
-        // POST: QuartosInternagems/Delete/5
+        /// <summary>
+        /// Elimina um quarto de internamento da base de dados após confirmação.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -149,6 +151,9 @@ namespace Hospital_Web.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se um quarto de internamento com o ID especificado existe na base de dados.
+        /// </summary>
         private bool QuartosInternagemExists(int id)
         {
             return _context.QuartosInternagem.Any(e => e.ID == id);

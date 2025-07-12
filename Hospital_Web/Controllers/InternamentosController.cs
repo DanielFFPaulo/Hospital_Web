@@ -10,63 +10,81 @@ using Hospital_Web.Models;
 
 namespace Hospital_Web.Controllers
 {
+    /// <summary>
+    /// Controlador responsável por gerir os internamentos dos utentes no hospital.
+    /// Inclui funcionalidades para listar, criar, editar, visualizar e apagar internamentos.
+    /// </summary>
     public class InternamentosController : Controller
     {
         private readonly Hospital_WebContext _context;
 
+        /// <summary>
+        /// Injeta o contexto da base de dados no controlador.
+        /// </summary>
         public InternamentosController(Hospital_WebContext context)
         {
             _context = context;
         }
 
-        // GET: Internamentos
+        /// <summary>
+        /// Mostra a lista de internamentos, com as respetivas relações carregadas (Consulta, Quarto, Utente).
+        /// </summary>
         public async Task<IActionResult> Index()
         {
-            var hospital_WebContext = _context.Internamento.Include(i => i.Consulta).Include(i => i.Quarto).Include(i => i.Utente);
+            var hospital_WebContext = _context.Internamento
+                .Include(i => i.Consulta)
+                .Include(i => i.Quarto)
+                .Include(i => i.Utente);
+
             return View(await hospital_WebContext.ToListAsync());
         }
 
-        // GET: Internamentos/Details/5
+        /// <summary>
+        /// Mostra os detalhes de um internamento específico.
+        /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var internamento = await _context.Internamento
                 .Include(i => i.Consulta)
                 .Include(i => i.Quarto)
                 .Include(i => i.Utente)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (internamento == null)
-            {
                 return NotFound();
-            }
 
             return View(internamento);
         }
 
-        // GET: Internamentos/Create
+        /// <summary>
+        /// Devolve a view para criar um novo internamento.
+        /// Carrega dropdowns com dados das consultas, quartos e utentes.
+        /// </summary>
         public IActionResult Create()
         {
             ViewData["Consulta_Id"] = new SelectList(
-                _context.Consulta
-                    .Select(c => new {
-                        c.Episodio,
-                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
-                    }),
-                "Episodio",
-                "DisplayText"
-            );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new {ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText");
+                _context.Consulta.Select(c => new {
+                    c.Episodio,
+                    DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                }), "Episodio", "DisplayText");
+
+            ViewData["Quarto_Id"] = new SelectList(
+                _context.QuartosInternagem.Select(q => new {
+                    ID = q.ID,
+                    DisplayText = q.Denominacao
+                }), "ID", "DisplayText");
+
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF");
+
             return View();
         }
 
-        // POST: Internamentos/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Cria um novo internamento, se os dados forem válidos.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("ID,DataHoraEntrada,DataHoraSaida,Utente_Id,Quarto_Id,Consulta_Id")] Internamento internamento)
@@ -77,61 +95,63 @@ namespace Hospital_Web.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Consulta_Id"] = new SelectList(
-                _context.Consulta
-                    .Select(c => new {
-                        c.Episodio,
-                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
-                    }),
-                "Episodio",
-                "DisplayText",
-                internamento.Consulta_Id
-            );
 
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
+            // Recarrega dropdowns em caso de erro
+            ViewData["Consulta_Id"] = new SelectList(
+                _context.Consulta.Select(c => new {
+                    c.Episodio,
+                    DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                }), "Episodio", "DisplayText", internamento.Consulta_Id);
+
+            ViewData["Quarto_Id"] = new SelectList(
+                _context.QuartosInternagem.Select(q => new {
+                    ID = q.ID,
+                    DisplayText = q.Denominacao
+                }), "ID", "DisplayText", internamento.Quarto_Id);
+
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
+
             return View(internamento);
         }
 
-        // GET: Internamentos/Edit/5
+        /// <summary>
+        /// Devolve a view para editar um internamento existente.
+        /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var internamento = await _context.Internamento.FindAsync(id);
             if (internamento == null)
-            {
                 return NotFound();
-            }
+
             ViewData["Consulta_Id"] = new SelectList(
-                _context.Consulta
-                    .Select(c => new {
-                        c.Episodio,
-                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
-                    }),
-                "Episodio",
-                "DisplayText",
-                internamento.Consulta_Id
-            );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
+                _context.Consulta.Select(c => new {
+                    c.Episodio,
+                    DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                }), "Episodio", "DisplayText", internamento.Consulta_Id);
+
+            ViewData["Quarto_Id"] = new SelectList(
+                _context.QuartosInternagem.Select(q => new {
+                    ID = q.ID,
+                    DisplayText = q.Denominacao
+                }), "ID", "DisplayText", internamento.Quarto_Id);
+
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
+
             return View(internamento);
         }
 
-        // POST: Internamentos/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// Guarda as alterações feitas a um internamento.
+        /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("ID,DataHoraEntrada,DataHoraSaida,Utente_Id,Quarto_Id,Consulta_Id")] Internamento internamento)
         {
             if (id != internamento.ID)
-            {
                 return NotFound();
-            }
 
             if (ModelState.IsValid)
             {
@@ -143,53 +163,54 @@ namespace Hospital_Web.Controllers
                 catch (DbUpdateConcurrencyException)
                 {
                     if (!InternamentoExists(internamento.ID))
-                    {
                         return NotFound();
-                    }
                     else
-                    {
                         throw;
-                    }
                 }
                 return RedirectToAction(nameof(Index));
             }
+
+            // Recarrega dropdowns em caso de erro
             ViewData["Consulta_Id"] = new SelectList(
-                _context.Consulta
-                    .Select(c => new {
-                        c.Episodio,
-                        DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
-                    }),
-                "Episodio",
-                "DisplayText",
-                internamento.Consulta_Id
-            );
-            ViewData["Quarto_Id"] = new SelectList(_context.QuartosInternagem.Select(q => new { ID = q.ID, DisplayText = q.Denominacao }), "ID", "DisplayText", internamento.Quarto_Id);
+                _context.Consulta.Select(c => new {
+                    c.Episodio,
+                    DisplayText = $"#{c.Episodio} - {c.Data:dd/MM/yyyy} - {c.Diagnostico}"
+                }), "Episodio", "DisplayText", internamento.Consulta_Id);
+
+            ViewData["Quarto_Id"] = new SelectList(
+                _context.QuartosInternagem.Select(q => new {
+                    ID = q.ID,
+                    DisplayText = q.Denominacao
+                }), "ID", "DisplayText", internamento.Quarto_Id);
+
             ViewData["Utente_Id"] = new SelectList(_context.Utente, "N_Processo", "NIF", internamento.Utente_Id);
+
             return View(internamento);
         }
 
-        // GET: Internamentos/Delete/5
+        /// <summary>
+        /// Mostra os detalhes de um internamento antes de apagar.
+        /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
-            {
                 return NotFound();
-            }
 
             var internamento = await _context.Internamento
                 .Include(i => i.Consulta)
                 .Include(i => i.Quarto)
                 .Include(i => i.Utente)
                 .FirstOrDefaultAsync(m => m.ID == id);
+
             if (internamento == null)
-            {
                 return NotFound();
-            }
 
             return View(internamento);
         }
 
-        // POST: Internamentos/Delete/5
+        /// <summary>
+        /// Apaga um internamento confirmado pelo utilizador.
+        /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -198,12 +219,15 @@ namespace Hospital_Web.Controllers
             if (internamento != null)
             {
                 _context.Internamento.Remove(internamento);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
+        /// <summary>
+        /// Verifica se um internamento com determinado ID existe na base de dados.
+        /// </summary>
         private bool InternamentoExists(int id)
         {
             return _context.Internamento.Any(e => e.ID == id);

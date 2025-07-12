@@ -10,24 +10,24 @@ namespace SendEmail.Models
 
 
         /// <summary>
-        /// Endereço de email do destinatário do email
+        /// Endereco de email do destinatario do email
         /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
-        [EmailAddress(ErrorMessage = "Deve escrever um endereço de email válido...")]
-        [Display(Name = "Destinatário")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio.")]
+        [EmailAddress(ErrorMessage = "Deve escrever um endereco de email valido...")]
+        [Display(Name = "Destinatario")]
         public string Destinatario { get; set; } = string.Empty;
 
         /// <summary>
         /// Assunto do email
         /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio.")]
         [Display(Name = "Assunto do email")]
         public string Subject { get; set; } = string.Empty;
 
         /// <summary>
         /// Corpo do email
         /// </summary>
-        [Required(ErrorMessage = "O {0} é de preenchimento obrigatório.")]
+        [Required(ErrorMessage = "O {0} e de preenchimento obrigatorio.")]
         [Display(Name = "Corpo do email")]
         public string Body { get; set; } = string.Empty;
 
