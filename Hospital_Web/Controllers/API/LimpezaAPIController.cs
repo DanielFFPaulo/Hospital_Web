@@ -41,10 +41,10 @@ namespace Hospital_Web.Controllers.API
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<LimpezaSala>>> GetLimpezaSala()
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
+        public ActionResult<IEnumerable<LimpezaSala>> GetLimpezaSala()
         {
-            return await _context.LimpezaSala.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="id">ID da limpeza de sala</param>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<ActionResult<LimpezaSala>> GetLimpezaSala(int id)
         {
             var limpezaSala = await _context.LimpezaSala.FindAsync(id);
@@ -73,10 +73,10 @@ namespace Hospital_Web.Controllers.API
         /// <param name="id">ID da limpeza</param>
         /// <param name="limpezaSala">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<IActionResult> PutLimpezaSala(int id, LimpezaSala limpezaSala)
         {
-            if (id != limpezaSala.ID)
+            if (id != limpezaSala.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -108,9 +108,13 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="limpezaSala">Objeto com os dados da nova limpeza</param>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<ActionResult<LimpezaSala>> PostLimpezaSala(LimpezaSala limpezaSala)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.LimpezaSala.Add(limpezaSala);
             await _context.SaveChangesAsync();
 
@@ -123,7 +127,7 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="id">ID da limpeza a eliminar</param>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, FuncionarioLimpeza")]
         public async Task<IActionResult> DeleteLimpezaSala(int id)
         {
             var limpezaSala = await _context.LimpezaSala.FindAsync(id);

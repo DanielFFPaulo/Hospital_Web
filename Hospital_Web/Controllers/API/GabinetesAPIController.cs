@@ -41,10 +41,10 @@ namespace Hospital_Web.Controllers.API
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Gabinete>>> GetGabinete()
+        [Authorize(Roles = "Admin, Medico")]
+        public ActionResult<IEnumerable<Gabinete>> GetGabinete()
         {
-            return await _context.Gabinete.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="id">ID do gabinete a obter</param>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Gabinete>> GetGabinete(int id)
         {
             var gabinete = await _context.Gabinete.FindAsync(id);
@@ -73,10 +73,10 @@ namespace Hospital_Web.Controllers.API
         /// <param name="id">ID do gabinete</param>
         /// <param name="gabinete">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> PutGabinete(int id, Gabinete gabinete)
         {
-            if (id != gabinete.ID)
+            if (id != gabinete.ID || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -108,9 +108,13 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="gabinete">Objeto do novo gabinete</param>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Gabinete>> PostGabinete(Gabinete gabinete)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.Gabinete.Add(gabinete);
             await _context.SaveChangesAsync();
 

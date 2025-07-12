@@ -42,9 +42,9 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<FuncionarioLimpeza>>> GetFuncionarioLimpeza()
+        public ActionResult<IEnumerable<FuncionarioLimpeza>> GetFuncionarioLimpeza()
         {
-            return await _context.FuncionarioLimpeza.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         /// <summary>
@@ -76,7 +76,7 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> PutFuncionarioLimpeza(int id, FuncionarioLimpeza funcionarioLimpeza)
         {
-            if (id != funcionarioLimpeza.N_Processo)
+            if (id != funcionarioLimpeza.N_Processo || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -111,6 +111,10 @@ namespace Hospital_Web.Controllers.API
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<FuncionarioLimpeza>> PostFuncionarioLimpeza(FuncionarioLimpeza funcionarioLimpeza)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             _context.FuncionarioLimpeza.Add(funcionarioLimpeza);
             await _context.SaveChangesAsync();
 

@@ -175,5 +175,6 @@ app.MapGet("/", context =>
     return Task.CompletedTask;
 });
 
+#endregion
 
 app.Run();

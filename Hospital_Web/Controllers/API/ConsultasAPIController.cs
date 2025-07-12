@@ -41,10 +41,10 @@ namespace Hospital_Web.Controllers.API
         /// Acesso restrito a utilizadores com perfil Admin.
         /// </summary>
         [HttpGet]
-        [Authorize(Roles = "Admin")]
-        public async Task<ActionResult<IEnumerable<Consulta>>> GetConsulta()
+        [Authorize(Roles = "Admin, Medico")]
+        public ActionResult<IEnumerable<Consulta>> GetConsulta()
         {
-            return await _context.Consulta.ToListAsync();
+            return Unauthorized("Ninguem tem permissão para pedir por todos os registos de uma tabela da base de dados");
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Hospital_Web.Controllers.API
         /// Acesso restrito a utilizadores com perfil Admin.
         /// </summary>
         [HttpGet("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Consulta>> GetConsulta(int id)
         {
             var consulta = await _context.Consulta.FindAsync(id);
@@ -72,10 +72,10 @@ namespace Hospital_Web.Controllers.API
         /// <param name="id">ID da consulta a ser atualizada</param>
         /// <param name="consulta">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> PutConsulta(int id, Consulta consulta)
         {
-            if (id != consulta.Episodio)
+            if (id != consulta.Episodio || !ModelState.IsValid)
             {
                 return BadRequest();
             }
@@ -107,9 +107,15 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="consulta">Objeto da nova consulta</param>
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<ActionResult<Consulta>> PostConsulta(Consulta consulta)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+
             _context.Consulta.Add(consulta);
             await _context.SaveChangesAsync();
 
@@ -122,7 +128,7 @@ namespace Hospital_Web.Controllers.API
         /// </summary>
         /// <param name="id">ID da consulta a eliminar</param>
         [HttpDelete("{id}")]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, Medico")]
         public async Task<IActionResult> DeleteConsulta(int id)
         {
             var consulta = await _context.Consulta.FindAsync(id);
