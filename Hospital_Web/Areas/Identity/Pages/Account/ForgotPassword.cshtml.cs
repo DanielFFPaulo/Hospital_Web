@@ -13,7 +13,7 @@ using System.Text;
 
 
 /// <summary>
-/// Modelo da página Razor responsável pelo processo de recuperação de password.
+/// Modelo da pagina Razor responsavel pelo processo de recuperação de password.
 /// </summary>
 public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmailSenderApp emailSender) : PageModel
 {
@@ -28,7 +28,7 @@ public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmai
     private readonly IEmailSenderApp _emailSender = emailSender;
 
     /// <summary>
-    /// Modelo de dados do formulário onde o utilizador introduz o seu email.
+    /// Modelo de dados do formulario onde o utilizador introduz o seu email.
     /// </summary>
     [BindProperty]
     public InputModel Input { get; set; } = new();
@@ -46,19 +46,19 @@ public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmai
     }
 
     /// <summary>
-    /// Método executado quando a página é acedida via GET.
-    /// Neste caso, não faz nada além de exibir o formulário.
+    /// Metodo executado quando a pagina e acedida via GET.
+    /// Neste caso, não faz nada alem de exibir o formulario.
     /// </summary>
     public void OnGet() { }
 
     /// <summary>
-    /// Método executado quando o formulário de recuperação é submetido.
+    /// Metodo executado quando o formulario de recuperação e submetido.
     /// Envia um email com link de redefinição se o email existir.
     /// </summary>
     public async Task<IActionResult> OnPostAsync()
     {
         /// <summary>
-        /// Se os dados do formulário forem inválidos, retorna a página com erros.
+        /// Se os dados do formulario forem invalidos, retorna a pagina com erros.
         /// </summary>
         if (!ModelState.IsValid)
             return Page();
@@ -88,8 +88,8 @@ public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmai
         var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
         /// <summary>
-        /// Cria o link de callback que será enviado por email.
-        /// Contém o token codificado e o email do utilizador.
+        /// Cria o link de callback que sera enviado por email.
+        /// Contem o token codificado e o email do utilizador.
         /// </summary>
         var callbackUrl = Url.Page(
             "/Account/ResetPassword",
@@ -111,7 +111,7 @@ public class ForgotPasswordModel(UserManager<ApplicationUser> userManager, IEmai
             $"<p>Ola,</p><p>Para redefinir a sua password <a href='{HtmlEncoder.Default.Encode(callbackUrl ?? string.Empty)}'>clique aqui</a>.</p>");
 
         /// <summary>
-        /// Redireciona para a página de confirmação após o envio do email.
+        /// Redireciona para a pagina de confirmação apos o envio do email.
         /// </summary>
         return RedirectToPage("./ForgotPasswordConfirmation");
     }

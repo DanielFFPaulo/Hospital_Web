@@ -6,7 +6,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Models
 {
     /// <summary>
-    /// Controlador responsável pelas páginas principais do site,
+    /// Controlador responsavel pelas paginas principais do site,
     /// como a homepage, privacidade e informações gerais.
     /// Requer autenticação para aceder, exceto onde indicado com [AllowAnonymous].
     /// </summary>
@@ -27,7 +27,7 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Página inicial da aplicação (home).
+        /// Pagina inicial da aplicação (home).
         /// Requer que o utilizador esteja autenticado.
         /// </summary>
         public IActionResult Index()
@@ -36,7 +36,7 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Página com informações adicionais sobre o sistema.
+        /// Pagina com informações adicionais sobre o sistema.
         /// Requer autenticação.
         /// </summary>
         public IActionResult Info()
@@ -45,7 +45,7 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Página com a política de privacidade.
+        /// Pagina com a politica de privacidade.
         /// Requer autenticação.
         /// </summary>
         public IActionResult Privacy()
@@ -54,8 +54,8 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Página de erro, acessível a todos os utilizadores.
-        /// Mostra detalhes técnicos em caso de erro.
+        /// Pagina de erro, acessivel a todos os utilizadores.
+        /// Mostra detalhes tecnicos em caso de erro.
         /// </summary>
         [AllowAnonymous]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

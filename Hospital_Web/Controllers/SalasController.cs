@@ -11,7 +11,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão das salas hospitalares.
+    /// Controlador responsavel pela gestão das salas hospitalares.
     /// Permite listar, pesquisar, criar, editar e apagar salas.
     /// </summary>
     public class SalasController : Controller
@@ -28,7 +28,7 @@ namespace Hospital_Web.Controllers
 
         /// <summary>
         /// Apresenta a lista de todas as salas.
-        /// Permite filtrar por bloco através da barra de pesquisa.
+        /// Permite filtrar por bloco atraves da barra de pesquisa.
         /// </summary>
         public async Task<IActionResult> Index(string searchString)
         {
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de uma sala específica com base no ID.
+        /// Mostra os detalhes de uma sala especifica com base no ID.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -63,7 +63,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Exibe o formulário de criação de nova sala.
+        /// Exibe o formulario de criação de nova sala.
         /// </summary>
         public IActionResult Create()
         {
@@ -71,7 +71,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria uma nova sala na base de dados após submissão do formulário.
+        /// Cria uma nova sala na base de dados apos submissão do formulario.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +87,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Exibe o formulário para editar os dados de uma sala existente.
+        /// Exibe o formulario para editar os dados de uma sala existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -102,7 +102,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Guarda as alterações feitas na sala após a edição.
+        /// Guarda as alterações feitas na sala apos a edição.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -146,7 +146,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Elimina a sala da base de dados após confirmação.
+        /// Elimina a sala da base de dados apos confirmação.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

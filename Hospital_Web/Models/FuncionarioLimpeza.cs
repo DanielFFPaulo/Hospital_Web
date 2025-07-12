@@ -4,14 +4,14 @@
 namespace Hospital_Web.Models
 {
     /// <summary>
-    /// Classe que representa um funcionário de limpeza, herda da classe Pessoa.
-    /// Contém informações adicionais como turno, tamanho do uniforme, data de contratação, certificações, etc.
+    /// Classe que representa um funcionario de limpeza, herda da classe Pessoa.
+    /// Contem informações adicionais como turno, tamanho do uniforme, data de contratação, certificações, etc.
     /// </summary>
     public class FuncionarioLimpeza : Pessoa
     {
         /// <summary>
-        /// Enumeração que define os possíveis turnos de trabalho (Manhã, Tarde, Noite),
-        /// com nomes legíveis definidos por [Display(Name = "...")].
+        /// Enumeração que define os possiveis turnos de trabalho (Manhã, Tarde, Noite),
+        /// com nomes legiveis definidos por [Display(Name = "...")].
         /// </summary>
         public enum Turnos
         {
@@ -26,8 +26,8 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Enumeração que define os tamanhos de uniforme disponíveis.
-        /// Também usa [Display] para apresentar de forma legível nas views.
+        /// Enumeração que define os tamanhos de uniforme disponiveis.
+        /// Tambem usa [Display] para apresentar de forma legivel nas views.
         /// </summary>
         public enum Uniformes
         {
@@ -54,35 +54,35 @@ namespace Hospital_Web.Models
         }
 
         /// <summary>
-        /// Propriedade obrigatória que indica o turno do funcionário.
+        /// Propriedade obrigatoria que indica o turno do funcionario.
         /// </summary>
         [Required(ErrorMessage = "O {0} e obrigatorio")]
         [Display(Name = "Turno")]
         public Turnos Turno { get; set; }
 
         /// <summary>
-        /// Propriedade obrigatória que indica o tamanho do uniforme do funcionário.
+        /// Propriedade obrigatoria que indica o tamanho do uniforme do funcionario.
         /// </summary>
         [Required(ErrorMessage = " O {0} e obrigatorio")]
         [Display(Name = "Tamanho do uniforme")]
         public Uniformes Tamanho_Uniforme { get; set; }
 
         /// <summary>
-        /// Data de contratação do funcionário, exibida como data nas views.
+        /// Data de contratação do funcionario, exibida como data nas views.
         /// </summary>
         [DataType(DataType.Date)]
         [Display(Name = "Data de contratacao")]
         public DateTime Data_de_contratacao { get; set; }
 
         /// <summary>
-        /// Texto opcional com até 500 caracteres que lista certificações do funcionário.
+        /// Texto opcional com ate 500 caracteres que lista certificações do funcionario.
         /// </summary>
         [StringLength(500)]
         [Display(Name = "Certificacoes")]
         public string Certificacoes { get; set; } = string.Empty;
 
         /// <summary>
-        /// Propriedade de navegação que representa a lista de limpezas de sala realizadas pelo funcionário.
+        /// Propriedade de navegação que representa a lista de limpezas de sala realizadas pelo funcionario.
         /// </summary>
         public virtual ICollection<LimpezaSala> LimpezasDeSala { get; set; } = [];
     }

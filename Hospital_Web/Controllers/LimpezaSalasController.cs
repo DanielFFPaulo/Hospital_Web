@@ -11,7 +11,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão das limpezas realizadas nas salas do hospital.
+    /// Controlador responsavel pela gestão das limpezas realizadas nas salas do hospital.
     /// Permite criar, visualizar, editar e remover registos de limpezas.
     /// </summary>
     public class LimpezaSalasController : Controller
@@ -27,7 +27,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra a lista de limpezas de salas, com os dados dos funcionários e salas associados.
+        /// Mostra a lista de limpezas de salas, com os dados dos funcionarios e salas associados.
         /// </summary>
         public async Task<IActionResult> Index()
         {
@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de uma limpeza de sala específica.
+        /// Mostra os detalhes de uma limpeza de sala especifica.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -57,7 +57,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Devolve o formulário para criar um novo registo de limpeza de sala.
+        /// Devolve o formulario para criar um novo registo de limpeza de sala.
         /// </summary>
         public IActionResult Create()
         {
@@ -67,7 +67,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria um novo registo de limpeza de sala se os dados forem válidos.
+        /// Cria um novo registo de limpeza de sala se os dados forem validos.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -87,7 +87,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Devolve o formulário de edição de um registo de limpeza de sala existente.
+        /// Devolve o formulario de edição de um registo de limpeza de sala existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {

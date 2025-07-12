@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// Controlador de API responsável pela gestão de internamentos.
+    /// Controlador de API responsavel pela gestão de internamentos.
     /// Requer autenticação via JWT Bearer e perfil "Admin".
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class InternamentosAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados que permite aceder à tabela Internamento.
+        /// Contexto da base de dados que permite aceder a tabela Internamento.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve os dados de um internamento específico com base no ID.
+        /// Devolve os dados de um internamento especifico com base no ID.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         /// <param name="id">ID do internamento</param>

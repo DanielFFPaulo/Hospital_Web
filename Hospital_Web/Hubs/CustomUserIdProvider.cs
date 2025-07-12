@@ -1,6 +1,6 @@
 ﻿namespace Hospital_Web.Hubs
 {
-    // Importa os namespaces necessários:
+    // Importa os namespaces necessarios:
     // - Microsoft.AspNetCore.SignalR: para trabalhar com Hubs do SignalR.
     // - System.Security.Claims: para acessar os dados de identidade do utilizador.
     using Microsoft.AspNetCore.SignalR;
@@ -12,13 +12,13 @@
     public class CustomUserIdProvider : IUserIdProvider
     {
         /// <summary>
-        /// Método chamado pelo SignalR para obter o identificador único de um utilizador conectado.
+        /// Metodo chamado pelo SignalR para obter o identificador unico de um utilizador conectado.
         /// </summary>
         /// <param name="connection">Contexto da conexão atual do SignalR.</param>
         /// <returns>O ID do utilizador, baseado na claim "NameIdentifier", ou null se não estiver autenticado.</returns>
         public string? GetUserId(HubConnectionContext connection)
         {
-            // Acede ao utilizador autenticado e retorna o valor da claim que representa o identificador único do utilizador (geralmente o ID no Identity).
+            // Acede ao utilizador autenticado e retorna o valor da claim que representa o identificador unico do utilizador (geralmente o ID no Identity).
             return connection.User?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         }
     }

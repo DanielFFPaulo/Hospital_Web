@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// Controlador de API responsável pela gestão de funcionários de limpeza.
+    /// Controlador de API responsavel pela gestão de funcionarios de limpeza.
     /// Requer autenticação via JWT Bearer.
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class FuncionarioLimpezasAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados que permite aceder à tabela FuncionarioLimpeza.
+        /// Contexto da base de dados que permite aceder a tabela FuncionarioLimpeza.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -37,7 +37,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve a lista de todos os funcionários de limpeza.
+        /// Devolve a lista de todos os funcionarios de limpeza.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         [HttpGet]
@@ -48,10 +48,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve os dados de um funcionário de limpeza específico pelo ID (N_Processo).
+        /// Devolve os dados de um funcionario de limpeza especifico pelo ID (N_Processo).
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">Número de processo do funcionário</param>
+        /// <param name="id">Numero de processo do funcionario</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<FuncionarioLimpeza>> GetFuncionarioLimpeza(int id)
@@ -67,10 +67,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Atualiza os dados de um funcionário de limpeza existente.
+        /// Atualiza os dados de um funcionario de limpeza existente.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">ID do funcionário</param>
+        /// <param name="id">ID do funcionario</param>
         /// <param name="funcionarioLimpeza">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -103,10 +103,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Cria um novo funcionário de limpeza na base de dados.
+        /// Cria um novo funcionario de limpeza na base de dados.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="funcionarioLimpeza">Objeto do novo funcionário</param>
+        /// <param name="funcionarioLimpeza">Objeto do novo funcionario</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<FuncionarioLimpeza>> PostFuncionarioLimpeza(FuncionarioLimpeza funcionarioLimpeza)
@@ -122,10 +122,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Elimina um funcionário de limpeza com base no seu ID.
+        /// Elimina um funcionario de limpeza com base no seu ID.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">ID do funcionário a eliminar</param>
+        /// <param name="id">ID do funcionario a eliminar</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteFuncionarioLimpeza(int id)
@@ -143,7 +143,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Verifica se existe um funcionário de limpeza com o ID fornecido.
+        /// Verifica se existe um funcionario de limpeza com o ID fornecido.
         /// </summary>
         /// <param name="id">ID a verificar</param>
         private bool FuncionarioLimpezaExists(int id)

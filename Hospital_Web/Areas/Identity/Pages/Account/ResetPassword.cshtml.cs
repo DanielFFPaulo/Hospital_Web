@@ -7,33 +7,33 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 
 /// <summary>
-/// Define o namespace da página de redefinição de password dentro da área Identity.
+/// Define o namespace da pagina de redefinição de password dentro da area Identity.
 /// </summary>
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
     /// <summary>
-    /// Página responsável por permitir ao utilizador redefinir a sua password a partir de um código enviado por email.
+    /// Pagina responsavel por permitir ao utilizador redefinir a sua password a partir de um codigo enviado por email.
     /// </summary>
     public class ResetPasswordModel(UserManager<ApplicationUser> userManager) : PageModel
     {
         /// <summary>
-        /// Serviço responsável por operações com utilizadores, como redefinir passwords.
+        /// Serviço responsavel por operações com utilizadores, como redefinir passwords.
         /// </summary>
         private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         /// <summary>
-        /// Modelo preenchido com os dados introduzidos no formulário (email, nova password, etc).
+        /// Modelo preenchido com os dados introduzidos no formulario (email, nova password, etc).
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; } = new();  // Inicializado para evitar CS8618
 
         /// <summary>
-        /// Modelo interno que representa os campos do formulário de redefinição.
+        /// Modelo interno que representa os campos do formulario de redefinição.
         /// </summary>
         public class InputModel
         {
             /// <summary>
-            /// Email do utilizador que está a redefinir a senha.
+            /// Email do utilizador que esta a redefinir a senha.
             /// </summary>
             [Required]
             [EmailAddress]
@@ -56,13 +56,13 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; } = string.Empty;
 
             /// <summary>
-            /// Código de redefinição enviado por email (codificado em Base64).
+            /// Codigo de redefinição enviado por email (codificado em Base64).
             /// </summary>
             public string Code { get; set; } = string.Empty;
         }
 
         /// <summary>
-        /// Método executado ao aceder à página via GET. Valida e decodifica o código enviado no email.
+        /// Metodo executado ao aceder a pagina via GET. Valida e decodifica o codigo enviado no email.
         /// </summary>
         public IActionResult OnGet(string? code = null, string? email = null)
         {
@@ -79,12 +79,12 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         }
 
         /// <summary>
-        /// Método executado quando o utilizador submete o formulário com a nova password.
+        /// Metodo executado quando o utilizador submete o formulario com a nova password.
         /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             /// <summary>
-            /// Se os dados submetidos forem inválidos, volta a mostrar o formulário com erros.
+            /// Se os dados submetidos forem invalidos, volta a mostrar o formulario com erros.
             /// </summary>
             if (!ModelState.IsValid)
                 return Page();
@@ -95,17 +95,17 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             var user = await _userManager.FindByEmailAsync(Input.Email);
 
             /// <summary>
-            /// Se o utilizador não existir, redireciona para a página de confirmação mesmo assim (não revela falha).
+            /// Se o utilizador não existir, redireciona para a pagina de confirmação mesmo assim (não revela falha).
             /// </summary>
             if (user == null) return RedirectToPage("./ResetPasswordConfirmation");
 
             /// <summary>
-            /// Tenta redefinir a password com o código fornecido e a nova senha.
+            /// Tenta redefinir a password com o codigo fornecido e a nova senha.
             /// </summary>
             var result = await _userManager.ResetPasswordAsync(user, Input.Code, Input.Password);
 
             /// <summary>
-            /// Se a redefinição for bem-sucedida, redireciona para a área de consultas.
+            /// Se a redefinição for bem-sucedida, redireciona para a area de consultas.
             /// </summary>
             if (result.Succeeded)
                 return Redirect("/Consultas");
@@ -117,7 +117,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, error.Description);
 
             /// <summary>
-            /// Reexibe a página com os erros encontrados.
+            /// Reexibe a pagina com os erros encontrados.
             /// </summary>
             return Page();
         }

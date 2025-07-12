@@ -6,13 +6,13 @@ namespace Hospital_Web.Models
     /// <summary>
     /// Classe que representa um utilizador autenticado no sistema.
     /// Herda de IdentityUser para incluir funcionalidades de autenticação e autorização (UserName, PasswordHash, etc.).
-    /// Contém também referências a entidades como Utente, Médico e Funcionário de Limpeza.
+    /// Contem tambem referências a entidades como Utente, Medico e Funcionario de Limpeza.
     /// </summary>
     public class ApplicationUser : IdentityUser
     {
         /// <summary>
-        /// Indica se o utilizador deve alterar a senha no próximo login.
-        /// Usado geralmente quando uma conta é criada com senha temporária.
+        /// Indica se o utilizador deve alterar a senha no proximo login.
+        /// Usado geralmente quando uma conta e criada com senha temporaria.
         /// </summary>
         public bool DeveAlterarSenha { get; set; } = false;
 
@@ -28,22 +28,22 @@ namespace Hospital_Web.Models
         public Utente? Utente { get; set; }
 
         /// <summary>
-        /// Chave estrangeira (opcional) que associa este utilizador a um Médico.
+        /// Chave estrangeira (opcional) que associa este utilizador a um Medico.
         /// </summary>
         public int? MedicoId { get; set; }
 
         /// <summary>
-        /// Navegação para o médico associado. `virtual` permite carregamento tardio (lazy loading).
+        /// Navegação para o medico associado. `virtual` permite carregamento tardio (lazy loading).
         /// </summary>
         public virtual Medico? Medico { get; set; }
 
         /// <summary>
-        /// Chave estrangeira (opcional) que associa este utilizador a um Funcionário de Limpeza.
+        /// Chave estrangeira (opcional) que associa este utilizador a um Funcionario de Limpeza.
         /// </summary>
         public int? FuncionarioLimpezaId { get; set; }
 
         /// <summary>
-        /// Navegação para o funcionário de limpeza associado.
+        /// Navegação para o funcionario de limpeza associado.
         /// </summary>
         public FuncionarioLimpeza? FuncionarioLimpeza { get; set; }
     }

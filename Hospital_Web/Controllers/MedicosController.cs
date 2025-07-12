@@ -9,8 +9,8 @@ using Hospital_Web.Services;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão dos médicos no sistema hospitalar.
-    /// Permite criar, editar, visualizar, pesquisar e remover médicos, além de criar contas associadas.
+    /// Controlador responsavel pela gestão dos medicos no sistema hospitalar.
+    /// Permite criar, editar, visualizar, pesquisar e remover medicos, alem de criar contas associadas.
     /// </summary>
     public class MedicosController(
         Hospital_WebContext context,
@@ -22,7 +22,7 @@ namespace Hospital_Web.Controllers
         private readonly IEmailSender _emailSender = emailSender;
 
         /// <summary>
-        /// Lista os médicos existentes, com opção de pesquisa por nome.
+        /// Lista os medicos existentes, com opção de pesquisa por nome.
         /// </summary>
         public async Task<IActionResult> Index(string searchString)
         {
@@ -39,7 +39,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um médico específico.
+        /// Mostra os detalhes de um medico especifico.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,7 +54,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Devolve o formulário para criar um novo médico.
+        /// Devolve o formulario para criar um novo medico.
         /// </summary>
         public IActionResult Create()
         {
@@ -62,7 +62,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria um novo médico, a conta associada no sistema, e envia email com credenciais.
+        /// Cria um novo medico, a conta associada no sistema, e envia email com credenciais.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -71,7 +71,7 @@ namespace Hospital_Web.Controllers
             if (!ModelState.IsValid)
                 return View(medico);
 
-            // Criação do utilizador com senha temporária
+            // Criação do utilizador com senha temporaria
             var user = new ApplicationUser
             {
                 UserName = medico.Email,
@@ -93,11 +93,11 @@ namespace Hospital_Web.Controllers
             using var transaction = await _context.Database.BeginTransactionAsync();
             try
             {
-                // Gravar médico na base de dados
+                // Gravar medico na base de dados
                 _context.Medico.Add(medico);
                 await _context.SaveChangesAsync();
 
-                // Associar médico ao utilizador criado
+                // Associar medico ao utilizador criado
                 user.MedicoId = medico.N_Processo;
                 await _userManager.UpdateAsync(user);
 
@@ -127,13 +127,13 @@ namespace Hospital_Web.Controllers
                 // Rollback se falhar
                 await _userManager.DeleteAsync(user);
                 await transaction.RollbackAsync();
-                ModelState.AddModelError("", "Erro ao criar médico. Nenhum dado foi gravado.");
+                ModelState.AddModelError("", "Erro ao criar medico. Nenhum dado foi gravado.");
                 return View(medico);
             }
         }
 
         /// <summary>
-        /// Devolve o formulário para editar um médico.
+        /// Devolve o formulario para editar um medico.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -148,7 +148,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Guarda as alterações feitas a um médico existente.
+        /// Guarda as alterações feitas a um medico existente.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -177,7 +177,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os dados de um médico antes de o apagar.
+        /// Mostra os dados de um medico antes de o apagar.
         /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
@@ -192,7 +192,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Apaga um médico e o(s) utilizador(es) associados à sua conta.
+        /// Apaga um medico e o(s) utilizador(es) associados a sua conta.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -206,7 +206,7 @@ namespace Hospital_Web.Controllers
             foreach (var user in users)
                 _context.Users.Remove(user);
 
-            // Remover médico
+            // Remover medico
             var medico = await _context.Medico.FindAsync(id);
             if (medico != null)
                 _context.Medico.Remove(medico);
@@ -216,7 +216,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Verifica se existe um médico com o N_Processo fornecido.
+        /// Verifica se existe um medico com o N_Processo fornecido.
         /// </summary>
         private bool MedicoExists(int id)
         {

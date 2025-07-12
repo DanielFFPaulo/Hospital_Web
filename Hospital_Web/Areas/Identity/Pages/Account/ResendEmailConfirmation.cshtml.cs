@@ -11,7 +11,7 @@ using Hospital_Web.Services;
 
 
 /// <summary>
-/// Modelo da página responsável por reenviar o email de confirmação e redefinir a senha.
+/// Modelo da pagina responsavel por reenviar o email de confirmação e redefinir a senha.
 /// </summary>
 public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManager, IEmailSender emailSender) : PageModel
 {
@@ -21,12 +21,12 @@ public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManag
     private readonly UserManager<ApplicationUser> _userManager = userManager;
 
     /// <summary>
-    /// Serviço responsável por enviar emails.
+    /// Serviço responsavel por enviar emails.
     /// </summary>
     private readonly IEmailSender _emailSender = emailSender;
 
     /// <summary>
-    /// Dados inseridos no formulário, preenchidos automaticamente pelo binding.
+    /// Dados inseridos no formulario, preenchidos automaticamente pelo binding.
     /// </summary>
     [BindProperty]
     public InputModel Input { get; set; } = new InputModel(); // Inicializa a propriedade para evitar problemas com ela ser null
@@ -37,7 +37,7 @@ public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManag
     public class InputModel
     {
         /// <summary>
-        /// Campo obrigatório que representa o email do utilizador.
+        /// Campo obrigatorio que representa o email do utilizador.
         /// </summary>
         [Required]
         [EmailAddress]
@@ -45,19 +45,19 @@ public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManag
     }
 
     /// <summary>
-    /// Método chamado quando a página é acedida via GET.
-    /// Neste caso, não faz nada além de exibir o formulário.
+    /// Metodo chamado quando a pagina e acedida via GET.
+    /// Neste caso, não faz nada alem de exibir o formulario.
     /// </summary>
     public void OnGet() { }
 
     /// <summary>
-    /// Método executado quando o formulário é submetido (POST).
+    /// Metodo executado quando o formulario e submetido (POST).
     /// Reenvia as credenciais ao utilizador, redefinindo a senha.
     /// </summary>
     public async Task<IActionResult> OnPostAsync()
     {
         /// <summary>
-        /// Se o modelo for inválido (ex: email em branco), recarrega a página com erros.
+        /// Se o modelo for invalido (ex: email em branco), recarrega a pagina com erros.
         /// </summary>
         if (!ModelState.IsValid)
             return Page();
@@ -74,22 +74,22 @@ public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManag
             return RedirectToPage("./ResendEmailConfirmationConfirmation");
 
         /// <summary>
-        /// Gera uma nova password temporária (ex: Hosp@ABC123).
+        /// Gera uma nova password temporaria (ex: Hosp@ABC123).
         /// </summary>
         var novaPassword = $"Hosp@{Guid.NewGuid().ToString("N")[..6]}";
 
         /// <summary>
-        /// Gera um token válido para redefinição da password.
+        /// Gera um token valido para redefinição da password.
         /// </summary>
         var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
         /// <summary>
-        /// Redefine a password do utilizador com a nova password temporária.
+        /// Redefine a password do utilizador com a nova password temporaria.
         /// </summary>
         var resetResult = await _userManager.ResetPasswordAsync(user, resetToken, novaPassword);
 
         /// <summary>
-        /// Se a redefinição falhar, mostra erro na página.
+        /// Se a redefinição falhar, mostra erro na pagina.
         /// </summary>
         if (!resetResult.Succeeded)
         {
@@ -115,7 +115,7 @@ public class ResendEmailConfirmationModel(UserManager<ApplicationUser> userManag
         await _emailSender.SendEmailAsync(user.Email ?? string.Empty, "Reenvio de credenciais - Hospital", mensagem);
 
         /// <summary>
-        /// Redireciona para a página de confirmação após o envio do email.
+        /// Redireciona para a pagina de confirmação apos o envio do email.
         /// </summary>
         return RedirectToPage("./ResendEmailConfirmationConfirmation");
     }

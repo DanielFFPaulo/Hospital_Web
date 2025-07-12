@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// API responsável pela gestão de quartos de internamento.
+    /// API responsavel pela gestão de quartos de internamento.
     /// Requer autenticação via JWT Bearer e perfil de administrador para todas as ações.
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -37,8 +37,8 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém a lista de todos os quartos de internamento.
-        /// Apenas acessível por administradores.
+        /// Obtem a lista de todos os quartos de internamento.
+        /// Apenas acessivel por administradores.
         /// </summary>
         [HttpGet]
         [Authorize(Roles = "Admin")]
@@ -48,8 +48,8 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém um quarto de internamento pelo seu ID.
-        /// Apenas acessível por administradores.
+        /// Obtem um quarto de internamento pelo seu ID.
+        /// Apenas acessivel por administradores.
         /// </summary>
         /// <param name="id">ID do quarto de internamento</param>
         [HttpGet("{id}")]
@@ -68,7 +68,7 @@ namespace Hospital_Web.Controllers.API
 
         /// <summary>
         /// Atualiza os dados de um quarto de internamento existente.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
         /// <param name="id">ID do quarto</param>
         /// <param name="quartosInternagem">Objeto com dados atualizados</param>
@@ -104,7 +104,7 @@ namespace Hospital_Web.Controllers.API
 
         /// <summary>
         /// Cria um novo quarto de internamento.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
         /// <param name="quartosInternagem">Objeto a ser criado</param>
         [HttpPost]
@@ -123,7 +123,7 @@ namespace Hospital_Web.Controllers.API
 
         /// <summary>
         /// Elimina um quarto de internamento pelo seu ID.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
         /// <param name="id">ID do quarto</param>
         [HttpDelete("{id}")]

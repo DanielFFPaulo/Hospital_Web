@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// API responsável pela gestão dos utentes do hospital.
+    /// API responsavel pela gestão dos utentes do hospital.
     /// Requer autenticação por token JWT e perfil de administrador.
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém todos os utentes registados na base de dados.
+        /// Obtem todos os utentes registados na base de dados.
         /// Acesso restrito a administradores.
         /// </summary>
         [HttpGet]
@@ -49,10 +49,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém um utente específico pelo seu número de processo.
+        /// Obtem um utente especifico pelo seu numero de processo.
         /// Acesso restrito a administradores.
         /// </summary>
-        /// <param name="id">Número de processo do utente</param>
+        /// <param name="id">Numero de processo do utente</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Utente>> GetUtente(int id)
@@ -71,7 +71,7 @@ namespace Hospital_Web.Controllers.API
         /// Atualiza os dados de um utente existente.
         /// Acesso restrito a administradores.
         /// </summary>
-        /// <param name="id">Número de processo do utente</param>
+        /// <param name="id">Numero de processo do utente</param>
         /// <param name="utente">Objeto utente com dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -126,7 +126,7 @@ namespace Hospital_Web.Controllers.API
         /// Elimina um utente da base de dados.
         /// Acesso restrito a administradores.
         /// </summary>
-        /// <param name="id">Número de processo do utente</param>
+        /// <param name="id">Numero de processo do utente</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUtente(int id)
@@ -144,9 +144,9 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Verifica se um utente com o número de processo especificado existe.
+        /// Verifica se um utente com o numero de processo especificado existe.
         /// </summary>
-        /// <param name="id">Número de processo do utente</param>
+        /// <param name="id">Numero de processo do utente</param>
         private bool UtenteExists(int id)
         {
             return _context.Utente.Any(e => e.N_Processo == id);

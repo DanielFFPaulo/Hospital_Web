@@ -16,7 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// API responsável pela gestão de entidades do tipo Pessoa.
+    /// API responsavel pela gestão de entidades do tipo Pessoa.
     /// Requer autenticação via JWT Bearer. Algumas ações exigem perfil de "Admin".
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -30,7 +30,7 @@ namespace Hospital_Web.Controllers.API
         private readonly Hospital_WebContext _context = context;
 
         /// <summary>
-        /// Impede o acesso à lista completa de pessoas.
+        /// Impede o acesso a lista completa de pessoas.
         /// Acesso negado para todos os utilizadores.
         /// </summary>
         [HttpGet]
@@ -40,10 +40,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve os dados de uma pessoa com base no seu número de processo.
-        /// Apenas acessível por administradores.
+        /// Devolve os dados de uma pessoa com base no seu numero de processo.
+        /// Apenas acessivel por administradores.
         /// </summary>
-        /// <param name="id">Número de processo da pessoa</param>
+        /// <param name="id">Numero de processo da pessoa</param>
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Pessoa>> GetPessoa(int id)
@@ -60,9 +60,9 @@ namespace Hospital_Web.Controllers.API
 
         /// <summary>
         /// Atualiza os dados de uma pessoa.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
-        /// <param name="id">Número de processo</param>
+        /// <param name="id">Numero de processo</param>
         /// <param name="pessoa">Dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -96,7 +96,7 @@ namespace Hospital_Web.Controllers.API
 
         /// <summary>
         /// Cria uma nova pessoa na base de dados.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
         /// <param name="pessoa">Objeto com os dados da nova pessoa</param>
         [HttpPost]
@@ -115,11 +115,11 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Elimina uma pessoa com base no seu número de processo.
+        /// Elimina uma pessoa com base no seu numero de processo.
         /// Verifica se existem consultas associadas antes de apagar.
-        /// Apenas acessível por administradores.
+        /// Apenas acessivel por administradores.
         /// </summary>
-        /// <param name="id">Número de processo da pessoa</param>
+        /// <param name="id">Numero de processo da pessoa</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeletePessoa(int id)
@@ -153,9 +153,9 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Verifica se existe uma pessoa com o número de processo fornecido.
+        /// Verifica se existe uma pessoa com o numero de processo fornecido.
         /// </summary>
-        /// <param name="id">Número de processo</param>
+        /// <param name="id">Numero de processo</param>
         private bool PessoaExists(int id)
         {
             return _context.Pessoa.Any(e => e.N_Processo == id);

@@ -8,9 +8,9 @@ using Microsoft.AspNetCore.Identity;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão de pessoas no sistema hospitalar.
+    /// Controlador responsavel pela gestão de pessoas no sistema hospitalar.
     /// Permite criar, editar, consultar, e apagar registos da entidade Pessoa.
-    /// Também remove utilizadores associados no Identity, se existirem.
+    /// Tambem remove utilizadores associados no Identity, se existirem.
     /// </summary>
     public class PessoasController : Controller
     {
@@ -40,7 +40,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de uma pessoa específica.
+        /// Mostra os detalhes de uma pessoa especifica.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -56,7 +56,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para criação de uma nova pessoa.
+        /// Mostra o formulario para criação de uma nova pessoa.
         /// </summary>
         public IActionResult Create()
         {
@@ -64,7 +64,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria uma nova pessoa após submissão do formulário.
+        /// Cria uma nova pessoa apos submissão do formulario.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -80,7 +80,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para editar uma pessoa existente.
+        /// Mostra o formulario para editar uma pessoa existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -95,7 +95,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra a confirmação para apagar uma pessoa específica.
+        /// Mostra a confirmação para apagar uma pessoa especifica.
         /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
@@ -111,7 +111,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Elimina uma pessoa e, se existir, também o utilizador associado no sistema Identity.
+        /// Elimina uma pessoa e, se existir, tambem o utilizador associado no sistema Identity.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

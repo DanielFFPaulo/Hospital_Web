@@ -11,7 +11,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável por gerir os internamentos dos utentes no hospital.
+    /// Controlador responsavel por gerir os internamentos dos utentes no hospital.
     /// Inclui funcionalidades para listar, criar, editar, visualizar e apagar internamentos.
     /// </summary>
     public class InternamentosController : Controller
@@ -40,7 +40,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um internamento específico.
+        /// Mostra os detalhes de um internamento especifico.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -83,7 +83,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria um novo internamento, se os dados forem válidos.
+        /// Cria um novo internamento, se os dados forem validos.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]

@@ -16,8 +16,8 @@ using Hospital_Web.Hubs;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão das consultas. Permite visualização e manipulação
-    /// de consultas por utentes, médicos e visitantes (acesso anónimo permitido).
+    /// Controlador responsavel pela gestão das consultas. Permite visualização e manipulação
+    /// de consultas por utentes, medicos e visitantes (acesso anonimo permitido).
     /// </summary>
     [AllowAnonymous]
     public class ConsultasController : Controller
@@ -49,7 +49,7 @@ namespace Hospital_Web.Controllers
 
         /// <summary>
         /// Mostra a lista de consultas com possibilidade de filtragem por nome do utente ou data.
-        /// O conteúdo mostrado varia consoante o tipo de utilizador autenticado.
+        /// O conteudo mostrado varia consoante o tipo de utilizador autenticado.
         /// </summary>
         public async Task<IActionResult> Index(string nomeUtente, DateTime? dataConsulta)
         {
@@ -99,7 +99,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de uma consulta específica.
+        /// Mostra os detalhes de uma consulta especifica.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -119,7 +119,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para criação de uma nova consulta.
+        /// Mostra o formulario para criação de uma nova consulta.
         /// </summary>
         public IActionResult Create()
         {
@@ -146,7 +146,7 @@ namespace Hospital_Web.Controllers
 
                 if (user != null)
                 {
-                    string mensagem = $"Consulta marcada para {utente.Nome} no dia {consulta.Data:dd/MM/yyyy} às {consulta.Hora}.";
+                    string mensagem = $"Consulta marcada para {utente.Nome} no dia {consulta.Data:dd/MM/yyyy} as {consulta.Hora}.";
                     await _hubContext.Clients.User(user.Id).SendAsync("ReceberNotificacao", mensagem);
                 }
 
@@ -160,7 +160,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para editar uma consulta existente.
+        /// Mostra o formulario para editar uma consulta existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -246,7 +246,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Verifica se uma consulta com o episódio especificado existe.
+        /// Verifica se uma consulta com o episodio especificado existe.
         /// </summary>
         private bool ConsultaExists(int id)
         {

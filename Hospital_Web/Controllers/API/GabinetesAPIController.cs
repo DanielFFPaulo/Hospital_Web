@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// Controlador de API responsável pela gestão de gabinetes.
+    /// Controlador de API responsavel pela gestão de gabinetes.
     /// Requer autenticação via JWT Bearer e perfil "Admin".
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class GabinetesAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados que dá acesso à tabela Gabinete.
+        /// Contexto da base de dados que da acesso a tabela Gabinete.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve os dados de um gabinete específico com base no ID.
+        /// Devolve os dados de um gabinete especifico com base no ID.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         /// <param name="id">ID do gabinete a obter</param>

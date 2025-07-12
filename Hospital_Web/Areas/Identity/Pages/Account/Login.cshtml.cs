@@ -21,12 +21,12 @@ using Microsoft.EntityFrameworkCore;
 
 
 /// <summary>
-/// Define o namespace da página de login dentro da área Identity.
+/// Define o namespace da pagina de login dentro da area Identity.
 /// </summary>
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
     /// <summary>
-    /// Modelo da página Razor responsável pela autenticação dos utilizadores.
+    /// Modelo da pagina Razor responsavel pela autenticação dos utilizadores.
     /// </summary>
     public class LoginModel : PageModel
     {
@@ -51,7 +51,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         private readonly Hospital_WebContext _context;
 
         /// <summary>
-        /// Construtor que injeta as dependências necessárias.
+        /// Construtor que injeta as dependências necessarias.
         /// </summary>
         public LoginModel(
             SignInManager<ApplicationUser> signInManager,
@@ -72,28 +72,28 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         public InputModel Input { get; set; }
 
         /// <summary>
-        /// Lista de esquemas de autenticação externa disponíveis (ex: Google, Facebook).
+        /// Lista de esquemas de autenticação externa disponiveis (ex: Google, Facebook).
         /// </summary>
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
 
         /// <summary>
-        /// URL para redirecionamento após login bem-sucedido.
+        /// URL para redirecionamento apos login bem-sucedido.
         /// </summary>
         public string ReturnUrl { get; set; }
 
         /// <summary>
-        /// Mensagem de erro persistente entre pedidos (ex: após redirecionamento).
+        /// Mensagem de erro persistente entre pedidos (ex: apos redirecionamento).
         /// </summary>
         [TempData]
         public string ErrorMessage { get; set; }
 
         /// <summary>
-        /// Classe aninhada que representa os campos do formulário de login.
+        /// Classe aninhada que representa os campos do formulario de login.
         /// </summary>
         public class InputModel
         {
             /// <summary>
-            /// Email do utilizador que está a tentar fazer login.
+            /// Email do utilizador que esta a tentar fazer login.
             /// </summary>
             [Required]
             [EmailAddress]
@@ -114,7 +114,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         }
 
         /// <summary>
-        /// Executado quando a página é carregada via GET.
+        /// Executado quando a pagina e carregada via GET.
         /// Limpa cookies externos e inicializa dados como ReturnUrl e logins externos.
         /// </summary>
         public async Task OnGetAsync(string returnUrl = null)
@@ -135,8 +135,8 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         }
 
         /// <summary>
-        /// Executado quando o formulário de login é submetido (POST).
-        /// Valida credenciais e trata lógicas como obrigatoriedade de alterar senha, 2FA e associação a Utente.
+        /// Executado quando o formulario de login e submetido (POST).
+        /// Valida credenciais e trata logicas como obrigatoriedade de alterar senha, 2FA e associação a Utente.
         /// </summary>
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
@@ -154,7 +154,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
 
                     var user = await _userManager.FindByEmailAsync(Input.Email);
 
-                    // Associa automaticamente o utilizador à entidade Utente, se ainda não estiver associado
+                    // Associa automaticamente o utilizador a entidade Utente, se ainda não estiver associado
                     if (user != null && user.UtenteId == null)
                     {
                         var utente = await _context.Utente.FirstOrDefaultAsync(u => u.Email == user.Email);
@@ -192,7 +192,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 return Page();
             }
 
-            // Se a validação do modelo falhar, volta a mostrar a página
+            // Se a validação do modelo falhar, volta a mostrar a pagina
             return Page();
         }
     }

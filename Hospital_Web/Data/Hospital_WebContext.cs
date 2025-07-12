@@ -22,7 +22,7 @@ namespace Hospital_Web.Data
         }
 
         /// <summary>
-        /// Método chamado ao construir o modelo da base de dados.
+        /// Metodo chamado ao construir o modelo da base de dados.
         /// Utilizado para configurar relacionamentos entre entidades.
         /// </summary>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +31,7 @@ namespace Hospital_Web.Data
             base.OnModelCreating(modelBuilder);
 
             // Define relação Consulta → Utente (muitos para um)
-            // Cada Consulta tem um Utente, e um Utente pode ter várias Consultas
+            // Cada Consulta tem um Utente, e um Utente pode ter varias Consultas
             // O DeleteBehavior.NoAction evita que apagar um utente apague automaticamente as consultas
             modelBuilder.Entity<Consulta>()
                 .HasOne(c => c.Utente)

@@ -11,7 +11,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão dos quartos de internamento no hospital.
+    /// Controlador responsavel pela gestão dos quartos de internamento no hospital.
     /// Permite listar, visualizar detalhes, criar, editar e eliminar quartos.
     /// </summary>
     public class QuartosInternagemsController : Controller
@@ -35,7 +35,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um quarto específico.
+        /// Mostra os detalhes de um quarto especifico.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -51,7 +51,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário de criação de um novo quarto.
+        /// Mostra o formulario de criação de um novo quarto.
         /// </summary>
         public IActionResult Create()
         {
@@ -59,7 +59,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Cria um novo quarto de internamento a partir do formulário.
+        /// Cria um novo quarto de internamento a partir do formulario.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -75,7 +75,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário de edição de um quarto existente.
+        /// Mostra o formulario de edição de um quarto existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -90,7 +90,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Atualiza os dados de um quarto de internamento após edição.
+        /// Atualiza os dados de um quarto de internamento apos edição.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -135,7 +135,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Elimina um quarto de internamento da base de dados após confirmação.
+        /// Elimina um quarto de internamento da base de dados apos confirmação.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

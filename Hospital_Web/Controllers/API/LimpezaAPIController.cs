@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// Controlador de API responsável pela gestão de registos de limpeza de salas.
+    /// Controlador de API responsavel pela gestão de registos de limpeza de salas.
     /// Requer autenticação via JWT Bearer e perfil "Admin".
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class LimpezaAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados que dá acesso à tabela LimpezaSala.
+        /// Contexto da base de dados que da acesso a tabela LimpezaSala.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve os dados de uma limpeza de sala específica pelo ID.
+        /// Devolve os dados de uma limpeza de sala especifica pelo ID.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         /// <param name="id">ID da limpeza de sala</param>

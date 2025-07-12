@@ -27,12 +27,12 @@ namespace Hospital_Web.Controllers.API
         private readonly SignInManager<ApplicationUser> _signInManager;
 
         /// <summary>
-        /// Serviço customizado responsável por gerar tokens JWT.
+        /// Serviço customizado responsavel por gerar tokens JWT.
         /// </summary>
         private readonly TokenService _tokenService;
 
         /// <summary>
-        /// Construtor que injeta dependências necessárias ao controlador.
+        /// Construtor que injeta dependências necessarias ao controlador.
         /// </summary>
         public AuthController(
             UserManager<ApplicationUser> userManager,
@@ -45,7 +45,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Endpoint anónimo que autentica o utilizador e devolve um token JWT.
+        /// Endpoint anonimo que autentica o utilizador e devolve um token JWT.
         /// </summary>
         [AllowAnonymous]
         [HttpPost("login")]
@@ -63,7 +63,7 @@ namespace Hospital_Web.Controllers.API
                 return Unauthorized("Utilizador nao encontrado");
 
             /// <summary>
-            /// Verifica se a password está correcta.
+            /// Verifica se a password esta correcta.
             /// </summary>
             var result = await _signInManager.CheckPasswordSignInAsync(user, login.Password, false);
 

@@ -9,10 +9,10 @@ namespace Hospital_Web.Hubs
     /// </summary>
     public class NotificationHub : Hub
     {
-        // Neste momento, o Hub está vazio.
-        // Podemos adicionar métodos aqui para serem chamados pelos clientes via JavaScript ou por outros servidores.
+        // Neste momento, o Hub esta vazio.
+        // Podemos adicionar metodos aqui para serem chamados pelos clientes via JavaScript ou por outros servidores.
         //
-        // Exemplo possível a adicionar:
+        // Exemplo possivel a adicionar:
         // public async Task EnviarMensagem(string userId, string mensagem)
         // {
         //     await Clients.User(userId).SendAsync("ReceberMensagem", mensagem);

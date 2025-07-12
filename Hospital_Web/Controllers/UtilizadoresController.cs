@@ -12,7 +12,7 @@ using Hospital_Web.Models;
 namespace Hospital_Web.Controllers
 {
     /// <summary>
-    /// Controlador responsável pela gestão de utilizadores associados a pessoas no sistema.
+    /// Controlador responsavel pela gestão de utilizadores associados a pessoas no sistema.
     /// Permite criar, editar, visualizar e apagar utilizadores.
     /// </summary>
     public class UtilizadoresController : Controller
@@ -37,7 +37,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um utilizador específico, incluindo a pessoa associada.
+        /// Mostra os detalhes de um utilizador especifico, incluindo a pessoa associada.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -55,7 +55,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Apresenta o formulário de criação de um novo utilizador.
+        /// Apresenta o formulario de criação de um novo utilizador.
         /// Define a data de criação automaticamente.
         /// </summary>
         public IActionResult Create()
@@ -71,7 +71,7 @@ namespace Hospital_Web.Controllers
 
         /// <summary>
         /// Regista um novo utilizador na base de dados.
-        /// Valida o modelo e guarda se for válido.
+        /// Valida o modelo e guarda se for valido.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -89,7 +89,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Apresenta o formulário de edição de um utilizador existente.
+        /// Apresenta o formulario de edição de um utilizador existente.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -137,7 +137,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Apresenta o formulário de confirmação para apagar um utilizador.
+        /// Apresenta o formulario de confirmação para apagar um utilizador.
         /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
@@ -155,7 +155,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Apaga o utilizador da base de dados após confirmação.
+        /// Apaga o utilizador da base de dados apos confirmação.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

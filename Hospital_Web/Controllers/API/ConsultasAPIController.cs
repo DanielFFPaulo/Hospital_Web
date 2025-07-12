@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class ConsultasAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados que permite acesso à tabela Consulta.
+        /// Contexto da base de dados que permite acesso a tabela Consulta.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -37,7 +37,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém a lista completa de consultas.
+        /// Obtem a lista completa de consultas.
         /// Acesso restrito a utilizadores com perfil Admin.
         /// </summary>
         [HttpGet]
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Obtém uma consulta específica pelo seu ID (episódio).
+        /// Obtem uma consulta especifica pelo seu ID (episodio).
         /// Acesso restrito a utilizadores com perfil Admin.
         /// </summary>
         [HttpGet("{id}")]

@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 
 /// <summary>
-/// Define o namespace onde esta página Razor se encontra, dentro da área Identity, página de conta.
+/// Define o namespace onde esta pagina Razor se encontra, dentro da area Identity, pagina de conta.
 /// </summary>
 namespace Hospital_Web.Areas.Identity.Pages.Account
 {
     /// <summary>
-    /// Modelo da página Razor responsável por forçar o utilizador a alterar a sua password.
+    /// Modelo da pagina Razor responsavel por forçar o utilizador a alterar a sua password.
     /// Recebe UserManager e SignInManager via injeção de dependência.
     /// </summary>
     public class ForceChangePasswordModel(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : PageModel
@@ -22,30 +22,30 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager = userManager;
 
         /// <summary>
-        /// Permite operações de autenticação, como renovar sessão após alteração de senha.
+        /// Permite operações de autenticação, como renovar sessão apos alteração de senha.
         /// </summary>
         private readonly SignInManager<ApplicationUser> _signInManager = signInManager;
 
         /// <summary>
-        /// Modelo de entrada de dados do formulário, que será automaticamente preenchido com os dados enviados.
+        /// Modelo de entrada de dados do formulario, que sera automaticamente preenchido com os dados enviados.
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; } = new InputModel();
 
         /// <summary>
-        /// Classe interna usada para representar os dados do formulário de alteração de password.
+        /// Classe interna usada para representar os dados do formulario de alteração de password.
         /// </summary>
         public class InputModel
         {
             /// <summary>
-            /// Campo obrigatório para a nova password. É tratada como campo de tipo password.
+            /// Campo obrigatorio para a nova password. e tratada como campo de tipo password.
             /// </summary>
             [Required]
             [DataType(DataType.Password)]
             public string NewPassword { get; set; } = string.Empty;
 
             /// <summary>
-            /// Campo obrigatório para confirmar a nova password.
+            /// Campo obrigatorio para confirmar a nova password.
             /// Deve coincidir com o campo NewPassword.
             /// </summary>
             [Required]
@@ -56,36 +56,36 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
         }
 
         /// <summary>
-        /// Método executado quando a página é acedida via GET.
-        /// Neste caso, não faz nada além de exibir o formulário.
+        /// Metodo executado quando a pagina e acedida via GET.
+        /// Neste caso, não faz nada alem de exibir o formulario.
         /// </summary>
         public void OnGet() { }
 
         /// <summary>
-        /// Método executado quando o formulário é submetido (POST).
+        /// Metodo executado quando o formulario e submetido (POST).
         /// Tenta redefinir a password do utilizador autenticado.
         /// </summary>
         public async Task<IActionResult> OnPostAsync()
         {
             /// <summary>
-            /// Se os dados do formulário não forem válidos, volta a mostrar a página com os erros.
+            /// Se os dados do formulario não forem validos, volta a mostrar a pagina com os erros.
             /// </summary>
             if (!ModelState.IsValid)
                 return Page();
 
             /// <summary>
-            /// Obtém o utilizador autenticado atual.
+            /// Obtem o utilizador autenticado atual.
             /// </summary>
             var user = await _userManager.GetUserAsync(User);
 
             /// <summary>
-            /// Se não houver utilizador autenticado, redireciona para a página de login.
+            /// Se não houver utilizador autenticado, redireciona para a pagina de login.
             /// </summary>
             if (user == null)
                 return RedirectToPage("/Login");
 
             /// <summary>
-            /// Gera um token válido para redefinir a password do utilizador.
+            /// Gera um token valido para redefinir a password do utilizador.
             /// </summary>
             var token = await _userManager.GeneratePasswordResetTokenAsync(user);
 
@@ -100,7 +100,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
             if (result.Succeeded)
             {
                 /// <summary>
-                /// Marca que o utilizador já não precisa de alterar a senha (campo personalizado).
+                /// Marca que o utilizador ja não precisa de alterar a senha (campo personalizado).
                 /// </summary>
                 user.DeveAlterarSenha = false;
 
@@ -115,7 +115,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 await _signInManager.RefreshSignInAsync(user);
 
                 /// <summary>
-                /// Redireciona o utilizador para a página de consultas após sucesso.
+                /// Redireciona o utilizador para a pagina de consultas apos sucesso.
                 /// </summary>
                 return Redirect("/Consultas");
             }
@@ -127,7 +127,7 @@ namespace Hospital_Web.Areas.Identity.Pages.Account
                 ModelState.AddModelError(string.Empty, error.Description);
 
             /// <summary>
-            /// Reexibe a página com os erros de validação ou redefinição.
+            /// Reexibe a pagina com os erros de validação ou redefinição.
             /// </summary>
             return Page();
         }

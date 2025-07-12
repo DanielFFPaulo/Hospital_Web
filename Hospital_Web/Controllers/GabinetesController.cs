@@ -9,7 +9,7 @@ using Hospital_Web.Data;
 using Hospital_Web.Models;
 
 /// <summary>
-/// Controlador responsável pela gestão de gabinetes no sistema hospitalar.
+/// Controlador responsavel pela gestão de gabinetes no sistema hospitalar.
 /// Permite realizar operações CRUD (criar, ler, atualizar e eliminar).
 /// </summary>
 namespace Hospital_Web.Controllers
@@ -38,7 +38,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um gabinete específico.
+        /// Mostra os detalhes de um gabinete especifico.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -54,7 +54,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para criar um novo gabinete.
+        /// Mostra o formulario para criar um novo gabinete.
         /// </summary>
         public IActionResult Create()
         {
@@ -62,7 +62,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Processa a criação de um novo gabinete após submissão do formulário.
+        /// Processa a criação de um novo gabinete apos submissão do formulario.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,7 +78,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário para editar os dados de um gabinete.
+        /// Mostra o formulario para editar os dados de um gabinete.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -93,7 +93,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Processa a edição dos dados de um gabinete após submissão do formulário.
+        /// Processa a edição dos dados de um gabinete apos submissão do formulario.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -122,7 +122,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário de confirmação para eliminar um gabinete.
+        /// Mostra o formulario de confirmação para eliminar um gabinete.
         /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {

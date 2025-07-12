@@ -15,7 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Hospital_Web.Controllers.API
 {
     /// <summary>
-    /// Controlador de API responsável pela gestão de médicos.
+    /// Controlador de API responsavel pela gestão de medicos.
     /// Requer autenticação via JWT Bearer e perfil "Admin".
     /// </summary>
     [Authorize(AuthenticationSchemes = "Bearer")]
@@ -24,7 +24,7 @@ namespace Hospital_Web.Controllers.API
     public class MedicosAPIController : ControllerBase
     {
         /// <summary>
-        /// Contexto da base de dados usado para aceder à tabela de médicos.
+        /// Contexto da base de dados usado para aceder a tabela de medicos.
         /// </summary>
         private readonly Hospital_WebContext _context;
 
@@ -37,7 +37,7 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve a lista de todos os médicos.
+        /// Devolve a lista de todos os medicos.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
         [HttpGet]
@@ -48,10 +48,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Devolve um médico específico pelo seu número de processo.
+        /// Devolve um medico especifico pelo seu numero de processo.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">Número de processo do médico</param>
+        /// <param name="id">Numero de processo do medico</param>
         [HttpGet("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Medico>> GetMedico(int id)
@@ -67,10 +67,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Atualiza os dados de um médico existente.
+        /// Atualiza os dados de um medico existente.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">Número de processo do médico</param>
+        /// <param name="id">Numero de processo do medico</param>
         /// <param name="medico">Objeto com os dados atualizados</param>
         [HttpPut("{id}")]
         [Authorize(Roles = "Admin")]
@@ -103,10 +103,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Cria um novo médico.
+        /// Cria um novo medico.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="medico">Objeto com os dados do médico a criar</param>
+        /// <param name="medico">Objeto com os dados do medico a criar</param>
         [HttpPost]
         [Authorize(Roles = "Admin")]
         public async Task<ActionResult<Medico>> PostMedico(Medico medico)
@@ -122,10 +122,10 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Elimina um médico com base no seu número de processo.
+        /// Elimina um medico com base no seu numero de processo.
         /// Acesso restrito a utilizadores com perfil "Admin".
         /// </summary>
-        /// <param name="id">Número de processo do médico a eliminar</param>
+        /// <param name="id">Numero de processo do medico a eliminar</param>
         [HttpDelete("{id}")]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteMedico(int id)
@@ -143,9 +143,9 @@ namespace Hospital_Web.Controllers.API
         }
 
         /// <summary>
-        /// Verifica se existe um médico com o número de processo fornecido.
+        /// Verifica se existe um medico com o numero de processo fornecido.
         /// </summary>
-        /// <param name="id">Número de processo do médico</param>
+        /// <param name="id">Numero de processo do medico</param>
         private bool MedicoExists(int id)
         {
             return _context.Medico.Any(e => e.N_Processo == id);

@@ -12,7 +12,7 @@ using Hospital_Web.Services;
 
 
 /// <summary>
-/// Controlador responsável pela gestão de funcionários da limpeza no sistema hospitalar.
+/// Controlador responsavel pela gestão de funcionarios da limpeza no sistema hospitalar.
 /// Inclui criação de conta de utilizador, envio de email de boas-vindas e operações CRUD.
 /// </summary>
 namespace Hospital_Web.Controllers
@@ -35,7 +35,7 @@ namespace Hospital_Web.Controllers
         private readonly IEmailSender _emailSender;
 
         /// <summary>
-        /// Construtor do controlador. Injeta as dependências necessárias.
+        /// Construtor do controlador. Injeta as dependências necessarias.
         /// </summary>
         public FuncionarioLimpezasController(
             Hospital_WebContext context,
@@ -48,7 +48,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra a lista de todos os funcionários da limpeza.
+        /// Mostra a lista de todos os funcionarios da limpeza.
         /// </summary>
         public async Task<IActionResult> Index()
         {
@@ -56,7 +56,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra os detalhes de um funcionário da limpeza.
+        /// Mostra os detalhes de um funcionario da limpeza.
         /// </summary>
         public async Task<IActionResult> Details(int? id)
         {
@@ -72,7 +72,7 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Mostra o formulário de criação de um novo funcionário da limpeza.
+        /// Mostra o formulario de criação de um novo funcionario da limpeza.
         /// </summary>
         public IActionResult Create()
         {
@@ -80,8 +80,8 @@ namespace Hospital_Web.Controllers
         }
 
         /// <summary>
-        /// Regista um novo funcionário da limpeza e cria conta de utilizador associada.
-        /// Envia email com credenciais temporárias.
+        /// Regista um novo funcionario da limpeza e cria conta de utilizador associada.
+        /// Envia email com credenciais temporarias.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -146,7 +146,7 @@ Senha: {senhaTemporaria}</p>
         }
 
         /// <summary>
-        /// Mostra o formulário para editar dados de um funcionário da limpeza.
+        /// Mostra o formulario para editar dados de um funcionario da limpeza.
         /// </summary>
         public async Task<IActionResult> Edit(int? id)
         {
@@ -161,7 +161,7 @@ Senha: {senhaTemporaria}</p>
         }
 
         /// <summary>
-        /// Atualiza os dados de um funcionário da limpeza.
+        /// Atualiza os dados de um funcionario da limpeza.
         /// </summary>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -190,7 +190,7 @@ Senha: {senhaTemporaria}</p>
         }
 
         /// <summary>
-        /// Mostra o formulário de confirmação para eliminar um funcionário da limpeza.
+        /// Mostra o formulario de confirmação para eliminar um funcionario da limpeza.
         /// </summary>
         public async Task<IActionResult> Delete(int? id)
         {
@@ -206,7 +206,7 @@ Senha: {senhaTemporaria}</p>
         }
 
         /// <summary>
-        /// Elimina definitivamente um funcionário da limpeza e os utilizadores associados.
+        /// Elimina definitivamente um funcionario da limpeza e os utilizadores associados.
         /// </summary>
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
@@ -228,7 +228,7 @@ Senha: {senhaTemporaria}</p>
         }
 
         /// <summary>
-        /// Verifica se existe um funcionário da limpeza com o N_Processo fornecido.
+        /// Verifica se existe um funcionario da limpeza com o N_Processo fornecido.
         /// </summary>
         private bool FuncionarioLimpezaExists(int id)
         {
